@@ -1,0 +1,43 @@
+<view class="container">
+<image class="backImg"src="../image/loginBack.jpg"mode="widthFix"></image>
+<view class="loginInfo">
+  <!--微信头像和昵称-->
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}"open-type="getUserInfo"
+    bindgetuserinfo="getUserInfo">获取头像</button>
+     <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+
+  <form class="form" bindsubmit='formSubmit'bindreset="formReset">
+  <!--账号-->
+  <view class="kuang">
+    <view class="yuanLeft"></view>
+    <view class="inputView">
+      <input class="inputText" placeholder="请输入学号/教师工号"placeholder-style="color: white"   name="userID"></input>
+    </view>
+    <view class="yuanRight"></view>
+  </view>
+  
+
+  <!--姓名-->
+  <view class="kuang">
+    <view class="yuanLeft"></view>
+    <view class="inputView">
+      <input class="inputText" placeholder="请输入密码"placeholder-style="color: white"   name="userCode"password="true"></input>
+    </view>
+    <view class="yuanRight"></view>
+  </view>
+  
+
+  <!--按钮-->
+  <view class="kuang">
+    <view class="buttonLeft"></view>
+    <button class="loginBtn"formType="submit">立即登录</button>
+    <view class="buttonRight"></view>
+  </view>
+  </form>
+</view>
+</view>

@@ -1,0 +1,76 @@
+<!--课程信息卡片-->
+<view class="item-view">
+  <view class="itemSon">                        
+            <image class="img" src="../../../image/first.jpg" mode='scaleToFill'></image>
+            <view class="course-wrapper">
+            <text class="courseName">{{course.coursename}}</text>
+            <text class="courseTeacher">老师：{{course.courseteacher}}</text>
+            <text class="courseTime">时间：{{course.coursetime}}</text>
+            <text class="coursePlace">地点：{{course.courseplace}}</text>
+            </view>
+  </view>
+</view>
+<!--督导表单-->
+<form class="form" bindsubmit='formSubmit'bindreset="formReset">
+  <view class="form-title">
+    <text class="title-text">上课出勤记录</text>
+  </view>
+  <view class="form-content">
+    <view class="content">
+      <text class="content-read">应到人数:</text>
+      <text class="content-write">{{course.num}}</text>
+    </view>
+    <view class="content">
+      <text class="content-read"> 实到人数:</text>
+      <input class="content-write"name="suvRecNum"></input>
+    </view>
+    <view class="content">
+      <text class="content-read"> 请假人数:</text>
+      <input class="content-write"name="suvLeave"></input>
+    </view>
+  </view>
+  <view class="form-title">
+    <text class="title-text">上课状态记录</text>
+  </view>
+  <view class="form-content">
+    <view class="content">
+      <text class="content-read">玩手机人数:</text>
+      <input class="content-write"name="suvRecBadNum1"></input>
+    </view>
+    <view class="content">
+      <text class="content-read"> 睡觉人数:</text>
+      <input class="content-write"name="suvRecBadNum2"></input>
+    </view>
+    <view class="content">
+      <text class="content-read">备注:</text>
+      <input class="content-write"name="suvRecInfo"></input>
+    </view>
+  </view>
+  <view class="recorder">
+    <text class="recorder-text">记录人:{{monitorName}}</text>
+  </view>
+  <view class="button-view">
+    <button class="button1"formType="reset">重置</button>
+    <button class="button2"formType="submit">提交</button>
+  </view>
+</form>
+<!--手动签到-->
+<view class="handTitle">
+  <text class="bigTitle">发起手动签到</text>
+  <text class="smallTitle">自发起时间后十分钟有效</text>
+</view>
+<view class="signContent">
+  <picker mode="date"value="{{date}}"start="2018-01-01"end="2030-12-31"bindchange="bindDateChange">
+    <view class="picker">{{date}}</view>
+  </picker>
+  <view class="cutline"></view>
+  <picker mode="time"value="{{time}}"start="00:00"end="23:59"bindchange="bindTimeChange">
+    <view class="picker">{{time}}</view>
+  </picker>
+  <view class="switchView">
+    <switch bindchange='switchChange'checked="{{checked}}"></switch>
+  </view>
+</view>
+
+
+

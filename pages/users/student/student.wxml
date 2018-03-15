@@ -1,0 +1,83 @@
+<!--学生界面-->
+<view class="container"wx:if="{{studentPermit==1}}">
+ 
+
+  <view class="marquee_box">
+    <view class="marquee_text" style="{{orientation}}:{{marqueeDistance2}}px;font-size: {{size}}px;">
+      <text>{{text}}</text>
+      <text wx:if="{{marquee2copy_status}}" style="margin-left:{{marquee2_margin}}px;">{{text}}</text>
+  
+</view></view>
+        <view class="hengfu"><text class="hengfuText">正在签到</text></view>
+
+           <view id="{{signingCard.id}}" class="item" bindtouchstart="start1" bindtouchmove='move1' bindtouchend='end1' 
+          style='right:{{signingCard.right}}px'>
+            <view class="itemSon">                        
+              <image class="img" src="../../image/second.jpg" mode='scaleToFill'></image>  
+              <view class="course-wrapper" bindtap='courseInfo'data-courseID="{{signingCard.id}}"data-courseName="{{signingCard.courseName}}"data-courseTeacher="{{signingCard.courseTeacher}}"data-courseTime="{{signingCard.courseTime}}"data-coursePlace="{{signingCard.coursePlace}}">
+                <text class="courseName">{{signingCard.courseName}}</text>
+                <text class="courseTeacher">老师：{{signingCard.courseTeacher}}</text>
+                <text class="courseTime">时间：{{signingCard.courseTime}}</text>
+                <text class="coursePlace">地点：{{signingCard.coursePlace}}</text>
+              </view>
+              <view id="{{signingCard.id}}"class="remove1"bindtap="leave"data-courseID="{{signingCard.id}}"data-courseName="{{signingCard.courseName}}"data-courseTeacher="{{signingCard.courseTeacher}}"data-courseTime="{{signingCard.courseTime}}"data-coursePlace="{{signingCard.coursePlace}}">请假</view>
+              <view id="{{signingCard.id}}"class="remove2"bindtap="signMaping"data-statu="open"data-courseID="{{signingCard.id}}"data-locLat="{{signingCard.locLat}}"data-locLon="{{signingCard.locLon}}">签到</view>
+            </view>
+            <view class="line"></view>
+          </view>
+              
+        <view class="hengfu"><text class="hengfuText">我的全部课程</text></view>
+        <scroll-view scroll-top="{{scrollTop}}" scroll-y="true" style="height:{{scrollHeight}}px;"   
+      enable-back-to-top="true">
+        <view wx:for="{{cards}}" wx:for-item="card" id="{{card.id}}" class="item" bindtouchstart="start" bindtouchmove='move' bindtouchend='end' 
+          style='right:{{card.right}}px'>
+          <view class="itemSon">                        
+            <image class="img" src="../../image/first.jpg" mode='scaleToFill'></image>  
+            <view class="course-wrapper" bindtap='courseInfo'data-courseID="{{card.id}}"data-courseName="{{card.courseName}}"data-courseTeacher="{{card.courseTeacher}}"data-courseTime="{{card.courseTime}}"data-coursePlace="{{card.coursePlace}}">
+              <text class="courseName">{{card.courseName}}</text>
+              <text class="courseTeacher">老师：{{card.courseTeacher}}</text>
+              <text class="courseTime">时间：{{card.courseTime}}</text>
+              <text class="coursePlace">地点：{{card.coursePlace}}</text>
+            </view>
+            <view id="{{card.id}}"class="remove1"bindtap="leave"data-courseID="{{card.id}}"data-courseName="{{card.courseName}}"data-courseTeacher="{{card.courseTeacher}}"data-courseTime="{{card.courseTime}}"data-coursePlace="{{card.coursePlace}}">请假</view>
+            <view id="{{card.id}}"class="remove2"bindtap="signMap"data-statu="open"data-courseID="{{card.id}}"data-locLat="{{card.locLat}}"data-locLon="{{card.locLon}}">签到</view>
+
+              
+
+          </view>
+          <view class="line"></view>
+        </view>  
+    </scroll-view>
+      <!--mask--> 
+  <view class="drawer_screen"  data-statu="close" wx:if="{{showModalStatus}}"></view> 
+<!--content--> 
+<!--使用animation属性指定需要执行的动画--> 
+  <view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}"> 
+ 
+ <!--drawer content--> 
+    <view class="drawer_title">{{ifSign}}</view> 
+    <view class="drawer_content"> 
+      <map id="map4select"
+ longitude="{{longitude}}" latitude="{{latitude}}" 
+ markers="{{markers}}"
+ circles="{{circles}}"
+ polyline='{{polyline}}'
+ controls='{{controls}}'
+ scale="{{scale}}" 
+ style="width:650rpx;height:210px"
+ bindregionchange="regionchange"
+ bindcontroltap='controlclick'
+>
+      </map>
+    </view>
+    <view class="btn">
+      <view class="btn_ok"bindtap="cancel"data-statu="cancel">取消</view>
+      <view class="cut-line2"></view>
+      <view class="btn_ok" bindtap="confirm"data-statu="failclose" >签到</view>
+    </view> 
+  </view> 
+</view>
+<!--老师界面-->
+<view wx:if="{{teacherPermit==1}}">
+  <include src="../teacher/list/list.wxml"/>
+</view>

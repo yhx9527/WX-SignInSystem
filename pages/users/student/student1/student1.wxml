@@ -1,0 +1,63 @@
+<view class="container">
+  <view wx:if="{{!hasMessage}}"class="tab-content1" >
+  <image class="tab-image" src="../../../image/hasMessage.png"mode="aspectFit"></image>
+  <text style='font-weight:lighter'>暂时没有通知</text>
+  </view>
+<!--通知消息界面-->
+    <scroll-view scroll-y="true" scroll-top="{{scrollTop}}"class="history" >
+    <view  wx:for="{{centendata}}" wx:key='{{item.time}}'>  
+      <view style='text-align:center' >  
+        <text class='time'>{{item.time}}</text>  
+      </view>
+      <!--自己的消息-->  
+      <block wx:if="{{item.is_show_right ==1}}">  
+        <view class='my_right'>  
+          <view class='page_row'>
+            <view class="text">
+              <text class="new_img_info_my">{{item.character}}</text>
+              <view style='display:flex'>  
+              <text class='new_txt'>{{item.content}}</text> 
+              <view  class='sanjiao my'></view>
+              </view>
+            </view>
+            <image class='new_img'src='../../../image/chat.png'></image>   
+          </view>  
+        </view>  
+      </block>
+      <!--别人的消息-->    
+      <block wx:else>  
+        <view class='you_left'>  
+          <view class='page_row'>
+              
+              <image class='new_img' src='../../../image/chat.png'></image>
+              <view class="text">
+                <text class="new_img_info_you">{{item.character}}</text>
+                <view style='display:flex'> 
+                  <view  class='sanjiao you'></view>  
+                  <text  class='new_txt'>{{item.content}}</text>
+                </view>
+              </view> 
+          </view>  
+        </view>  
+      </block>
+      </view>  
+    </scroll-view>  
+  
+
+<!--旋转栏-->
+  <view class="spin"animation="{{animCollect}}"wx:if="{{monitorPermit==1||teacherPermit==1}}">
+    <image src="../../../image/specialPerson.png" class="img-style"  bindtap="monitor"></image>
+    <image src="../../../image/text1.PNG" class="explain"></image></view>
+  <view class="spin"animation="{{animTranspond}}">
+    <image src="../../../image/specialSign.png" class="img-style"  bindtap="beginSign"></image>
+    <image src="../../../image/text2.PNG"class="explain"></image></view>
+  <view class="spin" animation="{{animInput}}">  
+    <image src="../../../image/specialMessage.png" class="img-style" bindtap="sendMessage"></image>
+    <image src="../../../image/text3.PNG"class="explain"></image></view>  
+  <image src="../../../image/special.png" class="img-plus-style" animation="{{animPlus}}" bindtap="plus"></image>
+<!--发布通知模态框-->
+  <modal hidden="{{hiddenSendMessage}}" title="发布通知" confirm-text="发送" cancel-text="取消" bindcancel="cancelMessage" bindconfirm="confirmMessage">  
+    <input type='text'placeholder="请输入内容" auto-focus bindinput='inputMessage'/>  
+  </modal>
+
+</view>

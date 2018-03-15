@@ -1,0 +1,52 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/users/student/student",
+    "pages/users/student/student1/student1",
+    "pages/users/monitor/monitor",
+    "pages/users/student/parts/leave/leave",
+    
+    "pages/users/monitor/work/work",
+   
+    "pages/parts/courseInfo/courseInfo",
+    "pages/users/student/parts/courseInfo/courseInfo",
+    "pages/users/monitor/hisRecord/hisRecord",
+    "pages/users/monitor/monitorLeave/monitorLeave",
+    "pages/users/teacher/teacher",
+    "pages/users/teacher/list/list"
+
+  ],
+
+  "window": {
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#12b7f4",
+    "navigationBarTitleText": "签到系统",
+    "navigationBarTextStyle": "white",
+    "backgroundColor":"#fbf9fe"
+  },
+  "tabBar": {
+    "color": "#9B9DB1",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/users/student/student",
+        "iconPath": "pages/image/tab_myself_normal.png",
+        "text": "我的课程",
+        "selectedIconPath": "pages/image/tab_myself_selected.png"
+      },
+      {
+        "pagePath": "pages/users/student/student1/student1",
+        "iconPath": "pages/image/tab_message_normal.png",
+        "text": "我的信息",
+        "selectedIconPath": "pages/image/tab_message_selected.png"
+      }
+     
+    ]
+  }
+
+   
+  
+ }
+  

@@ -1,0 +1,35 @@
+@import "../work/work.wxss";
+
+.leaveView{
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 3rpx solid #dddcdc;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top:10px;
+
+}
+.leaveStatu{
+  background-color: white;
+  padding-top:2px;
+  padding-bottom:2px;
+
+}
+.leaveStatuText{
+  color: #12b7f4;
+  font-size:17px;
+  margin-left:10px;
+
+}
+.leaveTime{
+  border-bottom: 1rpx solid #dddcdc;
+}
+.leaveTimeText{
+  float:right;
+  font-size:17px;
+  margin-right:10px;
+  margin-top:4px;
+  margin-bottom:4px;
+
+}

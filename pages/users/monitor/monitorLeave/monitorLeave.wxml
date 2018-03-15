@@ -1,0 +1,24 @@
+<view style="height:16rpx;background-color:#eaeaea"></view>
+<view class="leaveView"wx:for="{{leaves}}"wx:for-item="course"wx:for-index="index">
+  <view class="leaveStatu">
+  <text class="leaveStatuText">第{{index+1}}次请假</text>
+  
+  </view>
+<!--课程信息卡片-->
+  <view style="background-color:#eaeaea;padding-top:5px;padding-bottom:5px;padding-left:10px;">
+    <view class="itemSon">                        
+            <image class="img" src="../../../image/first.jpg" mode='scaleToFill'></image>
+            <view class="course-wrapper"style="background-color:#eaeaea">
+            <text class="courseName">{{course.courseName}}</text>
+            <text class="courseTeacher">老师：{{course.courseTeacher}}</text>
+            <text class="courseTime">时间：{{course.courseTime}}</text>
+            <text class="coursePlace">地点：{{course.coursePlace}}</text>
+            </view>
+    </view>
+  </view>
+  </view>
+  <!--<view>
+    <text class="leaveTimeText">{{course.siTime}}</text>
+  </view>->
+  
+

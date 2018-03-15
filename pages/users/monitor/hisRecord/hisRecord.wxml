@@ -1,0 +1,56 @@
+<!--课程信息卡片-->
+<view class="item-view">
+  <view class="itemSon">                        
+            <image class="img" src="../../../image/first.jpg" mode='scaleToFill'></image>
+            <view class="course-wrapper">
+            <text class="courseName">{{course.coursename}}</text>
+            <text class="courseTeacher">老师：{{course.courseteacher}}</text>
+            <text class="courseTime">时间：{{course.coursetime}}</text>
+            <text class="coursePlace">地点：{{course.courseplace}}</text>
+            </view>
+            <view class="remind">
+                <text class="remindText">完成</text>
+                <text class="remindText">督导</text>
+            </view>
+  </view>
+</view>
+<!--督导表单-->
+<view class="form">
+  <view class="form-title">
+    <text class="title-text">上课出勤记录</text>
+  </view>
+  <view class="form-content">
+    <view class="content">
+      <text class="content-read">应到人数:</text>
+      <text class="content-write">60</text>
+    </view>
+    <view class="content">
+      <text class="content-read"> 实到人数:</text>
+      <text class="content-write">{{course.suvrecord.suvRecNum}}</text>
+    </view>
+    <view class="content">
+      <text class="content-read"> 请假人数:</text>
+      <text class="content-write">0</text>
+    </view>
+  </view>
+  <view class="form-title">
+    <text class="title-text">上课状态记录</text>
+  </view>
+  <view class="form-content">
+    <view class="content">
+      <text class="content-read">玩手机人数:</text>
+      <text class="content-write">{{course.suvrecord.suvRecBadNum}}</text>
+    </view>
+    <view class="content">
+      <text class="content-read"> 睡觉人数:</text>
+      <text class="content-write">{{course.suvrecord.suvRecBadNum}}</text>
+    </view>
+    <view class="content">
+      <text class="content-read">备注:</text>
+      <text class="content-write">{{course.suvrecord.suvRecInfo}}</text>
+    </view>
+  </view>
+  <view class="recorder">
+    <text class="recorder-text">记录人:{{course.suvrecord.suvRecName}}</text>
+  </view>
+  </view>

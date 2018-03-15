@@ -1,0 +1,146 @@
+@import "../common/mainTabCell.wxss";
+
+.item-view{
+  background-color: white;
+  margin: 10rpx 12rpx 10rpx 12rpx;
+  border: 1rpx solid #dddcdc;
+}
+.form{
+  background-color: lightgray;
+  margin: 20rpx 12rpx 40rpx 12rpx;
+  display: flex;
+  flex-direction: column;
+
+}
+.form-title{
+  border-top: 6rpx solid white;
+  border-right: 6rpx solid white;
+  border-left: 6rpx solid white;
+}
+.title-text{
+  font-weight: bolder;
+}
+.form-content{
+  border-top: 6rpx solid white;
+  border-right: 6rpx solid white;
+  border-left: 6rpx solid white;
+  display: flex;
+  flex-direction: column;
+  padding-top:5px;
+  padding-left:8px;
+
+}
+.content{
+  display: flex;
+  flex-direction: row;
+  margin-bottom:6px;
+}
+.content-read{
+  width:30%;
+  text-align: right;
+  margin-left: 5px;
+}
+.content-write{
+  border:3rpx solid black;
+  background-color: white;
+  margin-left:3px;
+  width:60%;
+  height:auto;
+  padding-left:5px;
+}
+
+
+.content-bigwrite{
+   height: 200%;
+   border:3rpx solid black;
+   background-color: white;
+}
+.recorder{
+  border: 6rpx solid white;
+  text-align: right;
+}
+.recorder-text{
+  width: 100%;
+  height:auto;
+  font-weight: bold;
+}
+.button-view{
+  width: 100%;
+  height: 100%;
+  background-color: #eaeaea;
+  display: flex;
+  flex-direction: row;
+}
+.button1{
+  margin-left: 0;
+  height: auto;
+  width:49%;
+  background-color: yellow;
+  margin-top: 7px;
+}
+.button2{
+  margin-right: 0;
+  height: auto;
+  width:49%;
+  background-color: lightgreen;
+  margin-top: 7px;
+}
+.button3{
+  margin-left: 12rpx;
+  margin-right: 12rpx;
+  background-color: skyblue;
+}
+.handTitle{
+  background-color: white;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+
+}
+.bigTitle{
+   margin-top:5px;
+  margin-bottom:5px;
+  margin-left:12rpx;
+  font-weight:bold;
+
+}
+.smallTitle{
+  font-weight:lighter;
+  font-size:18px;
+  padding-top:13px;
+  margin-left:5px;
+  flex:1;
+}
+.signContent{
+  display:flex;
+  flex-direction:row;
+  border-bottom:3rpx solid #CFCFCF;
+  margin-left:12rpx;
+  margin-right:12rpx;
+
+}
+.picker{
+  display:block;
+  margin-left:12rpx;
+  margin-top:10px;
+  margin-bottom:10px;
+  color:#12b7f4;
+
+}
+.cutline{
+  height:auto;
+  width:1px;
+  background-color:#12b7f4;
+  margin-left:10px;
+  margin-top:8px;
+  margin-bottom:8px;
+
+}
+.switchView{
+  margin-top:10px;
+  margin-bottom:10px;
+  flex:1;
+  display:block;
+  text-align:right;
+
+}

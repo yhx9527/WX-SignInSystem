@@ -1,0 +1,44 @@
+/* pages/users/student/pages/parts/courseInfo/courseInfo.wxss */
+@import "../../../monitor/monitor.wxss";
+@import "../../../monitor/common/mainTabCell.wxss";
+.item-view{
+  background-color: white;
+  margin: 10rpx 12rpx 10rpx 12rpx;
+  border: 1rpx solid #dddcdc;
+}
+.jilu{
+  border-bottom: 3rpx solid gray;
+  display: flex;
+  flex-direction: row;
+  margin-right: 12rpx;
+  margin-left: 12rpx;
+}
+.jilu-image{
+  height: 40px;
+  width: 50px;
+}
+.jilu-time{
+  height: 100%;
+  font-weight: lighter;
+  white-space: nowrap;
+  padding-top: 10px;
+
+}
+.jilu-status{
+  font-weight: bold;
+  text-align: right;
+  white-space: nowrap;
+  padding-top: 10px;
+  padding-left: 80px;
+  flex:1;
+  padding-right:10px;
+
+}
+.refresh-block {  
+  padding: 15px;  
+  text-align: center  
+}  
+.refresh-block image {  
+  width: 30px;  
+  height: 30px;  
+}  

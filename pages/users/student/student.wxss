@@ -1,0 +1,229 @@
+@import "../teacher/list/list.wxss";
+page{
+  background-color: #eaeaea
+}
+.item{  
+    display: flex;    
+    width:100%;
+    height:auto; 
+    position:relative;
+    flex-direction: column
+
+
+} 
+.itemSon{
+  display: flex;
+    width:100%;
+    height: 160rpx; 
+    position:relative;
+}
+.img{  
+    height: 100%;  
+    width: 180rpx;  
+    margin-right:0;
+  
+}  
+  
+.course-wrapper{
+    display: flex;
+    height: 100%;
+    flex:1;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: white
+}
+
+ .courseName{
+    font-size: 31rpx;
+    overflow: hidden;
+    flex: 1;
+    font-weight: bold;
+ }
+ .courseTeacher{
+   font-size: 30rpx;
+   font-weight:lighter
+ }
+ .courseTime{
+   font-size: 30rpx;
+   font-weight:lighter
+ }
+
+ .coursePlace{
+   font-size: 30rpx;
+   font-weight:lighter
+ }
+.remove2{
+    width: 80px;
+    height: 100%;
+    background-color:greenyellow;
+    position: absolute;
+    top: 0;
+    right: -160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.remove1{
+    width: 80px;
+    height: 100%;
+    background-color: yellow;
+    position: absolute;
+    top: 0;
+    right: -80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.line{
+  width:100%;
+  height:1px;
+  background-color: lightgray;
+  margin-top: 1px;
+  margin: auto;
+} 
+.example {
+  display: block;
+  width: 100%;
+  height: auto;
+  background-color: pink
+}
+.xiaolaba{
+  display: flex;
+  width:100%;
+  height: 50rpx; 
+  position:relative;
+}
+
+.marquee_box {
+  width: 100%;
+  position: relative;
+  height: 20px;
+  background-color: #EEE8AA;
+}
+
+.marquee_text {
+  white-space: nowrap;
+  position: absolute;
+  top: 0;
+}
+.hengfu{
+ width:100%;
+ position: relative;
+ background-color:#87CEFF;
+padding-top:4px;
+padding-bottom:4px;
+
+}
+.hengfuText{
+  margin-left: 5px;
+  color:#696969;
+  font-size:18px;
+
+}
+.laba{
+  height: 100%;
+  width:auto;
+
+} 
+
+
+
+/*mask*/ 
+.drawer_screen { 
+ width: 100%; 
+ height: 100%; 
+ position: fixed; 
+ top: 0; 
+ left: 0; 
+ z-index: 1000; 
+ background: #000; 
+ opacity: 0.2; 
+ overflow: hidden; 
+} 
+ 
+/*content*/ 
+.drawer_box { 
+ width: 650rpx; 
+ overflow: hidden; 
+ position: fixed; 
+ top: 50%; 
+ left: 0; 
+ z-index: 1001; 
+ background:#FAFAFA; 
+ margin: -150px 50rpx 0 50rpx; 
+ border-radius: 3px; 
+} 
+ 
+.drawer_title{ 
+ padding:15px; 
+ font: 20px "microsoft yahei"; 
+ text-align: center; 
+} 
+.drawer_content { 
+ height: 210px; 
+ overflow-y: scroll; /*超出父盒子高度可滚动*/ 
+} 
+.btn{
+  display:flex;
+  flex-direction: row;
+}
+.btn_ok{ 
+ padding: 10px; 
+ font: 20px "microsoft yahei"; 
+ text-align: center; 
+ border-top: 1px solid #E8E8EA; 
+ color: #3CC51F;
+ width:324rpx; 
+} 
+.cut-line2{
+  height: atuo;
+  width: 1px;
+  background-color:#E8E8EA;
+}
+.top{ 
+ padding-top:8px; 
+} 
+.bottom { 
+ padding-bottom:8px; 
+} 
+.title { 
+ height: 30px; 
+ line-height: 30px; 
+ width: 160rpx; 
+ text-align: center; 
+ display: inline-block; 
+ font: 300 28rpx/30px "microsoft yahei"; 
+} 
+ 
+.input_base { 
+ border: 2rpx solid #ccc; 
+ padding-left: 10rpx; 
+ margin-right: 50rpx; 
+} 
+.input_h30{ 
+ height: 30px; 
+ line-height: 30px; 
+} 
+.input_h60{ 
+ height: 60px; 
+} 
+.input_view{ 
+ font: 12px "microsoft yahei"; 
+ background: #fff; 
+ color:#000; 
+ line-height: 30px; 
+} 
+ 
+.input { 
+ font: 12px "microsoft yahei"; 
+ background: #fff; 
+ color:#000 ; 
+} 
+.radio{ 
+ margin-right: 20px; 
+} 
+.grid { display: -webkit-box; display: box; } 
+.col-0 {-webkit-box-flex:0;box-flex:0;} 
+.col-1 {-webkit-box-flex:1;box-flex:1;} 
+.fl { float: left;} 
+.fr { float: right;}  

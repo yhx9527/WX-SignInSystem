@@ -1,0 +1,69 @@
+<view class="firstCard">
+ <image class="Icon"src="../../image/teacher.jpg"></image>
+ <view class="firstCourse">
+  <text class="courseName">{{teacherList.courseName}}</text>
+  <text class="courseOther">课程人数:{{teacherList.courseNum}}</text>
+  <text class="courseOther">时间:{{teacherList.courseTime}}</text>
+  <text class="courseOther">地点:{{teacherList.coursePlace}}</text>
+</view>
+</view>
+<view class="secondCard">
+  <view class="secondIcon">
+    <image class="Icon1"src="../../image/TB1.png"></image>
+    <text class="secondEx">发起自动签到</text>
+  </view>
+  <view class="secondIcon">
+    <image class="Icon1"src="../../image/TB2.png"></image>
+    <text class="secondEx">审批请假</text>
+  </view>
+  <view class="secondIcon">
+    <image class="Icon1"src="../../image/TB3.png"></image>
+    <text class="secondEx">发起手动签到</text>
+  </view>
+</view>
+<view class="line"></view>
+<view class="thirdCard">
+  <text class="thirdEx">学生名单</text>
+  <view class="aboutImg">
+    <image class="about"src="../../image/about.png"></image>
+  </view>
+</view>
+<view class="fourCard">
+  <view class="cardTitle">
+    <text class="titleText1">督导队记录</text>
+    <text class="titleText2">记录人:{{}}</text>
+  </view>
+  <view class="cardContent">
+    <text class="thirdEx">上课实到人数</text>
+    <view class="ren">
+      <text class="renshu">{{}}人</text>
+    </view>
+  </view>
+  <view class="cardContent"style="margin-bottom:0;border-bottom:0">
+    <text class="thirdEx">上课请假人数</text>
+    
+    <view class="aboutImg">
+    <text class="renshu">{{}}人</text>
+      <image class="about"src="../../image/about.png"></image>
+    </view>
+  </view>
+  <view class="cardTitle">
+    <text class="titleText1">签到情况记录</text>
+  </view>
+  <view class="cardContent">
+    <text class="thirdEx">签到记录人数</text>
+    
+    <view class="aboutImg">
+    <text class="renshu">{{}}人</text>
+      <image class="about"src="../../image/about.png"></image>
+    </view>
+  </view>
+  <view class="cardContent">
+    <text class="thirdEx">缺勤学生名单</text>
+    
+    <view class="aboutImg">
+    <text class="renshu">{{}}人</text>
+      <image class="about"src="../../image/about.png"></image>
+    </view>
+  </view>
+</view>

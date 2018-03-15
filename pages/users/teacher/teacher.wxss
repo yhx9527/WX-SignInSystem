@@ -1,0 +1,140 @@
+.firstCard{
+  display: flex;
+  flex-direction: row;
+  height: 160rpx;
+  border-bottom: 1px solid #dddcdc;
+  margin-left:10px;
+  margin-right:10px;
+  margin-top:5px;
+
+}
+.Icon{
+  height:150rpx;
+  width:150rpx;
+  margin-right:10px;
+  margin-top:5rpx;
+
+}
+.Icon1{
+  height:100rpx;
+  width:100rpx;
+  margin-top:10px;
+
+}
+.firstCourse{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex:1;
+  justify-content: space-between;
+}
+.courseName{
+    font-size: 32rpx;
+    overflow: hidden;
+    flex: 1;
+    font-weight: bold;
+}
+.courseOther{
+   font-size: 30rpx;
+   font-weight:lighter;
+}
+.secondCard{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content:space-around;
+}
+.secondIcon{
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  text-align:center;
+  margin-bottom:10px;
+
+}
+.secondEx{
+  font-weight:lighter;
+  font-size:17px;
+
+}
+.line{
+  width: 100%;
+  height: 9px;
+  background-color: #eaeaea;
+}
+.thirdCard{
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  margin-left:10px;
+  margin-top:5px;
+  margin-bottom:5px;
+  align-items:center;
+}
+.thirdEx{
+  float: left;
+}
+.aboutImg{
+  display: flex;
+  flex:1;
+  justify-content: flex-end;
+  align-items:center;
+}
+.about{
+  height:55rpx;
+  width:55rpx;  
+}
+
+.fourCard{
+  display: flex;
+  flex-direction: column;
+  
+}
+.cardTitle{
+  background-color: #eaeaea;
+  height: 30px;
+}
+.titleText1{
+  float:left;
+  margin-left:10px;
+  font-size:15px;
+  font-weight:bold;
+  margin-top:7px;
+
+}
+.titleText2{
+  float: right;
+  flex:1;
+  font-size:15px;
+  font-weight:bold;
+  margin-top:7px;
+
+}
+.ren{
+  display: flex;
+  flex:1;
+  justify-content: flex-end;
+  align-items:center;
+
+}
+.renshu{
+  float: right;
+  font-weight:lighter;
+  font-size:15px;
+  vertical-align:center;
+  margin-right:8px;
+
+}
+.cardContent{
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  margin-left:10px;
+  margin-top:8px;
+  align-items:center;
+  border-bottom: 1px solid #dddcdc;
+  height:30px;
+  padding-bottom:5px
+}
+
+

@@ -1,0 +1,139 @@
+
+@import "./common/mainTabCell.wxss";
+@import "../student/student.wxss";
+/*me*/
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #12b7f4;
+  z-index:9999;
+}
+.userinfo-avatar {
+  width: 125rpx;
+  height: 125rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+.userinfo-member{
+  display: flex;
+  flex-direction: row;
+}
+.member {
+  color: #fff;
+}
+.userinfo-work{
+  display: flex;
+  flex-direction: row;
+}
+.work{
+  color: #fff;
+  font-size: 13px;
+
+}
+.cut-line2{
+  height: atuo;
+  width: 5rpx;
+  background-color:white;
+  float: right;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  margin-right: 20rpx;
+  margin-left: 20rpx;
+}
+userinfo-work{
+  display: flex;
+  flex-direction: row;
+  margin-top: 3px;
+}
+/*top tab*/
+.top-tab{
+  height:36px;
+  width: 750rpx;
+  border-top: 1rpx solid #dddcdc;
+  color: #7b7b7b;
+  font-size: 15px;
+  background-color: #f7f7f7;
+  z-index: 9998;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: stretch;
+  position: relative;
+  top: 0;
+}
+.top-tab .top-tab-item{
+  /*display: inline-block;*/
+  /*width: 16%;*/
+  flex-grow: 1;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+}
+.top-tab-item.active {
+  border-bottom:2px solid #12b7f4;
+  color: #12b7f4;
+}
+
+.swiper{
+  display: block; 
+  width: 100%; 
+  overflow: hidden;
+  margin: 0;
+  border: 0;
+  background-color: #eaeaea;
+}
+
+
+.scrollView{
+  height: 100%;
+  background-color: #eaeaea;
+}
+
+.item-view{
+  background-color: white;
+  margin: 0 12rpx 10rpx 12rpx;
+  border: 1rpx solid #dddcdc;
+}
+
+.remind{
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  
+  background-color: white;
+  margin-right:10px
+}
+
+.remindText{
+  color:  #12b7f4;
+  font-weight: bold;
+  margin-top: 10px;
+}
+.remindbtn{
+display:flex;
+height:100%;
+flex-direction:column-reverse;
+background-color:white;
+margin-right:10px;
+align-items:center;
+justify-content:center;
+
+
+}
+
+.remindTextbtn{
+  color:white;
+background-color:#32CD32;
+display:flex;
+align-items:center;
+height:35px
+}
+.remindTextbtn1{
+  color:white;
+  margin-bottom: 4px;
+  margin-top: 4px;
+background-color:#32CD32;
+display:flex;
+align-items:center;
+}

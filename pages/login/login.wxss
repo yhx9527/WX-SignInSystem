@@ -1,0 +1,128 @@
+.userinfo {
+    display: flex;
+      flex-direction: column;
+        align-items: center;
+}
+
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userinfo-avatar {
+  width:150rpx;
+  height:150rpx;
+  margin:24rpx;
+  border-radius: 50%;
+}
+
+.userinfo-nickname {
+  color: white;
+  font-size:22px;
+}
+.kuang{
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  margin-left: 50px;
+  margin-right:50px;
+}
+.yuanLeft{
+  border-top:1rpx solid #dddcdc;
+  border-bottom: 1rpx solid #dddcdc;
+  border-left: 1rpx solid #dddcdc;
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+  height:52px;
+  width: 52px;
+}
+.yuanRight{
+  border-top:1rpx solid #dddcdc;
+  border-bottom: 1rpx solid #dddcdc;
+  border-right: 1rpx solid #dddcdc;
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+  height:52px;
+  width: 52px;
+}
+.inputView{ 
+  border-top: 1rpx solid #dddcdc; 
+  border-bottom: 1rpx solid #dddcdc;
+  width: 350px;
+  height:52px; 
+}
+
+.loginLab{
+  margin: 15px 15px 15px 10px;
+  color: #545454;
+  font-size:14px;
+}
+
+.inputText{
+  flex: block;  
+  text-align: left; 
+  
+  margin-top: 13px; 
+  color: white;
+  
+}
+.ph{
+  color: white;
+  font-size: 19px;
+}
+.line{
+  width:90%;
+  height:1px;
+  background-color: black;
+  margin-top: 1px;
+  margin: auto;
+} 
+
+
+
+.loginBtn{
+  width: 350px;
+  height:52px; 
+  background-color: #12b7f4;
+  border-radius:0;
+  color:white;
+  font-size:20px;
+
+}
+.loginBtn::after{
+  border:none;
+}
+.buttonLeft{
+  height:52px;
+  width: 52px;
+  background-color: #12b7f4;
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+}
+.buttonRight{
+  height:52px;
+  width: 52px;
+  background-color: #12b7f4;
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+}
+.backImg{
+  width: 100%;
+  z-index: 98;
+  overflow: hidden;
+}
+.loginInfo{
+  position: absolute;
+  z-index: 99;
+  top: 30px;
+  width:100%;
+
+}
+.form{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin-top:34px;
+}

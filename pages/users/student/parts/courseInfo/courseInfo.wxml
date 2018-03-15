@@ -1,0 +1,81 @@
+<!--pages/users/student/pages/parts/courseInfo/courseInfo.wxml-->
+<!--课程介绍-->
+
+
+<view class="item-view" bindtap='test'>
+  <view class="itemSon">                        
+            <image class="img" src="../../../../image/first.jpg" mode='scaleToFill'></image>
+            <view class="course-wrapper">
+            <text class="courseName">{{courseItem.coursename}}</text>
+            <text class="courseTeacher">老师：{{courseItem.courseteacher}}</text>
+            <text class="courseTime">时间：{{courseItem.coursetime}}</text>
+            <text class="coursePlace">地点：{{courseItem.courseplace}}</text>
+            </view>
+  </view>
+</view>
+<!--历史情况-->
+<view class="top-tab">
+  <view class="top-tab-item {{currentTopItem==idx ? 'active' : ''}}" wx:for="{{topTabItems}}" wx:for-index="idx" data-idx="{{idx}}" bindtap="switchTab">
+    {{item}}
+  </view>
+</view>
+ 
+<swiper class="swiper" current="{{currentTopItem}}" bindchange="bindChange" duration="300"style="height:{{swiperHeight}}px"  >
+
+  <!--历史签到-->
+  <swiper-item>
+    <view class="refresh-block" style="height: {{refreshHeight}}px;" wx:if="{{refreshing}}">  
+    <image animation="{{refreshAnimation}}" src="../../../../image/refesh.png"></image>  
+  </view>
+    <scroll-view style="height:{{swiperHeight}}px" scroll-top="{{scrollTop}}" scroll-y="true" catchtouchmove="move" catchtouchstart="start" catchtouchend="end"data-idx="0" >
+      <view style="height:12rpx;background-color:#eaeaea"></view>
+      
+      <view class="jilu" wx:for="{{signDataList}}"  wx:for-item="item" id="{{item.id}}">
+  
+          <image class="jilu-image"src="../../../../image/htSign.png"></image>
+          
+          <text class="jilu-time">{{item.time}}</text>
+         
+          <text class="jilu-status">已到</text>
+       
+          </view> 
+      <view style="height:12rpx;background-color:#eaeaea"></view>
+    </scroll-view>
+  </swiper-item>
+
+  <!--历史请假-->
+  <swiper-item>
+    <scroll-view class="scrollView" scroll-y="true" bindscrolltoupper="setNewDataWithRes(1)" >
+      <view style="height:12rpx;background-color:#eaeaea"></view>
+      
+      <view class="jilu" wx:for="{{leaveDataList}}"  wx:for-item="item">
+          <image class="jilu-image"src="../../../../image/htLeave.png"></image>
+          <text class="jilu-time">{{item.time}}</text>
+          <text class="jilu-status">请假</text>
+
+      </view>
+
+      <view style="height:12rpx;background-color:#eaeaea"></view>
+    </scroll-view>
+  </swiper-item>
+
+  <!--历史缺勤-->
+  <swiper-item>
+    <scroll-view class="scrollView" scroll-y="true" bindscrolltoupper="setNewDataWithRes(2)">
+      <view style="height:12rpx;background-color:#eaeaea"></view>
+      
+      <view class="jilu" wx:for="{{noDataList}}"  wx:for-item="item">
+
+
+          <image class="jilu-image"src="../../../../image/htNo.png"></image>
+          <text class="jilu-time">{{item.time}}</text>
+          <text class="jilu-status">缺勤</text>
+
+     
+      </view>
+      <view style="height:12rpx;background-color:#eaeaea"></view>
+    </scroll-view>
+  </swiper-item>
+  
+</swiper>
+

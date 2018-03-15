@@ -1,0 +1,100 @@
+{
+	"description": "项目配置文件。",
+	"setting": {
+		"urlCheck": false,
+		"es6": true,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"libVersion": "1.9.1",
+	"appid": "wx5899a00bc0df64a8",
+	"projectname": "%E6%B5%8B%E8%AF%95%E7%89%88",
+	"isGameTourist": false,
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": [
+				{
+					"id": -1,
+					"name": "test",
+					"pathName": "pages/users/student/parts/courseInfo/courseInfo",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "login",
+					"pathName": "pages/login/login",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "login",
+					"pathName": "pages/users/student/student",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "student",
+					"pathName": "pages/users/student/student",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "leave",
+					"pathName": "pages/users/student/parts/leave/leave",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "student1",
+					"pathName": "pages/users/student/student1/student1",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "courseInfo",
+					"pathName": "pages/users/student/parts/courseInfo/courseInfo",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "work",
+					"pathName": "pages/users/monitor/work/work",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "teacher",
+					"pathName": "pages/users/teacher/teacher",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "list",
+					"pathName": "pages/users/teacher/list/list",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "list",
+					"pathName": "pages/users/teacher/list/list",
+					"query": ""
+				}
+			]
+		}
+	}
+}

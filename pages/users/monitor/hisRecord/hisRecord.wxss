@@ -1,0 +1,15 @@
+@import "../work/work.wxss";
+.remind{
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  
+  background-color: white;
+  margin-right:10px
+}
+
+.remindText{
+  color:  #12b7f4;
+  font-weight: bold;
+  margin-top: 10px;
+}

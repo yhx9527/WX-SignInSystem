@@ -1,0 +1,160 @@
+page{
+  background-color: #eaeaea
+}
+.img-plus-style {  
+  height: 150rpx;  
+  width: 150rpx;  
+  position: absolute;  
+  bottom: 1rpx;
+  right: 300rpx;  
+  z-index: 100;  
+}  
+  
+.img-style {  
+  height: 150rpx;  
+  width: 150rpx;
+  z-index: 99
+  
+}
+.spin{
+  display: flex;
+  width: 150rpx;
+  height:200rpx;
+  position: absolute;  
+  bottom: 1rpx;  
+  right: 300rpx;  
+  opacity: 0;
+
+}
+.explain{
+  width:150rpx;
+  height:50rpx;
+  position: absolute;
+  bottom:0;
+  z-index: 98;
+}
+
+/* 聊天 */
+/* 聊天内容 */  
+  
+.news {  
+  margin-top: 30rpx;  
+  text-align: center;  
+  margin-bottom: 150rpx;  
+}  
+  
+.img_null {  
+  height: 60rpx;  
+}  
+  
+.l {  
+  height: 5rpx;  
+  width: 20%;  
+  margin-top: 30rpx;  
+  color: #000;  
+}    
+  
+.my_right {  
+  float: right;  
+  position: relative;  
+  right: 40rpx;  
+}  
+  
+.you_left {  
+  float: left;  
+  position: relative;  
+  left: 5rpx;  
+}  
+.new_img {  
+  width: 115rpx;  
+  height: 115rpx;  
+  border-radius: 50%; 
+  margin-top:20rpx;
+ 
+}
+.text{
+  display: flex;
+  flex-direction: column
+}
+.new_img_info_my{
+  text-align:right;
+  float: right;
+  width: 500rpx;
+  height:60rpx;
+  font-weight: lighter;
+  font-size: 11px;
+}
+.new_img_info_you{
+  text-align:left;
+  float: left;
+  width: 500rpx;
+  height:60rpx;
+  font-weight: lighter;
+  font-size: 11px;
+}  
+  
+.new_txt {  
+  width: 380rpx;  
+  border-radius: 7px;  
+  background-color: #95d4ff;  
+  padding: 0rpx 30rpx 0rpx 30rpx;  
+}  
+  
+.sanjiao {  
+  top: 20rpx;  
+  position: relative;  
+  width: 0px;  
+  height: 0px;  
+  border-width: 10px;  
+  border-style: solid;  
+}  
+  
+.my {  
+  border-color: transparent transparent transparent #95d4ff;  
+}  
+  
+.you {  
+  border-color: transparent #95d4ff transparent transparent;  
+}  
+  
+ 
+  
+.historycon {  
+  height: 90%;  
+  width: 100%;  
+  flex-direction: column;  
+  display: flex;  
+  margin-top: 100rpx;  
+  border-top: 0px;  
+}  
+
+.history {  
+  height: 100%;  
+  margin-top: 15px;  
+  margin: 10px;  
+  font-size: 14px;  
+  line-height: 40px;  
+  word-break: break-all;  
+}  
+.time {  
+  padding: 5rpx 20rpx 5rpx 20rpx;  
+  width: 200rpx;  
+  font-size: 26rpx;  
+  background-color: lightgray;  
+}
+.page_row{
+  display:flex;
+  
+}
+.tab-content1
+{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tab-image
+{
+  width: 100%;
+  margin-top:200rpx;
+  height:250rpx;
+}
