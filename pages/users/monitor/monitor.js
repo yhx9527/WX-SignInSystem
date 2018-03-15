@@ -261,11 +261,11 @@ Page({
   onLoad: function (options) {
     var that=this
     that.setNewDataWithRes(dataType);
-    
+    var person=wx.getStorageSync('person')
     that.setData({
       userInfo: app.globalData.userInfo,
       hasUserInfo: true,
-      person: { "xingming": app.globalData.userName, "xuehao": app.globalData.userId,"userPermit":app.globalData.userPermit, "memberInfo": "督导队员"}
+      person: { "xingming": person.userName, "xuehao": person.userId,"userPermit":person.userPermit, "memberInfo": "督导队员"}
     })
     
   },

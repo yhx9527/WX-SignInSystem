@@ -19,6 +19,7 @@ Page({
     teacherPermit:0,
     centendata:[],//通知单
     hasMessage:false,
+    person:{}//个人资料
   },
 
   
@@ -40,7 +41,7 @@ Page({
     }
   },
   monitor: function () {
-    if(app.globalData.userPermit[1]==1){
+    if(person.userPermit[1]==1){
     wx.navigateTo({
       url: '../../monitor/monitor',
     })
@@ -149,9 +150,11 @@ Page({
    */
   onLoad: function (options) {
     var that=this;
+    var person=wx.getStorageSync('person')
     that.setData({
-      monitorPermit:app.globalData.userPermit[1],
-      teacherPermit:app.globalData.userPermit[2]
+      monitorPermit:person.userPermit[1],
+      teacherPermit:person.userPermit[2],
+      person:person
     })
   },
 

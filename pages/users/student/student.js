@@ -93,6 +93,7 @@ var getCards=function(that){
     'Cookie': app.globalData.header.Cookie
   }
   var method="POST"
+  console.log("获取课表"+header.Cookie)
   network.request(url,params,method,header).then((data)=>{
     var count = 0;
     var cards = that.data.cards;
@@ -430,13 +431,13 @@ Page({
 
     var length = that.data.text.length * that.data.size;//文字长度
     var windowWidth = wx.getSystemInfoSync().windowWidth;// 屏幕宽度
-    
+    var person=wx.getStorageSync('person')
     that.setData({
       length: length,
       windowWidth: windowWidth,
       marquee2_margin: length < windowWidth ? windowWidth - length : that.data.marquee2_margin,//当文字长度小于屏幕长度时，需要增加补白
-      studentPermit:app.globalData.userPermit[0],
-      teacherPermit:app.globalData.userPermit[2],
+      studentPermit:person.userPermit[0],
+      teacherPermit:person.userPermit[2],
       reportData: ReportDataSync,//菜单数据 
       subMenuDisplay: initSubMenuDisplay, //一级 
       subMenuHighLight: initSubMenuHighLight //二级 

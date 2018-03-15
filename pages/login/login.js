@@ -1,6 +1,6 @@
 const app=getApp()
 const network=require("../utils/network.js")
-var list={}
+
 
 var processPermit=function(userPermit){
   var temp=userPermit.split("").reverse();
@@ -28,6 +28,7 @@ Page({
    */
   formSubmit:function(e){
     var that=this
+    
     if (e.detail.value.userID.length == 0 || e.detail.value.userCode.length == 0) {
       wx.showModal({
         title: '提示',
@@ -50,93 +51,45 @@ Page({
           if (res.confirm) {
             //app.golbaData.userID=this.data.ID;
             //app.globaData.userName=this.data.Name;
-            var url="https://www.xsix103.cn/SignInSystem/login.do"
-            var params = {
-              userId: e.detail.value.userID,
-              userPwd: e.detail.value.userCode
-            }
-            var method="POST"
-            network.request(url,params,method).then((data)=>{
-              that.setData({
-                list: data
-              })
-              //个人信息保存全局变量
-              var userPermit = processPermit(data.user.userPermit);
+            wx.login({
+              success:function(res1){
+                if(res1.code){
+                  var url = "https://www.xsix103.cn/SignInSystem/login.do"
+                  var params = {
+                    user: {
+                      userId: e.detail.value.userID,
+                      userPwd: e.detail.value.userCode,
+                    },
+                    code: res1.code
 
-              app.globalData.userId = data.user.userId;
-              app.globalData.userName = data.user.userName;
-              app.globalData.userPermit = userPermit;
-              app.globalData.header.Cookie = 'JSESSIONID=' + data.sessionId;
-              //跳转界面
-              wx.switchTab({
-                url: '../users/student/student',
-              })
-            });
-           /*
-            wx.request({
-              url: "https://www.xsix103.cn/SignInSystem/login.do",
-              method: "POST",
-              data: {
-                userId: e.detail.value.userID,
-                userPwd: e.detail.value.userCode
-              },
-              header: {
-                'content-type': 'application/json' // 默认值
-              },
-              success: function (res) {
-               
-                console.log(res.data)
-                that.setData({
-                  list:res.data
-                })
-                //个人信息保存全局变量
-                var userPermit = processPermit(res.data.user.userPermit);
-                
-                app.globalData.userId=res.data.user.userId;
-                app.globalData.userName=res.data.user.userName;
-                app.globalData.userPermit=userPermit;
-                app.globalData.header.Cookie='JSESSIONID='+res.data.sessionId;
-                //跳转界面
-                wx.switchTab({
-                  url: '../users/student/student',
-                })
-              },
-              */
-            
-                //判断是否填对
-                /*
-                wx.showModal({
-                  title: '提示',
-                  content: '学号/工号或姓名错误，请重新填写',
-                  success: function (res) {
-                    if (res.confirm) {
-                      console.log('用户点击确定')
-                    } else if (res.cancel) {
-                      console.log('用户点击取消')
-                    }
                   }
-                })
-                  */
-              /*
-              fail: function (res) {
-                console.log(res.data)
-                wx.showToast({
-                  title: '连接失败',
-                  icon:"loading",
-                  duration:2000
-                })
-                
+                  var method = "POST"
+                  var header = {}
+
+                  network.request(url, params, method, header).then((data) => {
+                    var userPermit = processPermit(data.user.userPermit);
+                    var person = { "userPermit": userPermit, "userId": data.user.userId, "userName": data.user.userName }
+                    //个人信息报存本地
+                    wx.setStorageSync('person', person)
+                    //跳转界面
+                    wx.switchTab({
+                      url: '../users/student/student',
+                    })
+                  });
+
+                  console.log('用户点击确定')
+                }else{
+                  console.log('登录失败！' + e.errMsg)
+                }
               }
-           
             })
-          
-            */
-            console.log('用户点击确定')
+            
           } else if (res.cancel) {
             console.log('用户点击取消')
           }
         }
       })
+      console.log(app.globalData)
 
      
     }
@@ -146,8 +99,57 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-   
+    var that=this
+    that.setData({
+      userInfo: app.globalData.userInfo,
+    })
+    
+    wx.login({
+      success: function(res1){
+    if(res1.code){
+    wx.request({
+      url: 'https://www.xsix103.cn/SignInSystem/wxLogin.do',
+      method:"POST",
+      data:{
+        code: res1.code
+      },
+      header:{
+        "content-type": "application/x-www-form-urlencoded"
+      },
+      success:function(res){
+        console.log(res.data)
+        var a=JSON.stringify(res.header)
+        var sessionId=a.split(";")[0].split("=")[1]
+        app.globalData.header.Cookie = 'JSESSIONID=' + sessionId
+          if (res.data.err == "1") {
+            wx.showModal({
+              title: '提示',
+              content: '你的微信未绑定，请登录绑定',
 
+            })
+          } else if (res.data.err == "2") {
+            console.log(res.data.errStr)
+            wx.showModal({
+              title: '提示',
+              content: "code失效",
+            })
+          }
+        else {
+          console.log(res.data)
+          
+          //app.globalData.header.Cookie = 'JSESSIONID=' + data.sessionUser;
+          //跳转界面
+          //wx.switchTab({
+            //url: '../users/student/student',
+          //})
+        }
+      }
+    })
+    }else{
+      console.log('登录失败！' + e.errMsg)
+    }
+      }
+    })
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -175,15 +177,9 @@ Page({
       })
     }
 
+    
   },
-  getUserInfo: function (e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
-  },
+ 
 
   /**
    * 生命周期函数--监听页面初次渲染完成
