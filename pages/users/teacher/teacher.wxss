@@ -1,3 +1,66 @@
+.top-title{
+  background-color: #12b7f4;
+  flex:1;
+  text-align: center;
+  z-index:9999;
+  color:white;
+  padding-bottom:3px;
+
+}
+.top-items{
+color:#7b7b7b;
+font-size:15px;
+background-color:#f7f7f7;
+z-index:9998;
+display:flex;
+justify-content:space-around;
+align-items:stretch;
+position:relative;
+top:0;
+}
+top-item{
+flex-grow: 1;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+}
+.top-item.color0{
+  background-color: #C7F3FF;
+  font-weight: bold;
+  font-size: 17px;
+}
+.top-item.color1{
+  background-color: #FDC7FF;
+  font-weight: bold;
+ font-size: 17px;
+}
+.top-item.color2{
+  background-color: #FFDCF5;
+  font-weight: bold;
+   font-size: 17px;
+}
+.top-item.color3{
+  background-color: #F2F4C3;
+  font-weight: bold;
+   font-size: 17px;
+}
+.swiper{
+display: block; 
+  width: 100%; 
+  overflow: hidden;
+  margin: 0;
+  border: 0;
+  background-color: #eaeaea;
+}
+.aItem{
+display:flex;
+flex-direction:column;
+margin-top:5px;
+text-align:center;
+}
+.aItem-text{
+
+}
 .firstCard{
   display: flex;
   flex-direction: row;
@@ -66,7 +129,7 @@
   display: flex;
   flex-direction: row;
   background-color: white;
-  margin-left:10px;
+  padding-left:10px;
   margin-top:5px;
   margin-bottom:5px;
   align-items:center;
@@ -129,12 +192,21 @@
   display: flex;
   flex-direction: row;
   background-color: white;
-  margin-left:10px;
+  padding-left:10px;
   margin-top:8px;
   align-items:center;
   border-bottom: 1px solid #dddcdc;
   height:30px;
   padding-bottom:5px
 }
+.stopBtn{
+ 
+  height:52px; 
+  background-color: red;
 
+  color:white;
+  font-weight: bold;
+  font-size:20px;
+  margin-top:40px;
+}
 

@@ -11,7 +11,7 @@
 
 <scroll-view scroll-top="{{scrollTop}}" scroll-y="true" style="height:{{scrollHeight}}px;"class="teacherList"wx:if="{{!ifshade}}">
   
-    <view wx:for="{{teacherLists}}" wx:for-item="teacherList" id="{{teacherList.id}}">
+    <view wx:for="{{teacherLists}}" wx:for-item="teacherList" id="{{teacherList.cozId}}">
     <view class="firstCard"bindtap='singleTlist'data-list="{{teacherList}}">
       <image class="Icon"src="../../image/teacher.jpg"></image>
       <view class="firstCourse">
