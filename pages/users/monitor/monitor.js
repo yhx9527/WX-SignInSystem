@@ -53,40 +53,6 @@ var getAll=function(that){
       allDataList: allDataList
     })
   })
-  
-
-
-  /*
-  wx.request({
-    url: 'https://www.xsix103.cn/SignInSystem/Supervisor/showSuvCourses.do',
-    method: 'POST',
-    header: {
-      'Cookie': app.globalData.header.Cookie
-    },
-    success:function(res){
-      console.log(res.data)
-      var allDataList=new Array();
-      
-      for(var index in res.data){
-        var temp = process(res.data[index].schedule)
-        allDataList.push({ "ArrayFlag":index,"id": res.data[index].suvId, "courseName": res.data[index].course.cozName, "courseTeacher": res.data[index].course.teacher.userName, "courseTime": temp.schDay+temp.schTime,"coursePlace":res.data[index].schedule.location.locName,"suvLeave":res.data[index].suvLeave,"suvId":res.data[index].suvId,"student":res.data[index].student,"schedule":res.data[index].schedule,"course":res.data[index].course,"suvWeek":res.data[index].suvWeek,"suvMan":res.data[index].suvMan})
-      }
-      that.setData({
-        allDataList:allDataList
-      })
-    },
-    fail: function (res) {
-      console.log(res.data)
-      wx.showToast({
-        title: '获取失败',
-        icon: "loading",
-        duration: 2000
-      })
-
-    }
-  })
-  */
-
 }
 //判断正在课程是否已督导并获取
 var Monitoring=function(that){

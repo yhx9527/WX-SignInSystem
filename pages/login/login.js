@@ -54,29 +54,32 @@ Page({
             wx.login({
               success:function(res1){
                 if(res1.code){
-                  var url = "https://www.xsix103.cn/SignInSystem/login.do"
-                  var params = {
-                    user: {
-                      userId: e.detail.value.userID,
-                      userPwd: e.detail.value.userCode,
+                  wx.request({
+                    url: 'https://www.xsix103.cn/SignInSystem/login.do',
+                    method: "POST",
+                    data: {
+                      user: {
+                        userId: e.detail.value.userID,
+                        userPwd: e.detail.value.userCode,
+                      },
+                      code: res1.code
                     },
-                    code: res1.code
-
-                  }
-                  var method = "POST"
-                  var header = {}
-
-                  network.request(url, params, method, header).then((data) => {
-                    var userPermit = processPermit(data.user.userPermit);
-                    var person = { "userPermit": userPermit, "userId": data.user.userId, "userName": data.user.userName }
-                    //个人信息报存本地
-                    wx.setStorageSync('person', person)
-                    //跳转界面
-                    wx.switchTab({
-                      url: '../users/student/student',
-                    })
-                  });
-
+                    header: {},
+                    success: function (res) {
+                      var a = JSON.stringify(res.header)
+                      var sessionId = a.split(";")[0].split("=")[1]
+                      app.globalData.header.Cookie = 'JSESSIONID=' + sessionId
+                      console.log("login:" + app.globalData.header.Cookie)
+                      var userPermit = processPermit(res.data.user.userPermit);
+                      var person = { "userPermit": userPermit, "userId": res.data.user.userId, "userName": res.data.user.userName }
+                      //个人信息报存本地
+                      wx.setStorageSync('person', person)
+                      //跳转界面
+                      wx.switchTab({
+                        url: '../users/student/student',
+                      })
+                    },
+                  })
                   console.log('用户点击确定')
                 }else{
                   console.log('登录失败！' + e.errMsg)
@@ -121,6 +124,7 @@ Page({
         var a=JSON.stringify(res.header)
         var sessionId=a.split(";")[0].split("=")[1]
         app.globalData.header.Cookie = 'JSESSIONID=' + sessionId
+        console.log("wxlogin"+app.globalData.header.Cookie)
           if (res.data.err == "1") {
             wx.showModal({
               title: '提示',

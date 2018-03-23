@@ -49,7 +49,6 @@ Page({
       var checked=false;
     this.setData({
       course:course,
-      monitorName: app.globalData.userName,
       date:dates[0],
       time:dates[1],
       checked:checked,

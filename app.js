@@ -1,6 +1,5 @@
 App({
   onLaunch: function () {
-    var that=this
     // 获取用户信息
     /*
     wx.getSetting({
@@ -48,6 +47,8 @@ App({
   },
 
   globalData: {
+    Height:null,
+    Width:null,
     code:null,
     userInfo: null,
     header:{'Cookie':''},

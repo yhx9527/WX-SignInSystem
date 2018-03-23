@@ -40,14 +40,15 @@ function loadDropDownMenu() {
 }
 //自制数组
 var transchedules=function(schedules){
+  var temp=JSON.parse(JSON.stringify(schedules))
   var newschedules=new Array();
   var finalschedules=new Array();
-  for(var i=0,j=-1;i<schedules.length-1;i++){
+  for(var i=0,j=-1;i<temp.length-1;i++){
    
-    if(schedules[i].schDay==schedules[i+1].schDay){
-      newschedules.push(schedules[i]);
+    if(temp[i].schDay==temp[i+1].schDay){
+      newschedules.push(temp[i]);
       j=j+1;
-      newschedules[j].schTime = schedules[i].schTime + "," + schedules[i+1].schTime+"节课";
+      newschedules[j].schTime = temp[i].schTime + "," +temp[i+1].schTime+"节课";
       switch(newschedules[j].schDay){
         case 1: newschedules[j].schDay = "星期一" + newschedules[j].schTime 
           break;
@@ -87,7 +88,7 @@ var transchedules=function(schedules){
 
 var getCards=function(that){
   //获取课表
-  var url = "https://localhost/SignInSystem/Student/showCourses.do"
+  var url = "https://www.xsix103.cn/SignInSystem/Student/showCourses.do"
   var params={}
   var header = {
     'Cookie': app.globalData.header.Cookie
@@ -141,9 +142,12 @@ var transchedule = function (schedule) {
     return newschedules;
 
 }
+module.exports = {
+  transchedule:transchedule,
+}
 //获取正在签到的课程
 var getSigning=function(that){
-  var url = "https://localhost/SignInSystem/Student/checkCourse.do"
+  var url = "https://www.xsix103.cn/SignInSystem/Student/checkCourse.do"
   var header = {
     'Cookie': app.globalData.header.Cookie
   }
@@ -175,14 +179,21 @@ var getTchList=function(that){
     'Cookie': app.globalData.header.Cookie
   }
   var method = "POST"
-  console.log("获取课表" + header.Cookie)
   network.request(url, params, method, header).then((data)=>{
-    
+    var teacherLists = that.data.teacherLists;
     for (var index in data.courses) {
       var final = transchedules(data.courses[index].schedules)
+      var a=data.courses[index]
       for (var i in final) {
+        teacherLists.push({ "cozId":a.cozId , "courseName": a.cozName, "courseNum": 100, "courseTime": final[i].schDay, "coursePlace": final[i].location.locName,"teacher":data.teacher,"schedules":a.schedules })
+        console.log(teacherLists)
       }
     }
+
+    that.setData({
+      teacherLists:teacherLists
+    })
+    wx.setStorageSync('teacher',data )
   })
 }
 
@@ -218,14 +229,12 @@ Page({
     schedule: {},//发送给后台的单个签到
     studentPermit: 0,
     teacherPermit: 0,
-
-
     reportData: [],
     subMenuDisplay: [],
     subMenuHighLight: [],
     animationData: {},
     animationData1: {},
-    teacherLists: [{ "id": 1, "courseName": "java", "courseNum": 100, "courseTime": "星期一", "coursePlace": "二教" }, { "id": 2, "courseName": "数据库", "courseNum": 100, "courseTime": "星期一", "coursePlace": "二教" }],
+    teacherLists: [],
     ifshade: false,
     person:{}
   },
@@ -376,7 +385,10 @@ Page({
     
     wx.getSystemInfo({
       success: function (res) {
-        console.info(res.windowHeight);
+        
+        app.globalData.Height=res.windowHeight;
+        app.globalData.Width=res.windowWidth;
+        console.log("屏幕高"+app.globalData.Height)
         that.setData({
           scrollHeight: res.windowHeight
         });
@@ -673,41 +685,6 @@ Page({
    // })
     
   },
-  /*
-  
-  signMap:function(e){
-    var that=this;
-    console.log(that.data.schedule)
-    wx.request({
-      url: "https://www.xsix103.cn/SignInSystem/Student/signIn.do",
-      data: this.data.schedule,
-      method: 'POST',
-      header: {
-        'Cookie': app.globalData.header.Cookie,
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        console.log(res.data);
-        if (res.data.location && res.data.time) {
-          var currentStatu = "successclose";
-          that.util(currentStatu)
-        } else {
-          var currentStatu = "failclose"
-          that.util(currentStatu)
-        }
-      },
-      fail: function (res) {
-        console.log(res.data)
-        wx.showToast({
-          title: '连接失败',
-          icon: "cancel",
-          duration: 2000
-        })
-      }
-
-    })
-  },*/
-  
   //还未签到的地图
   signMap: function (e) {
     var that = this;
@@ -930,7 +907,8 @@ Page({
     var that=this;
     that.setData({
       signingCard:{},
-      cards:[]
+      cards:[],
+      teacherLists:[],
     })
  
     
@@ -939,10 +917,10 @@ Page({
         getSigning(that);
         getCards(that);
         wx.stopPullDownRefresh();
- 
-
-      
-    
+    }
+    if(that.data.person.userPermit[2]==1){
+       getTchList(that);
+       wx.stopPullDownRefresh();
     }
     
    

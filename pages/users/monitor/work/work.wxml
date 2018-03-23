@@ -47,7 +47,7 @@
     </view>
   </view>
   <view class="recorder">
-    <text class="recorder-text">记录人:{{monitorName}}</text>
+    <text class="recorder-text">记录人:{{course.xingming}}</text>
   </view>
   <view class="button-view">
     <button class="button1"formType="reset">重置</button>

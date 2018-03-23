@@ -37,7 +37,7 @@
       <view class="hengfu"><text class="hengfuText">全部督导</text></view>
       <view style="height:12rpx;background-color:#eaeaea"></view>
       
-      <view class="item-view " wx:for="{{allDataList}}"  wx:for-item="item"bindtap="monitorCourse" data-ArrayFlag="{{item.ArrayFlag}}"data-courseID="{{item.id}}"data-courseName="{{item.courseName}}"data-courseTeacher="{{item.courseTeacher}}"data-courseTime="{{item.courseTime}}"data-coursePlace="{{item.coursePlace}}"data-suvId="{{item.suvId}}"data-schId="{{item.schedule.schId}}"data-suvWeek="{{item.suvWeek}}"data-suvMan="{{item.suvMan}}">
+      <view class="item-view " wx:for="{{allDataList}}"  wx:for-item="item"bindtap="monitorCourse" data-ArrayFlag="{{item.ArrayFlag}}"data-courseID="{{item.id}}"data-courseName="{{item.courseName}}"data-courseTeacher="{{item.courseTeacher}}"data-courseTime="{{item.courseTime}}"data-coursePlace="{{item.coursePlace}}"data-suvId="{{item.suvId}}"data-schId="{{item.schedule.schId}}"data-suvWeek="{{item.suvWeek}}"data-suvMan="{{item.suvMan}}"data-xingming="{{item.student.userName}}">
         
           <template is="mainTabCell" data="{{item}}" />
 
