@@ -185,7 +185,7 @@ var checkLeaves = function (that) {
       var temp = process(data[index].oneCozAndSch.schedule)
       var siTime = formatTime(data[index].siTime)
       var a = data[index]
-      leaveDataList.push({ "index":index,"id": a.siId, "courseName": a.oneCozAndSch.course.cozName, "courseTeacher": a.oneCozAndSch.course.teacher.userName, "coursePlace": a.oneCozAndSch.schedule.location.locName, "courseTime": temp.schDay + temp.schTime, "siTime": siTime, "siLeave": a.siLeave,"signInRes":data[index] })
+      leaveDataList.push({ "index":index,"id": a.siId, "courseName": a.oneCozAndSch.course.cozName, "courseStudent": a.student.userName, "courseXuehao": a.student.userId, "courseTime": temp.schDay + temp.schTime, "siTime": siTime, "siLeave": a.siLeave,"signInRes":data[index] })
     }
     that.setData({
       leaveDataList: leaveDataList,

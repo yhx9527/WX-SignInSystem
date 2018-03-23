@@ -41,7 +41,7 @@ Page({
     }
   },
   monitor: function () {
-    if(person.userPermit[1]==1){
+    if(this.data.person.userPermit[1]==1){
     wx.navigateTo({
       url: '../../monitor/monitor',
     })

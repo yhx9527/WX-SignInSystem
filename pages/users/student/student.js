@@ -111,41 +111,6 @@ var getCards=function(that){
     wx.setStorageSync('Course', data)
     wx.setStorageSync('Cards', cards)
   })
-  /*
-  wx.request({
-    url: "https://www.xsix103.cn/SignInSystem/Student/showCourses.do",
-    method: 'POST',
-    header: {
-      'Cookie': app.globalData.header.Cookie
-    },
-    success: function (res) {
-      console.log(res.data)
-      var count = 0;
-      var cards=that.data.cards;
-      for (var index in res.data.courses) {
-        var final = transchedules(res.data.courses[index].schedules)
-        for (var i in final) {
-
-        cards.push({ "id": res.data.courses[index].cozId, "courseName": res.data.courses[index].cozName, "courseTeacher": res.data.courses[index].teacher.userName, "courseTime": final[i].schDay, "coursePlace": final[i].location.locName, "locLat": final[i].location.locLat, "locLon": final[i].location.locLon, "right": 0, "startRight":0})
-        }
-        
-      }
-      that.setData({
-        cards:cards
-      })
-      wx.setStorageSync('Course', res.data)
-      wx.setStorageSync('Cards', cards)
-    },
-    fail: function (res) {
-      console.log(res.data)
-      wx.showToast({
-        title: '获取失败',
-        icon: "loading",
-        duration: 2000
-      })
-
-    }
-  })*/
 }
 //正在签到课程处理
 var transchedule = function (schedule) {
@@ -201,37 +166,26 @@ var getSigning=function(that){
     wx.setStorageSync('SigningCourse', data)
     wx.setStorageSync('SigningCard', signingCard)
   })
-  /*
-  wx.request({
-    url: "https://www.xsix103.cn/SignInSystem/Student/checkCourse.do",
-    method: 'POST',
-    header: {
-      'Cookie': app.globalData.header.Cookie
-    },
-    success: function (res) {
-      console.log(res.data)
-      var count = 0;
-      var signingCard = that.data.signingCard;
-     
-        var final = transchedule(res.data.schedule)
-        
-
-          signingCard={ "id": res.data.course.cozId, "courseName": res.data.course.cozName, "courseTeacher": res.data.course.teacher.userName, "courseTime": final.schDay+final.schTime, "coursePlace": final.location.locName, "locLat": final.location.locLat, "locLon": final.location.locLon, "right": 0, "startRight": 0,"schId":res.data.schedule.schId,"schWeek":res.data.schedule.schWeek,"schTime":res.data.schedule.schTime,"schDay":res.data.schedule.schDay,"schYear":res.data.schedule.schYear,"schTerm":res.data.schedule.schTerm,"schFortnight":res.data.schedule.schFortnight}
-        
-
-      
-      that.setData({
-        signingCard: signingCard
-      })
-      wx.setStorageSync('SigningCourse', res.data)
-      wx.setStorageSync('SigningCard', signingCard)
-    },
-    fail: function () {
-      console.log("获取失败")
+}
+//获取老师课表
+var getTchList=function(that){
+  var url = "https://www.xsix103.cn/SignInSystem/Teacher/showTchCourses.do"
+  var params = {}
+  var header = {
+    'Cookie': app.globalData.header.Cookie
+  }
+  var method = "POST"
+  console.log("获取课表" + header.Cookie)
+  network.request(url, params, method, header).then((data)=>{
+    
+    for (var index in data.courses) {
+      var final = transchedules(data.courses[index].schedules)
+      for (var i in final) {
+      }
     }
   })
-  */
 }
+
 
 Page({
 
@@ -273,6 +227,7 @@ Page({
     animationData1: {},
     teacherLists: [{ "id": 1, "courseName": "java", "courseNum": 100, "courseTime": "星期一", "coursePlace": "二教" }, { "id": 2, "courseName": "数据库", "courseNum": 100, "courseTime": "星期一", "coursePlace": "二教" }],
     ifshade: false,
+    person:{}
   },
   //全部课程的滑动
   start:function(e){
@@ -440,10 +395,12 @@ Page({
       teacherPermit:person.userPermit[2],
       reportData: ReportDataSync,//菜单数据 
       subMenuDisplay: initSubMenuDisplay, //一级 
-      subMenuHighLight: initSubMenuHighLight //二级 
+      subMenuHighLight: initSubMenuHighLight, //二级
+      person:person 
     });
     if(that.data.teacherPermit==1){
-    loadDropDownMenu()
+    loadDropDownMenu();
+    getTchList(that);
     }
     if(that.data.studentPermit==1){
     that.run1();// 水平一行字滚动完了再按照原来的方向滚动
@@ -970,7 +927,6 @@ Page({
   //刷新
   onPullDownRefresh:function(){
     console.log("刷新")
-    console.log(app.globalData.userId)
     var that=this;
     that.setData({
       signingCard:{},
@@ -978,7 +934,7 @@ Page({
     })
  
     
-    if(app.globalData.userPermit[0]==1){
+    if(that.data.person.userPermit[0]==1){
       
         getSigning(that);
         getCards(that);

@@ -1,4 +1,4 @@
-<view class="container">
+<view >
   <view wx:if="{{!hasMessage}}"class="tab-content1" >
   <image class="tab-image" src="../../../image/hasMessage.png"mode="aspectFit"></image>
   <text style='font-weight:lighter'>暂时没有通知</text>

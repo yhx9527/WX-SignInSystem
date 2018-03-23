@@ -139,9 +139,9 @@ Page({
           
           //app.globalData.header.Cookie = 'JSESSIONID=' + data.sessionUser;
           //跳转界面
-          //wx.switchTab({
-            //url: '../users/student/student',
-          //})
+          wx.switchTab({
+            url: '../users/student/student',
+          })
         }
       }
     })

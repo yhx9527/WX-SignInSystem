@@ -83,12 +83,13 @@
 
       <view class="item-view" wx:for="{{leaveDataList}}"  wx:for-item="item">
          <view class="itemSon">                        
-            <image class="img" src="../../image/first.jpg" mode='scaleToFill'></image>
+            <image class="img" src="../../image/shenhe.jpg" mode='scaleToFill'></image>
             <view class="course-wrapper">
             <text class="courseName">{{item.courseName}}</text>
-            <text class="courseTeacher">老师：{{item.courseTeacher}}</text>
+            <text class="courseTeacher">请假学生姓名：{{item.courseStudent}}</text>
+            <text class="coursePlace">请假学生学号：{{item.courseXuehao}}</text>
             <text class="courseTime">时间：{{item.courseTime}}</text>
-            <text class="coursePlace">地点：{{item.coursePlace}}</text>
+            
             </view>
             <view class="remindbtn">
              <button class="remindTextbtn1"bindtap="noLeave"data-signinres="{{item.signInRes}}"data-index="{{item.index}}"style="background-color:#FF8C00">驳回</button>
