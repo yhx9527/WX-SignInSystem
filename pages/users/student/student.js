@@ -87,7 +87,7 @@ var transchedules=function(schedules){
 
 var getCards=function(that){
   //获取课表
-  var url = "https://www.xsix103.cn/SignInSystem/Student/showCourses.do"
+  var url = "https://localhost/SignInSystem/Student/showCourses.do"
   var params={}
   var header = {
     'Cookie': app.globalData.header.Cookie
@@ -143,7 +143,7 @@ var transchedule = function (schedule) {
 }
 //获取正在签到的课程
 var getSigning=function(that){
-  var url = "https://www.xsix103.cn/SignInSystem/Student/checkCourse.do"
+  var url = "https://localhost/SignInSystem/Student/checkCourse.do"
   var header = {
     'Cookie': app.globalData.header.Cookie
   }
