@@ -324,6 +324,11 @@ Page({
         break;
     }
   },
+  bindChange:function(e){
+    this.setData({
+      currentTopItem:e.detail.current
+    })
+  },
   /*
   //设置加载更多的数据
   setMoreDataWithRes(res, target) {

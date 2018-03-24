@@ -13,7 +13,8 @@
     "pages/users/monitor/hisRecord/hisRecord",
     "pages/users/monitor/monitorLeave/monitorLeave",
     "pages/users/teacher/teacher",
-    "pages/users/teacher/list/list"
+    "pages/users/teacher/list/list",
+    "pages/users/teacher/absence/absence"
 
   ],
 
