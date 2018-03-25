@@ -36,6 +36,30 @@ var getAbsence = function (that, schedule) {
     
   })
 }
+var getLeaves = function (that) {
+  var url = "https://www.xsix103.cn/SignInSystem/Teacher/getLeaves.do"
+  var params = {}
+
+  var header = {
+    'Cookie': app.globalData.header.Cookie
+  }
+  var method = "POST"
+  network.request(url, params, method, header).then((data) => {
+    that.setData({
+      leaves: data.length
+    })
+    if(data.length>0){
+      that.setData({
+        ifLeaves:true
+      })
+    }else{
+      that.setData({
+        ifLeaves:false
+      })
+    }
+  })
+
+}
 Page({
 
   /**
@@ -53,7 +77,11 @@ Page({
     colorSet:["#C7F3FF", "#FDC7FF", "#FFDCF5", "#F2F4C3"],//背景颜色集合
     background:"",
     ifxiala:false,//是否下拉
-    animation1:{}//下拉动画
+    animation1:{},//下拉动画
+    leaves:0,//请假人数
+    ifLeaves:false,//请假是否亮
+    ifAuto:false,//发起自动签到是否亮
+    ifMan:false,//发起手动签到是否亮
   },
 
   /**
@@ -71,6 +99,7 @@ Page({
     }
     getMonitoring(that, temp.list.schedules[0]);
     getAbsence(that, temp.list.schedules[0]);
+    getLeaves(that)
     var Width = (app.globalData.Width)/(topItems.length)
     this.setData({
       teacherList:temp.list,
@@ -171,6 +200,50 @@ Page({
     let str=JSON.stringify(e.currentTarget.dataset)
     wx.navigateTo({
       url: './absence/absence?jsonStr='+str
+    })
+  },
+  //审核请假
+  checkLeave:function(e){
+    console.log(e)
+    let str=JSON.stringify(e.currentTarget.dataset)
+    wx.navigateTo({
+      url: './checkLeaves/checkLeaves?jsonStr='+str,
+    })
+  },
+  //课程停课
+  stopClass:function(e){
+    var tishi = e.currentTarget.dataset.schday + e.currentTarget.dataset.schtime+"进行停课"
+    var params=e.currentTarget.dataset.schid+"&"+e.currentTarget.dataset.schweek
+    console.log(params);
+    var url = "https://www.xsix103.cn/SignInSystem/Teacher/fSchAbsRecByCoz.do"
+    var header = {
+      'Cookie': app.globalData.header.Cookie
+    }
+    var method = "POST"
+    wx.showModal({
+      title: '提示',
+      content: tishi,
+      success:function(res){
+        if(res.confirm){
+          network.request(url, params, method, header).then((data) => {
+            if(data){
+              wx.showToast({
+                title: '停课成功',
+                icon:"success",
+                duration:2000
+              })
+            }else{
+              wx.showToast({
+                title: '停课失败',
+                icon: "none",
+                duration: 2000
+              })
+            }
+          }) 
+        }else if(res.cancel){
+          
+        }
+      }
     })
   },
   /**

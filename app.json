@@ -14,8 +14,8 @@
     "pages/users/monitor/monitorLeave/monitorLeave",
     "pages/users/teacher/teacher",
     "pages/users/teacher/list/list",
-    "pages/users/teacher/absence/absence"
-
+    "pages/users/teacher/absence/absence",
+    "pages/users/teacher/checkLeaves/checkLeaves"
   ],
 
   "window": {

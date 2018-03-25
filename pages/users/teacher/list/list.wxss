@@ -87,3 +87,17 @@
     flex-direction: column;
     z-index: 0;
 }
+.hengfu{
+ width:100%;
+ position: relative;
+ background-color:#87CEFF;
+padding-top:4px;
+padding-bottom:4px;
+
+}
+.hengfuText{
+  margin-left: 5px;
+  color:#696969;
+  font-size:18px;
+
+}

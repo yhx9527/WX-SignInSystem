@@ -12,15 +12,18 @@
     <swiper-item>
       <view class="secondCard">
   <view class="secondIcon">
-    <image class="Icon1"src="../../image/TB1.png"></image>
+    <image wx:if="{{!ifAuto}}"class="Icon1"src="../../image/TB1.png"></image>
+    <image wx:else class="Icon1"src="../../image/TA1.png"></image>
     <text class="secondEx">发起自动签到</text>
   </view>
-  <view class="secondIcon">
-    <image class="Icon1"src="../../image/TB2.png"></image>
-    <text class="secondEx">审批请假</text>
+  <view class="secondIcon"bindtap="checkLeave"data-coursename="{{teacherList.courseName}}">
+    <image wx:if="{{!ifLeaves}}"class="Icon1"src="../../image/TB2.png"></image>
+    <image wx:else class="Icon1"src="../../image/TA2.png"></image>
+    <text class="secondEx">审批请假({{leaves}})</text>
   </view>
   <view class="secondIcon">
-    <image class="Icon1"src="../../image/TB3.png"></image>
+    <image wx:if="{{!ifMan}}"class="Icon1"src="../../image/TB3.png"></image>
+    <image wx:else class="Icon1"src="../../image/TA3.png"></image>
     <text class="secondEx">发起手动签到</text>
   </view>
 </view>
@@ -43,6 +46,7 @@
       <text class="renshu">{{Monitoring.suvRecNum}}人</text>
     </view>
   </view>
+  
   <view class="cardContent"style="margin-bottom:0;border-bottom:0">
     <text class="thirdEx">上课请假人数</text>
     
@@ -51,6 +55,7 @@
       <image class="about"src="../../image/about.png"></image>
     </view>
   </view>
+  
   <view class="cardContent"style="margin-bottom:0;border-bottom:0">
     <text class="thirdEx">上课情况</text>
     <view class="aboutImg">
@@ -85,7 +90,7 @@
     </view>
   </view>
 </view>
-<button class="stopBtn">课程停课</button>   
+<button class="stopBtn"bindtap="stopClass"data-schid="{{item.schId}}"data-schweek="{{item.schWeek}}"data-schtime="{{item.schTime}}"data-schday="{{item.schDay}}">课程停课</button>   
     </swiper-item>
   </view>
 

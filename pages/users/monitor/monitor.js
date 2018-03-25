@@ -116,6 +116,9 @@ var formatTime = function (Time) {
   var temp = Time[0] + "-" + Time[1] + "-" + Time[2] + " " + Time[3] + ":" + Time[4] + ":" + Time[5]
   return temp
 }
+module.exports = {
+  formatTime: formatTime,
+}
 //工作请假记录
 var getLeaves=function(that){
     var data=that.data.allDataList
