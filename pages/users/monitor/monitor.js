@@ -130,11 +130,10 @@ var getLeaves=function(that){
       leaves.push({  "courseName": a.courseName,"courseTeacher": a.courseTeacher, "coursePlace": a.coursePlace, "courseTime": a.courseTime })
     }}
     console.log("请假记录"+leaves)
-    
     that.setData({
       leaves: leaves,
       leaveNum: leaves.length,
-     
+      points:100-leaves.length
     })
 
   
@@ -228,14 +227,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that=this
-    that.setNewDataWithRes(dataType);
-    var person=wx.getStorageSync('person')
-    that.setData({
-      userInfo: app.globalData.userInfo,
-      hasUserInfo: true,
-      person: { "xingming": person.userName, "xuehao": person.userId,"userPermit":person.userPermit, "memberInfo": "督导队员"}
-    })
+    
     
   },
 
@@ -244,7 +236,7 @@ Page({
    */
   onReady: function () {
     var that = this;
-    getLeaves(that);
+    setTimeout(function(){getLeaves(that)},500)
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
@@ -283,8 +275,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    var that=this;
-    
+    var that = this
+    that.setNewDataWithRes(dataType);
+    var person = wx.getStorageSync('person')
+    that.setData({
+      userInfo: app.globalData.userInfo,
+      hasUserInfo: true,
+      person: { "xingming": person.userName, "xuehao": person.userId, "userPermit": person.userPermit, "memberInfo": "督导队员" }
+    })
 
   },
 
@@ -694,10 +692,6 @@ Page({
   monitorCourse:function(e){
     var that=this
     var temp = e.currentTarget.dataset
-  
-      Monitoring(that)
-      getAll(that)
-    
     
       if (temp.arrayflag != null) {
         temp.suvman = that.data.allDataList[temp.arrayflag].suvMan

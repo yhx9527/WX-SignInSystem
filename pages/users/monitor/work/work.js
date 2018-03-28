@@ -16,9 +16,9 @@ var arrayToInt=function(array){
 var testMan=function(siTime){
   var close=[1970,1,1,8,0,1]
   if(JSON.stringify(siTime)==JSON.stringify(close)){
-    return true
-  }else
     return false
+  }else
+    return true
 }
 var util=require("../../../utils/util.js")
 Page({
@@ -43,7 +43,7 @@ Page({
     let course=JSON.parse(options.jsonStr)
     var temp=util.formatTime(new Date)
     var dates=temp.split(" ")
-    if(course.suvman != null && !testMan(course.suvman.siTime))
+    if(course.suvman != null && testMan(course.suvman.siTime))
       var checked=true;
     else
       var checked=false;
