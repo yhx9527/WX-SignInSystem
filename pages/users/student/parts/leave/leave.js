@@ -1,3 +1,4 @@
+const app=getApp()
 Page({
 
   /**
@@ -9,7 +10,9 @@ Page({
       "courseid": "A", "coursename": "LOL", "courseplace": "品学楼", "courseteacher": "Jack", "coursetime": "Tuesday"
     },
     reason:'',
-    tempFilePaths:null
+    tempFilePaths:null,
+    height:0,
+    width:0,
   },
 
   /**
@@ -18,7 +21,9 @@ Page({
   onLoad: function (options) {
     let item1 = JSON.parse(options.jsonStr);
     this.setData({
-      courseItem: item1
+      courseItem: item1,
+      height:app.globalData.Height,
+      width:app.globalData.Width
     });
   },
 

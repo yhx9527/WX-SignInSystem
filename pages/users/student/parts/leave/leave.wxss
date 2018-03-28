@@ -5,7 +5,7 @@
   height: 100%;
   flex-direction: column;
   background-color:lightgray;
-  padding-bottom: 30px;
+  padding-bottom: 50px;
 }
 .head{
   display:block;

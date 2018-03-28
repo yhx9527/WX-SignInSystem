@@ -1,5 +1,5 @@
 
-  <form class="form" bindsubmit='formSubmit'>
+  <form class="form" bindsubmit='formSubmit'style="height:{{height}}px;width:{{width}}px">
     <view class="head">
       请假条
     </view>

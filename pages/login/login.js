@@ -1,6 +1,6 @@
 const app=getApp()
 const network=require("../utils/network.js")
-
+const config=require("../utils/config.js")
 
 var processPermit=function(userPermit){
   var temp=userPermit.split("").reverse();
@@ -66,9 +66,10 @@ Page({
                     },
                     header: {},
                     success: function (res) {
-                      var a = JSON.stringify(res.header)
-                      var sessionId = a.split(";")[0].split("=")[1]
-                      app.globalData.header.Cookie = 'JSESSIONID=' + sessionId
+                      var map = config.jsonToMap(JSON.stringify(res.header));
+                      var a = map.get("Set-Cookie")
+                      console.log(a)
+                      app.globalData.header.Cookie = a.split(";")[0]
                       console.log("login:" + app.globalData.header.Cookie)
                       var userPermit = processPermit(res.data.user.userPermit);
                       var person = { "userPermit": userPermit, "userId": res.data.user.userId, "userName": res.data.user.userName }
@@ -106,7 +107,34 @@ Page({
     that.setData({
       userInfo: app.globalData.userInfo,
     })
-    
+    if (app.globalData.userInfo) {
+      this.setData({
+        userInfo: app.globalData.userInfo,
+        hasUserInfo: true
+      })
+    } else if (this.data.canIUse) {
+      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+      // 所以此处加入 callback 以防止这种情况
+      app.userInfoReadyCallback = res => {
+        this.setData({
+          userInfo: res.userInfo,
+          hasUserInfo: true
+        })
+      }
+    } else {
+      // 在没有 open-type=getUserInfo 版本的兼容处理
+      wx.getUserInfo({
+        success: res => {
+          app.globalData.userInfo = res.userInfo
+          this.setData({
+            userInfo: res.userInfo,
+            hasUserInfo: true
+          })
+        }
+      })
+    }
+
+
     wx.login({
       success: function(res1){
     if(res1.code){
@@ -121,9 +149,11 @@ Page({
       },
       success:function(res){
         console.log(res.data)
-        var a=JSON.stringify(res.header)
-        var sessionId=a.split(";")[0].split("=")[1]
-        app.globalData.header.Cookie = 'JSESSIONID=' + sessionId
+  
+        var map = config.jsonToMap(JSON.stringify(res.header));
+        var a = map.get("Set-Cookie")
+        console.log(a)
+        app.globalData.header.Cookie = a.split(";")[0]
         console.log("wxlogin"+app.globalData.header.Cookie)
           if (res.data.err == "1") {
             wx.showModal({
@@ -154,33 +184,7 @@ Page({
     }
       }
     })
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
-
+    
     
   },
  
