@@ -57,7 +57,7 @@
   <image src="../../../image/special.png" class="img-plus-style" animation="{{animPlus}}" bindtap="plus"></image>
 <!--发布通知模态框-->
   <modal hidden="{{hiddenSendMessage}}" title="发布通知" confirm-text="发送" cancel-text="取消" bindcancel="cancelMessage" bindconfirm="confirmMessage">  
-    <input type='text'placeholder="请输入内容" auto-focus bindinput='inputMessage'/>  
+    <input type='text'placeholder="请输入内容" bindinput='inputMessage'/>  
   </modal>
 
 </view>

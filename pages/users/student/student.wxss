@@ -52,6 +52,51 @@ page{
    font-size: 30rpx;
    font-weight:lighter
  }
+.touch-card{
+  display: flex;
+  width: 100%;
+  border-bottom:1px solid lightgray;
+}
+.out2-1{
+display: flex;
+    width:100%;
+    height: 160rpx; 
+  margin-right:0;
+ -webkit-transition: all 0.3s;
+ transition: all 0.3s;
+ -webkit-transform: translateX(160px);
+ transform: translateX(160px);
+ margin-left: -160px
+
+}
+.out2-2{
+   -webkit-transform: translateX(160px);
+ transform: translateX(160px);
+ -webkit-transition: all 0.3s;
+ transition: all 0.3s;
+display:flex;
+flex-direction:row;
+
+}
+.remove2-1{
+   width: 80px;
+    height: 100%;
+    background-color:greenyellow;
+    top: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.remove1-1{
+   width: 80px;
+    height: 100%;
+    background-color: yellow;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .remove2{
     width: 80px;
     height: 100%;
@@ -74,6 +119,12 @@ page{
     justify-content: center;
     align-items: center;
 }
+.touch-move-active .out2-1,
+.touch-move-active .out2-2 {
+ -webkit-transform: translateX(0);
+ transform: translateX(0);
+}
+
 .line{
   width:100%;
   height:1px;

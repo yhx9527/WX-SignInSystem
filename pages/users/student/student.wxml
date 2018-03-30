@@ -10,9 +10,8 @@
 </view></view>
         <view class="hengfu"><text class="hengfuText">正在签到</text></view>
 
-           <view id="{{signingCard.id}}" class="item" bindtouchstart="start1" bindtouchmove='move1' bindtouchend='end1' 
-          style='right:{{signingCard.right}}px'>
-            <view class="itemSon">                        
+           <view id="{{signingCard.id}}" class="touch-card {{signingCard.isTouchMove?'touch-move-active':''}}" bindtouchstart="start" bindtouchmove='move1'>
+            <view class="out2-1">                        
               <image class="img" src="../../image/second.jpg" mode='scaleToFill'></image>  
               <view class="course-wrapper" bindtap='courseInfo'data-courseID="{{signingCard.id}}"data-courseName="{{signingCard.courseName}}"data-courseTeacher="{{signingCard.courseTeacher}}"data-courseTime="{{signingCard.courseTime}}"data-coursePlace="{{signingCard.coursePlace}}">
                 <text class="courseName">{{signingCard.courseName}}</text>
@@ -20,33 +19,32 @@
                 <text class="courseTime">时间：{{signingCard.courseTime}}</text>
                 <text class="coursePlace">地点：{{signingCard.coursePlace}}</text>
               </view>
+            </view>
+            <view class="out2-2">
               <view id="{{signingCard.id}}"class="remove1"bindtap="leave"data-courseID="{{signingCard.id}}"data-courseName="{{signingCard.courseName}}"data-courseTeacher="{{signingCard.courseTeacher}}"data-courseTime="{{signingCard.courseTime}}"data-coursePlace="{{signingCard.coursePlace}}">请假</view>
               <view id="{{signingCard.id}}"class="remove2"bindtap="signMaping"data-statu="open"data-courseID="{{signingCard.id}}"data-locLat="{{signingCard.locLat}}"data-locLon="{{signingCard.locLon}}">签到</view>
             </view>
-            <view class="line"></view>
           </view>
               
         <view class="hengfu"><text class="hengfuText">我的全部课程</text></view>
-        <scroll-view scroll-top="{{scrollTop}}" scroll-y="true" style="height:{{scrollHeight}}px;"   
-      enable-back-to-top="true">
-        <view wx:for="{{cards}}" wx:for-item="card" id="{{card.id}}" class="item" bindtouchstart="start" bindtouchmove='move' bindtouchend='end' 
-          style='right:{{card.right}}px'>
-          <view class="itemSon">                        
-            <image class="img" src="../../image/first.jpg" mode='scaleToFill'></image>  
-            <view class="course-wrapper" bindtap='courseInfo'data-courseID="{{card.id}}"data-courseName="{{card.courseName}}"data-courseTeacher="{{card.courseTeacher}}"data-courseTime="{{card.courseTime}}"data-coursePlace="{{card.coursePlace}}">
-              <text class="courseName">{{card.courseName}}</text>
-              <text class="courseTeacher">老师：{{card.courseTeacher}}</text>
-              <text class="courseTime">时间：{{card.courseTime}}</text>
-              <text class="coursePlace">地点：{{card.coursePlace}}</text>
-            </view>
-            <view id="{{card.id}}"class="remove1"bindtap="leave"data-courseID="{{card.id}}"data-courseName="{{card.courseName}}"data-courseTeacher="{{card.courseTeacher}}"data-courseTime="{{card.courseTime}}"data-coursePlace="{{card.coursePlace}}">请假</view>
-            <view id="{{card.id}}"class="remove2"bindtap="signMap"data-statu="open"data-courseID="{{card.id}}"data-locLat="{{card.locLat}}"data-locLon="{{card.locLon}}">签到</view>
-
-              
-
+        <scroll-view scroll-top="{{scrollTop}}"scroll-y="true"style="height:{{scrollHeight}}px;"enable-back-to-top="true">
+          
+          <view wx:for="{{cards}}"wx:for-item="card"class="touch-card {{card.isTouchMove?'touch-move-active':''}}"id="{{card.id}}"data-index="{{card.index}}"bindtouchstart="start" bindtouchmove='move'>
+              <view class="out2-1">                        
+                <image class="img" src="../../image/first.jpg" mode='scaleToFill'></image>  
+                <view class="course-wrapper" bindtap='courseInfo'data-courseID="{{card.id}}"data-courseName="{{card.courseName}}"data-courseTeacher="{{card.courseTeacher}}"data-courseTime="{{card.courseTime}}"data-coursePlace="{{card.coursePlace}}">
+                  <text class="courseName">{{card.courseName}}</text>
+                  <text class="courseTeacher">老师：{{card.courseTeacher}}</text>
+                  <text class="courseTime">时间：{{card.courseTime}}</text>
+                  <text class="coursePlace">地点：{{card.coursePlace}}</text>
+                </view>
+              </view>
+              <view class="out2-2">
+                <view id="{{card.id}}"class="remove1-1"bindtap="leave"data-courseID="{{card.id}}"data-courseName="{{card.courseName}}"data-courseTeacher="{{card.courseTeacher}}"data-courseTime="{{card.courseTime}}"data-coursePlace="{{card.coursePlace}}">请假</view>
+                <view id="{{card.id}}"class="remove2-1"bindtap="signMap"data-statu="open"data-courseID="{{card.id}}"data-locLat="{{card.locLat}}"data-locLon="{{card.locLon}}">签到</view>
+                </view>
           </view>
-          <view class="line"></view>
-        </view>  
+          
     </scroll-view>
       <!--mask--> 
   <view class="drawer_screen"  data-statu="close" wx:if="{{showModalStatus}}"></view> 

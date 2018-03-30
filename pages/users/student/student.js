@@ -4,17 +4,17 @@ var startX;
 var startY;
 var endX;
 var endY;
-var key;
+var key=false;
 var maxRight=160;
 
 var ReportDataSync = [
   {
     reportType: "按时间排序",
     chilItem: [
-      { ID: 1, Name: "按时间排序", ReportUrl: "DailyReport.aspx", Type: 1 },
-      { ID: 2, Name: "按课程名称排序", ReportUrl: "DailyReport.aspx", Type: 1 },
-      { ID: 3, Name: "按课程人数排序", ReportUrl: "DailyReport.aspx", Type: 1 },
-      { ID: 4, Name: "按到勤率排序", ReportUrl: "DailyReport.aspx", Type: 1 }]
+      { ID: 1, Name: "按时间排序",  Type: 1 },
+      { ID: 2, Name: "按课程名称排序",  Type: 1 },
+      { ID: 3, Name: "按课程人数排序", Type: 1 },
+      { ID: 4, Name: "按到勤率排序", Type: 1 }]
   }
 ]
 
@@ -79,7 +79,7 @@ var transchedules=function(schedules){
     }
 
   }
-  if(finalschedules!=null)
+  if(JSON.stringify(finalschedules)!=="[]")
     return finalschedules;
   else
     return newschedules;
@@ -100,10 +100,11 @@ var getCards=function(that){
     var cards = that.data.cards;
     for (var index in data.courses) {
       var final = transchedules(data.courses[index].schedules)
-      for (var i in final) {
+      console.log("final"+final)
+      //for (var i in final) {
 
-        cards.push({ "id": data.courses[index].cozId, "courseName": data.courses[index].cozName, "courseTeacher": data.courses[index].teacher.userName, "courseTime": final[i].schDay, "coursePlace": final[i].location.locName, "locLat": final[i].location.locLat, "locLon": final[i].location.locLon, "right": 0, "startRight": 0 })
-      }
+        cards.push({ "index":index,"id": data.courses[index].cozId, "courseName": data.courses[index].cozName, "courseTeacher": data.courses[index].teacher.userName, "courseTime": final[0].schDay, "coursePlace": final[0].location.locName, "locLat": final[0].location.locLat, "locLon": final[0].location.locLon, "right": 0, "startRight": 0 ,"isTouchMove":false})
+      //}
 
     }
     that.setData({
@@ -160,7 +161,7 @@ var getSigning=function(that){
     var final = transchedule(data.schedule)
 
 
-    signingCard = { "id": data.course.cozId, "courseName": data.course.cozName, "courseTeacher": data.course.teacher.userName, "courseTime": final.schDay + final.schTime, "coursePlace": final.location.locName, "locLat": final.location.locLat, "locLon": final.location.locLon, "right": 0, "startRight": 0, "schId": data.schedule.schId, "schWeek": data.schedule.schWeek, "schTime": data.schedule.schTime, "schDay": data.schedule.schDay, "schYear": data.schedule.schYear, "schTerm": data.schedule.schTerm, "schFortnight": data.schedule.schFortnight }
+    signingCard = { "id": data.course.cozId, "courseName": data.course.cozName, "courseTeacher": data.course.teacher.userName, "courseTime": final.schDay + final.schTime, "coursePlace": final.location.locName, "locLat": final.location.locLat, "locLon": final.location.locLon, "right": 0, "startRight": 0, "schId": data.schedule.schId, "schWeek": data.schedule.schWeek, "schTime": data.schedule.schTime, "schDay": data.schedule.schDay, "schYear": data.schedule.schYear, "schTerm": data.schedule.schTerm, "schFortnight": data.schedule.schFortnight, "isTouchMove": false }
 
 
 
@@ -240,140 +241,112 @@ Page({
   },
   //全部课程的滑动
   start:function(e){
+    console.log("值："+JSON.stringify(e))
     var touch=e.touches[0];
     startX=touch.clientX;
     startY=touch.clientY;
-    var cards=this.data.cards;
-    for(var i in cards){
-      var data=cards[i];
-      data.startRight=data.right;
-    }
-    key=true;
+    var index=e.currentTarget.index
+    //for(var i in cards){
+      //var data=cards[index];
+      //data.startRight=data.right;
+    //}
+    console.log("开始滑动")
   },
-  end:function(e){
+  /*end:function(e){
     var cards=this.data.cards;
-    for(var i in cards){
-      var data=cards[i];
-      if(data.right<=100/2){
+    //for(var i in cards){
+      var index=e.currentTarget.dataset.index
+      var data=cards[index];
+      if(data.right<=160/2){
         data.right=0;
       }else{
         data.right=maxRight;
       }
-    }
+    //}
     this.setData({
       cards:cards
     });
+    key=false;
+    console.log("结束滑动")
+  },*/
+  //计算滑动角度
+  angle: function (start, end) {
+    var _X = end.X - start.X,
+      _Y = end.Y - start.Y
+    //返回角度 /Math.atan()返回数字的反正切值
+    return 360 * Math.atan(_Y / _X) / (2 * Math.PI);
   },
   move:function(e){
     var self=this;
-    var dataID=e.currentTarget.id;
+    var index=e.currentTarget.dataset.index;
     var cards=this.data.cards;
-    if(key){
-      var touch=e.touches[0];
+    //滑动变化坐标
+      var touch=e.changedTouches[0];
       endX=touch.clientX;
       endY=touch.clientY;
-
-      if(endX-startX==0)
-      return ;
-      var res=cards;
+    //获取滑动角度
+    var angle=self.angle({X:startX,Y:startY},{X:endX,Y:endY})
+      //var res=cards;
+      if(Math.abs(angle)>30)return;
       //right to left
       if((endX-startX)<0){
-        for(var k in res){
-          var data=res[k];
-          if(res[k].id==dataID){
-            var startRight=res[k].startRight;
+        //for(var k in res){
+          //var data=res[index];
+          //if(res[k].id==dataID){
+            /**var startRight=res[index].startRight;
             var change=startX-endX;
             startRight+=change;
             if(startRight>maxRight)
             startRight=maxRight;
-            res[k].right=startRight;
-          }
-        }
+            res[index].right=startRight;**/
+          //}
+        //}
+        cards[index].isTouchMove=true;
       }else{
-        for (var k in res) {
-          var data = res[k];
-          if (res[k].id == dataID) {
-            var startRight = res[k].startRight;
+        //for (var k in res) {
+          //var data = res[k];
+          //if (res[k].id == dataID) {
+            /*var startRight = res[index].startRight;
             var change = endX-startX;
             startRight -= change;
             if (startRight <0)
               startRight = 0;
-            res[k].right = startRight;
-      }
-    }
+            res[index].right = startRight;*/
+      //}
+    //}
+    cards[index].isTouchMove=false
   }
   self.setData({
     cards:cards
   });
-    }
+  console.log("滑动中")
+    
   },
+  
+
   //签到课程的滑动
-  start1: function (e) {
-    var touch = e.touches[0];
-    startX = touch.clientX;
-    startY = touch.clientY;
-    var signingCard = this.data.signingCard;
-      var data = signingCard;
-      data.startRight = data.right;
-    
-    key = true;
-  },
-  end1: function (e) {
-    var signingCard = this.data.signingCard;
-    
-      var data = signingCard;
-      if (data.right <= 100 / 2) {
-        data.right = 0;
-      } else {
-        data.right = maxRight;
-      }
-    
-    this.setData({
-      signingCard: signingCard
-    });
-  },
   move1: function (e) {
     var self = this;
-    var dataID = e.currentTarget.id;
     var signingCard = this.data.signingCard;
-    if (key) {
-      var touch = e.touches[0];
-      endX = touch.clientX;
-      endY = touch.clientY;
-
-      if (endX - startX == 0)
-        return;
-      var res = signingCard;
-      //right to left
-      if ((endX - startX) < 0) {
-        
-          var data = res;
-          if (res.id == dataID) {
-            var startRight = res.startRight;
-            var change = startX - endX;
-            startRight += change;
-            if (startRight > maxRight)
-              startRight = maxRight;
-            res.right = startRight;
-          }
-        
-      } else {
-     
-          var data = res;
-          if (res.id == dataID) {
-            var startRight = res.startRight;
-            var change = endX - startX;
-            startRight -= change;
-            if (startRight < 0)
-              startRight = 0;
-            res.right = startRight;
-          }
-        
-      }
-      self.setData({
-        signingCard: signingCard
-      });
+    //滑动变化坐标
+    var touch = e.changedTouches[0];
+    endX = touch.clientX;
+    endY = touch.clientY;
+    //获取滑动角度
+    var angle = self.angle({ X: startX, Y: startY }, { X: endX, Y: endY })
+    //var res=cards;
+    if (Math.abs(angle) > 30) return;
+    //right to left
+    if ((endX - startX) < 0) {
+      signingCard.isTouchMove = true;
+    } else {
+      signingCard.isTouchMove = false
     }
+    self.setData({
+      signingCard:signingCard
+    });
+    console.log("滑动中")
+
   },
 
   /**
@@ -434,7 +407,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
     
 
   },

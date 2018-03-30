@@ -326,6 +326,8 @@ Page({
     }
   },
   bindChange:function(e){
+    console.log("目前"+e.detail.current)
+    this.setNewDataWithRes(e.detail.current);
     this.setData({
       currentTopItem:e.detail.current
     })
