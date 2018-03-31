@@ -27,7 +27,7 @@
     <view class="refresh-block" style="height: {{refreshHeight}}px;" wx:if="{{refreshing}}">  
     <image animation="{{refreshAnimation}}" src="../../../../image/refesh.png"></image>  
   </view>
-    <scroll-view style="height:{{swiperHeight}}px" scroll-top="{{scrollTop}}" scroll-y="true" catchtouchmove="move" catchtouchstart="start" catchtouchend="end"data-idx="0" >
+    <scroll-view style="height:{{swiperHeight}}px" scroll-y="true" bindscrolltoupper="upper"catchtouchmove="move" catchtouchstart="start" catchtouchend="end"data-idx="0" >
       <view style="height:12rpx;background-color:#eaeaea"></view>
       
       <view class="jilu" wx:for="{{signDataList}}"  wx:for-item="item" id="{{item.id}}">

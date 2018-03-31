@@ -60,7 +60,8 @@ Page({
     let item1=JSON.parse(options.jsonStr);
     this.setNewDataWithRes(dataType);
     this.setData({
-      courseItem:item1
+      courseItem:item1,
+      swiperHeight:app.globalData.Height
     });
    
 
@@ -165,39 +166,6 @@ Page({
             signDataList: signDataList
           });
         })
-        /*
-      wx.request({
-        url: "https://www.xsix103.cn/SignInSystem/Student/fOneCozSignIn.do",
-        data:schedule,
-        method: 'POST',
-        header: {
-          'Cookie': app.globalData.header.Cookie,
-          'content-type': 'application/json' // 默认值
-        },
-        success:function(res){
-          console.log(res.data)
-          var signDataList=new Array();
-          for(var index in res.data){
-            var id=res.data[index].siId
-            var time = that.formatTime(res.data[index].siTime)
-            signDataList.push({"id":id,"time":time})
-          }
-          
-          that.setData({
-            signDataList:signDataList
-          });
-        },
-        fail: function (res) {
-          console.log(res.data)
-          wx.showToast({
-            title: '连接失败',
-            icon: "loading",
-            duration: 2000
-          })
-        }
-      })*/
-     
-        
         break;
       //历史请假
       case DATATYPE.LEAVEDATATYPE:
@@ -211,9 +179,6 @@ Page({
             "time": "2018-02-07 19:59:59"
           }, { "id": "2016220401007", "time": "2018-02-07 20:59:59" }]
         });
-        //target.setData({
-          //leaveDataList: res.data.list
-        //});
         break;
       //历史缺勤
       case DATATYPE.NODATATYPE:
@@ -235,63 +200,26 @@ Page({
           that.setData({
             noDataList: noDataList
           });
-        })
-        /*
-        wx.request({
-          url: "https://www.xsix103.cn/SignInSystem/Student/fOneCozAbsent.do",
-          data:schedule,
-          method: 'POST',
-          header: {
-            'Cookie': app.globalData.header.Cookie,
-            'content-type': 'application/json' // 默认值
-          },
-          success: function (res) {
-            console.log(res.data)
-            var noDataList = new Array();
-            for (var index in res.data) {
-              var time = that.formatTime(res.data[index].siTime)
-              var id = res.data[index].siId
-              noDataList.push({ "id": id,"time": time })
-            }
-
-            that.setData({
-              noDataList: noDataList
-            });
-          },
-          fail: function (res) {
-            console.log(res.data)
-            wx.showToast({
-              title: '连接失败',
-              icon: "loading",
-              duration: 2000
-            })
-          }
-        })
-        */
+        }) 
         break;
-       
-        //target.setData({
-          //noDataList: res.data.list
-        //});
       default:
         break;
     }
   },
   upper:function(e){
-    var that=this;
+    
     console.log("下拉了....")
     //获取用户Y轴下拉的位移
     if (this.data.refreshing) return;
-  
     this.setData({ refreshing: true });
     updateRefreshIcon.call(this);
-   
+    var that = this;
+    that.setNewDataWithRes(e.currentTarget.dataset.idx)
     setTimeout(function () {
       that.setData({
         refreshing: false
       })
-    }, 2000)
-    that.setNewDataWithRes(e.currentTarget.dataset.idx)
+    }, 2500)
   },
   //滚动
   scroll: function (event) {
