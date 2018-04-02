@@ -87,8 +87,11 @@ page{
   background-size: 100% 100%;
 }
 .image{
-  height: 100%;  
+  height: 90px;  
   width: 90px;  
   margin-right:0;
-  float: left
+  float: left;
+  margin-top:7px;
+  margin-left:5px;
+
 }

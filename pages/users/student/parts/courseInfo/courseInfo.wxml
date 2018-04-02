@@ -24,10 +24,10 @@
 
   <!--历史签到-->
   <swiper-item>
-    <view class="refresh-block" style="height: {{refreshHeight}}px;" wx:if="{{refreshing}}">  
+    <view class="refresh-block" style="height: {{refreshHeight}}px;" wx:if="{{refreshing}}"style="height:{{refreshHeight}}px">  
     <image animation="{{refreshAnimation}}" src="../../../../image/refesh.png"></image>  
   </view>
-    <scroll-view style="height:{{swiperHeight}}px" scroll-y="true" bindscrolltoupper="upper"catchtouchmove="move" catchtouchstart="start" catchtouchend="end"data-idx="0" >
+    <scroll-view style="height:{{swiperHeight}}px" scroll-y="true" bindscrolltoupper="upper"catchtouchstart="start"catchtouchmove="move" catchtouchend="end"data-idx="0" >
       <view style="height:12rpx;background-color:#eaeaea"></view>
       
       <view class="jilu" wx:for="{{signDataList}}"  wx:for-item="item" id="{{item.id}}">

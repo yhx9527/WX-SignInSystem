@@ -236,7 +236,7 @@ Page({
    */
   onReady: function () {
     var that = this;
-    setTimeout(function(){getLeaves(that)},500)
+    setTimeout(function(){getLeaves(that)},1000)
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
@@ -307,6 +307,7 @@ Page({
       case DATATYPE.ALLDATATYPE:
         Monitoring(that);
         getAll(that);
+        setTimeout(function () { getLeaves(that) }, 1000)
         break;
       //历史记录
       case DATATYPE.HISTORYDATATYPE:

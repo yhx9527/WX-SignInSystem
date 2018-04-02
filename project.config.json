@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 12,
 			"list": [
 				{
 					"id": -1,
@@ -97,6 +97,17 @@
 					"name": "list",
 					"pathName": "pages/users/teacher/list/list",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "checkLeaves",
+					"pathName": "pages/users/teacher/checkLeaves/checkLeaves",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "checkLeave",
+					"pathName": "pages/users/monitor/checkLeave/checkLeave"
 				}
 			]
 		}

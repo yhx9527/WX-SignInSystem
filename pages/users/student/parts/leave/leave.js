@@ -10,7 +10,7 @@ Page({
       "courseid": "A", "coursename": "LOL", "courseplace": "品学楼", "courseteacher": "Jack", "coursetime": "Tuesday"
     },
     reason:'',
-    tempFilePaths:null,
+    tempFilePaths:[],
     height:0,
     width:0,
   },
@@ -93,8 +93,12 @@ Page({
       sizeType:['original','compressed'],
       sourceType:['album','camera'],
       success: function(res) {
+        var tempFilePaths=that.data.tempFilePaths
+        for(var index in res.tempFilePaths){
+          tempFilePaths.push(res.tempFilePaths[index])
+        }        
         that.setData({
-          tempFilePaths:res.tempFilePaths
+          tempFilePaths:tempFilePaths
         })
       },
       fail:function(){
@@ -103,6 +107,23 @@ Page({
       complete:function(){
 
       }
+    })
+  },
+  //图片限制提示
+  NOTchoose:function(){
+    wx.showModal({
+      title: '提示',
+      content: '最多上传三张',
+    })
+  },
+  //预览图片
+  previewImage:function(e){
+    var that=this;
+    console.log(that.data.tempFilePaths)
+    wx.previewImage({
+      current:e.currentTarget.dataset.path,
+      urls: that.data.tempFilePaths,
+
     })
   },
   formSubmit:function(e){

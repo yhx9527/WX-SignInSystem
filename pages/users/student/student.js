@@ -100,7 +100,6 @@ var getCards=function(that){
     var cards = that.data.cards;
     for (var index in data.courses) {
       var final = transchedules(data.courses[index].schedules)
-      console.log("final"+final)
       //for (var i in final) {
 
         cards.push({ "index":index,"id": data.courses[index].cozId, "courseName": data.courses[index].cozName, "courseTeacher": data.courses[index].teacher.userName, "courseTime": final[0].schDay, "coursePlace": final[0].location.locName, "locLat": final[0].location.locLat, "locLon": final[0].location.locLon, "right": 0, "startRight": 0 ,"isTouchMove":false})
@@ -241,7 +240,6 @@ Page({
   },
   //全部课程的滑动
   start:function(e){
-    console.log("值："+JSON.stringify(e))
     var touch=e.touches[0];
     startX=touch.clientX;
     startY=touch.clientY;
@@ -250,7 +248,6 @@ Page({
       //var data=cards[index];
       //data.startRight=data.right;
     //}
-    console.log("开始滑动")
   },
   /*end:function(e){
     var cards=this.data.cards;
@@ -319,10 +316,71 @@ Page({
   self.setData({
     cards:cards
   });
-  console.log("滑动中")
+
     
   },
-  
+  /*
+  MOVE:function(e){
+    var self = this;
+    var index = e.currentTarget.dataset.index;
+    var cards = this.data.cards;
+    //滑动变化坐标
+    var touch = e.changedTouches[0];
+    endX = touch.clientX;
+    endY = touch.clientY;
+    //获取滑动角度
+    var angle = self.angle({ X: startX, Y: startY }, { X: endX, Y: endY })
+    //var res=cards;
+    if (Math.abs(angle) > 30) return;
+    //right to left
+    if ((endX - startX) < 0) {
+      //for(var k in res){
+      var data=cards[index];
+      //if(res[k].id==dataID){
+      var startRight=cards[index].startRight;
+      var change=startX-endX;
+      startRight+=change;
+      if(startRight>maxRight)
+      startRight=maxRight;
+      cards[index].right=startRight;
+      //}
+      //}
+      cards[index].isTouchMove = true;
+    } else {
+      //for (var k in res) {
+      var data = cards[index];
+      //if (res[k].id == dataID) {
+      var startRight = cards[index].startRight;
+      var change = endX-startX;
+      startRight -= change;
+      if (startRight <0)
+        startRight = 0;
+      cards[index].right = startRight;
+      //}
+      //}
+      cards[index].isTouchMove = false
+    }
+    self.setData({
+      cards: cards
+    });
+    console.log("滑动中")
+  },
+  END:function(e){
+    var cards = this.data.cards;
+    var index = e.currentTarget.dataset.index;
+
+      var data = cards[index];
+      if (data.right <= 160 / 2) {
+        data.right = 0;
+      } else {
+        data.right = maxRight;
+      }
+
+    this.setData({
+      cards: cards
+    });
+  },
+  */
 
   //签到课程的滑动
   move1: function (e) {
@@ -345,7 +403,6 @@ Page({
     self.setData({
       signingCard:signingCard
     });
-    console.log("滑动中")
 
   },
 
@@ -378,13 +435,13 @@ Page({
       marquee2_margin: length < windowWidth ? windowWidth - length : that.data.marquee2_margin,//当文字长度小于屏幕长度时，需要增加补白
       studentPermit:person.userPermit[0],
       teacherPermit:person.userPermit[2],
-      reportData: ReportDataSync,//菜单数据 
-      subMenuDisplay: initSubMenuDisplay, //一级 
-      subMenuHighLight: initSubMenuHighLight, //二级
+      //reportData: ReportDataSync,//菜单数据 
+      //subMenuDisplay: initSubMenuDisplay, //一级 
+      //subMenuHighLight: initSubMenuHighLight, //二级
       person:person 
     });
     if(that.data.teacherPermit==1){
-    loadDropDownMenu();
+    //loadDropDownMenu();
     getTchList(that);
     }
     if(that.data.studentPermit==1){
@@ -400,7 +457,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-   console.log(app.globalData.userPermit)
+   //console.log(app.globalData.userPermit)
   },
 
   /**

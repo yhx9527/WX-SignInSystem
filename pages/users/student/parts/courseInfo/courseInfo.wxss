@@ -36,7 +36,8 @@
 }
 .refresh-block {  
   padding: 15px;  
-  text-align: center  
+  text-align: center;
+  background-color: #f7f7f7;  
 }  
 .refresh-block image {  
   width: 30px;  

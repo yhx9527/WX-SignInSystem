@@ -5,9 +5,7 @@
     "pages/users/student/student1/student1",
     "pages/users/monitor/monitor",
     "pages/users/student/parts/leave/leave",
-    
     "pages/users/monitor/work/work",
-   
     "pages/parts/courseInfo/courseInfo",
     "pages/users/student/parts/courseInfo/courseInfo",
     "pages/users/monitor/hisRecord/hisRecord",
@@ -15,7 +13,8 @@
     "pages/users/teacher/teacher",
     "pages/users/teacher/list/list",
     "pages/users/teacher/absence/absence",
-    "pages/users/teacher/checkLeaves/checkLeaves"
+    "pages/users/teacher/checkLeaves/checkLeaves",
+    "pages/users/monitor/checkLeave/checkLeave"
   ],
 
   "window": {
