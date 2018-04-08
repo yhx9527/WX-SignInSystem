@@ -1,6 +1,53 @@
 var common=require("../student/student.js")
 const network = require("../../utils/network.js")
 const app=getApp()
+const date=new Date()
+
+//日期初始化函数
+var setDate=function(that,Date,now){
+  var years=[]
+  var months=[]
+  var days=[]
+  var hours=[]
+  var minutes=[]
+  var seconds=[]
+  for (let i = 0; i <= 12; i++) {
+    years.push(i+date.getFullYear())
+  }
+  Date[0]=years
+  now.push(0)
+  for(let i=1;i<=12;i++){
+    months.push(i)
+  }
+  Date[1]=months
+  now.push(date.getMonth()-1)
+  for(let i=1;i<=31;i++){
+    days.push(i)
+  }
+  now.push(date.getDay()-1)
+  Date[2]=days
+  for(let i=0;i<24;i++){
+    hours.push(i)
+  }
+  now.push(date.getHours())
+  Date[3]=hours
+  for(let i=0;i<60;i++){
+    minutes.push(i)
+  }
+  Date[4]=minutes
+  now.push(date.getMinutes())
+  for(let i=0;i<60;i++){
+    seconds.push(i)
+  }
+  Date[5]=seconds
+  now.push(date.getSeconds())
+console.log("Date"+Date[0][1])
+that.setData({
+  Date:Date
+})
+}
+
+
 var getMonitoring=function(that,schedule){
   var url ="https://www.xsix103.cn/SignInSystem/Teacher/fSuvRecByCoz.do"
   var params = schedule
@@ -78,10 +125,13 @@ Page({
     background:"",
     ifxiala:false,//是否下拉
     animation1:{},//下拉动画
+    animationBottom:{},//底部框动画
     leaves:0,//请假人数
     ifLeaves:false,//请假是否亮
     ifAuto:false,//发起自动签到是否亮
     ifMan:false,//发起手动签到是否亮
+    Date:[],
+    now:[],
   },
 
   /**
@@ -90,12 +140,20 @@ Page({
   onLoad: function (options) {
     var that=this;
     let temp=JSON.parse(options.jsonStr);
-    
+    var Date=that.data.Date
+    for(var k=0;k<5;k++){
+      Date[k]=new Array()
+    }
+    var now=that.data.now
+    setDate(that,Date,now)
     console.log("老师单个课程页数据:"+temp.list)
     var topItems=that.data.topItems
     
     for(var index in temp.list.schedules){
-      topItems.push(common.transchedule(temp.list.schedules[index]))
+      var a = common.transchedule(temp.list.schedules[index])
+      a.ifshowModal=false
+      //topItems.push(common.transchedule(temp.list.schedules[index]))
+      topItems.push(a)
     }
     getMonitoring(that, temp.list.schedules[0]);
     getAbsence(that, temp.list.schedules[0]);
@@ -106,7 +164,8 @@ Page({
       topItems:topItems,
       Height:app.globalData.Height,
       Width:Width,
-      background:"#C7F3FF"
+      background:"#C7F3FF",
+      now:now
     })
     console.log("单个课程" + JSON.stringify(temp.list.schedules[0]))
     
@@ -245,6 +304,58 @@ Page({
         }
       }
     })
+  },
+  //手动签到设置时间
+  manDt:function(e){
+    console.log("手动时间:   "+e.detail.value)
+  },
+  //显示底部弹出框
+  showBottomModel:function(e){
+    var index=e.currentTarget.dataset.index
+    console.log("手动"+index)
+    var topItems=this.data.topItems
+    topItems[index].ifshowModel=true
+    var animation=wx.createAnimation({
+      duration:200,
+      timingFunction:"linear",
+      delay:0
+    })
+    this.animation=animation
+    animation.translateY(300).step()
+    this.setData({
+      animationBottom:animation.export(),
+      topItems:topItems
+    })
+    setTimeout(function(){
+      animation.translateY(0).step()
+      this.setData({
+        animationBottom:animation.export()
+      })
+    }.bind(this),200)
+  },
+//隐藏底部弹出框
+  hideBottomModel:function(e){
+    var index = e.currentTarget.dataset.index
+    console.log("手动" + index)
+    var topItems = this.data.topItems
+    topItems[index].ifshowModel = false
+    var animation=wx.createAnimation({
+      duration:200,
+      timingFunction:"linear",
+      delay:0
+    })
+    this.animation=animation
+    animation.translateY(300).step()
+    this.setData({
+      animationBottom:animation.export(),
+    })
+    setTimeout(function(){
+      animation.translateY(0).step()
+      this.setData({
+        animationBottom:animation.export(),
+        topItems:topItems
+      })
+    }.bind(this),200)
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

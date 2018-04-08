@@ -1,22 +1,30 @@
+page{
+  overflow: hidden;
+  height: 100%;
+
+}
 .top-title{
   background-color: #12b7f4;
   flex:1;
   text-align: center;
-  z-index:9999;
+
   color:white;
   padding-bottom:3px;
+height:4%;
 
 }
 .top-items{
 color:#7b7b7b;
 font-size:15px;
 background-color:#f7f7f7;
-z-index:9998;
+
 display:flex;
 justify-content:space-around;
 align-items:stretch;
 position:relative;
 top:0;
+height:9%;
+
 }
 top-item{
 flex-grow: 1;
@@ -51,6 +59,8 @@ display: block;
   margin: 0;
   border: 0;
   background-color: #eaeaea;
+  height:87%;
+
 }
 .aItem{
 display:flex;
@@ -106,6 +116,7 @@ text-align:center;
   flex-direction: row;
   width: 100%;
   justify-content:space-around;
+  height: 18%;
 }
 .secondIcon{
   display: flex;
@@ -124,6 +135,8 @@ text-align:center;
   width: 100%;
   height: 9px;
   background-color: #eaeaea;
+  height:1%;
+
 }
 .thirdCard{
   display: flex;
@@ -133,6 +146,8 @@ text-align:center;
   margin-top:5px;
   margin-bottom:5px;
   align-items:center;
+  height:6%;
+
 }
 .thirdEx{
   float: left;
@@ -151,7 +166,8 @@ text-align:center;
 .fourCard{
   display: flex;
   flex-direction: column;
-  
+  height:75%;
+
 }
 .cardTitle{
   background-color: #eaeaea;
@@ -208,7 +224,7 @@ text-align:center;
   border-bottom: 1px solid #dddcdc;
   height:30px;
   padding-bottom:5px;
-  font-size:18px;
+  font-size:16px;
 }
 .cardContentMore{
   display: flex;
@@ -223,12 +239,62 @@ text-align:center;
 }
 .stopBtn{
  
-  height:52px; 
+  height:35px; 
   background-color: red;
 
   color:white;
   font-weight: bold;
   font-size:20px;
-  margin-top:40px;
+  
+}
+.buttonView{
+height:130px;
+padding-top:8px;
+
 }
 
+/*底部弹出框*/
+.hideBack{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  opacity: 0.2;
+  overflow: hidden;
+  color: #fff;
+  z-index: 1000;
+}
+.bottomWindow{
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  z-index: 2000;
+  background: #fff;
+  bottom:0;
+
+}
+.choice{
+ display:flex;
+flex-direction:row;
+margin-top:10px;
+margin-bottom:10px;
+padding-left:20px;
+
+}
+.choiceText{
+
+}
+.switchView{
+  flex:1;
+  display:block;
+  text-align:right;
+}
+.line{
+    background-color: #3CC51F;
+    width: 100%;
+    height: 1rpx; 
+}

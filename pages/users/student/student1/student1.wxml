@@ -45,7 +45,7 @@
   
 
 <!--旋转栏-->
-  <view class="spin"animation="{{animCollect}}"wx:if="{{monitorPermit==1||teacherPermit==1}}">
+  <view class="spin"animation="{{animCollect}}">
     <image src="../../../image/specialPerson.png" class="img-style"  bindtap="monitor"></image>
     <image src="../../../image/text1.PNG" class="explain"></image></view>
   <view class="spin"animation="{{animTranspond}}">
@@ -54,7 +54,7 @@
   <view class="spin" animation="{{animInput}}">  
     <image src="../../../image/specialMessage.png" class="img-style" bindtap="sendMessage"></image>
     <image src="../../../image/text3.PNG"class="explain"></image></view>  
-  <image src="../../../image/special.png" class="img-plus-style" animation="{{animPlus}}" bindtap="plus"></image>
+  <image src="../../../image/special.png" class="img-plus-style" animation="{{animPlus}}" bindtap="plus"wx:if="{{monitorPermit==1||teacherPermit==1}}"></image>
 <!--发布通知模态框-->
   <modal hidden="{{hiddenSendMessage}}" title="发布通知" confirm-text="发送" cancel-text="取消" bindcancel="cancelMessage" bindconfirm="confirmMessage">  
     <input type='text'placeholder="请输入内容" bindinput='inputMessage'/>  

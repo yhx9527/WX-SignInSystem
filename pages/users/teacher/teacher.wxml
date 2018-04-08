@@ -1,3 +1,4 @@
+
 <view class="top-title">{{teacherList.courseName}}</view>
 <view class="top-items">
   <view class="top-item {{currentTopItem==idx ? ('color'+idx) : ''}}" wx:for="{{topItems}}"wx:for-item="item"wx:for-index="idx"data-idx="{{idx}}"bindtap="switchTab">
@@ -7,14 +8,14 @@
     </view>
   </view>
 </view>
-<swiper class="swiper"current="{{currentTopItem}}"bindchange="bindChange"duration="300"style="height:{{Height}}px;background-color:{{background}}">
+<swiper class="swiper"current="{{currentTopItem}}"bindchange="bindChange"duration="300"style="background-color:{{background}}">
   <view wx:for="{{topItems}}"wx:for-item="item"wx:for-index="index">
     <swiper-item>
       <view class="secondCard">
-  <view class="secondIcon">
-    <image wx:if="{{!ifAuto}}"class="Icon1"src="../../image/TB1.png"></image>
-    <image wx:else class="Icon1"src="../../image/TA1.png"></image>
-    <text class="secondEx">发起自动签到</text>
+  <view class="secondIcon" bindtap="showBottomModel"data-index="{{index}}">
+    <image wx:if="{{!ifAuto}}"class="Icon1"src="../../image/TB3.png"></image>
+    <image wx:else class="Icon1"src="../../image/TA3.png"></image>
+    <text class="secondEx">发起签到</text>
   </view>
   <view class="secondIcon"bindtap="checkLeave"data-coursename="{{teacherList.courseName}}">
     <image wx:if="{{!ifLeaves}}"class="Icon1"src="../../image/TB2.png"></image>
@@ -22,9 +23,9 @@
     <text class="secondEx">审批请假({{leaves}})</text>
   </view>
   <view class="secondIcon">
-    <image wx:if="{{!ifMan}}"class="Icon1"src="../../image/TB3.png"></image>
-    <image wx:else class="Icon1"src="../../image/TA3.png"></image>
-    <text class="secondEx">发起手动签到</text>
+    <image wx:if="{{!ifMan}}"class="Icon1"src="../../image/TB1.png"></image>
+    <image wx:else class="Icon1"src="../../image/TA1.png"></image>
+    <text class="secondEx">设置督导</text>
   </view>
 </view>
 <view class="line"style="background-color:{{background}}"></view>
@@ -89,11 +90,59 @@
       <image class="about"src="../../image/about.png"></image>
     </view>
   </view>
+  <view class='buttonView'>
+    <button type="warn"bindtap="stopClass"data-schid="{{item.schId}}"data-schweek="{{item.schWeek}}"data-schtime="{{item.schTime}}"data-schday="{{item.schDay}}">课程停课</button>
+  </view>
 </view>
-<button class="stopBtn"bindtap="stopClass"data-schid="{{item.schId}}"data-schweek="{{item.schWeek}}"data-schtime="{{item.schTime}}"data-schday="{{item.schDay}}">课程停课</button>   
+
+
+
+
+
+<view class="hideBack"bindtap="hideBottomModel"wx:if="{{item.ifshowModel}}"data-index="{{index}}"></view>
+  <form class="bottomWindow"wx:if="{{item.ifshowModel}}"animation="{{animationBottom}}">
+    <view class="choice">  
+      <view class="choiceText">自动签到</view>
+      <view class="switchView">
+        <switch checked="{{isAuto}}"name="autoSign"></switch>
+      </view>
+    </view>
+    <view class="line"></view>
+    <view class="choice">  
+      <view>手动签到</view>
+      <view class="switchView">
+        <switch checked="{{isMan}}"name="manSign"bindchange="manSign"></switch>
+      </view>
+    </view>
+    <view wx:if="true">
+      <picker-view indicator-style='height: 50px;'style="width: 100%;height: 300px;"value="{{now}}"bindChange="manDt"name="manDt">
+        <picker-view-column>
+          <view wx:for="{{Date[0]}}"style="line-height: 50px">{{item}}年</view>
+        </picker-view-column>
+        <picker-view-column>
+          <view wx:for="{{Date[1]}}"style="line-height: 50px">{{item}}月</view>
+        </picker-view-column>
+        <picker-view-column>
+          <view wx:for="{{Date[2]}}"style="line-height: 50px">{{item}}日</view>
+        </picker-view-column>
+        <picker-view-column>
+          <view wx:for="{{Date[3]}}"style="line-height: 50px">{{item}}时</view>
+        </picker-view-column>
+        <picker-view-column>
+          <view wx:for="{{Date[4]}}"style="line-height: 50px">{{item}}分</view>
+        </picker-view-column>
+        <picker-view-column>
+          <view wx:for="{{Date[5]}}"style="line-height: 50px">{{item}}秒</view>
+        </picker-view-column>
+      </picker-view>
+    </view>
+    <button formType='submit'type='primary'>确认</button>
+  </form>
+
+
     </swiper-item>
   </view>
-
 </swiper>
+
 
 

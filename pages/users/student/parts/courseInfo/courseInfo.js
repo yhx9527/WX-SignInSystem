@@ -142,6 +142,7 @@ Page({
   //设置新数据
   setNewDataWithRes: function (dataType) {
     var that=this
+    
     var term = wx.getStorageSync('SigningCourse')
     var schedule=term.schedule
     switch (types[dataType]) {
@@ -169,7 +170,7 @@ Page({
         break;
       //历史请假
       case DATATYPE.LEAVEDATATYPE:
-        res.data.list = [{
+        that.data.list = [{
           "id": "2016220401007",
           "time": "2018-02-07 19:59:59"
         }, { "id": "2016220401007", "time": "2018-02-07 20:59:59" }];
