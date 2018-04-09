@@ -43,7 +43,8 @@ var setDate=function(that,Date,now){
   now.push(date.getSeconds())
 console.log("Date"+Date[0][1])
 that.setData({
-  Date:Date
+  Date:Date,
+  now: now
 })
 }
 
@@ -107,6 +108,19 @@ var getLeaves = function (that) {
   })
 
 }
+//得到该课程的是否正在签到
+var getSign=function(schId){
+  var url = 'https://www.xsix103.cn/SignInSystem/Teacher/getCozSignIn.do'
+  var method = "POST"
+  var header = {
+    'Cookie': app.globalData.header.Cookie
+  }
+  var params = schId
+  network.request(url, params, method, header).then((data)=>{
+    console.log("getSign  ")
+  })
+}
+
 Page({
 
   /**
@@ -151,7 +165,10 @@ Page({
     
     for(var index in temp.list.schedules){
       var a = common.transchedule(temp.list.schedules[index])
-      a.ifshowModal=false
+      a.ifSign=false
+      a.ifMonitor=false
+      a.ifMonitor1=true
+      a.suvWeek=a.schWeek
       //topItems.push(common.transchedule(temp.list.schedules[index]))
       topItems.push(a)
     }
@@ -165,7 +182,7 @@ Page({
       Height:app.globalData.Height,
       Width:Width,
       background:"#C7F3FF",
-      now:now
+      
     })
     console.log("单个课程" + JSON.stringify(temp.list.schedules[0]))
     
@@ -180,6 +197,7 @@ Page({
       background:that.data.colorSet[dataType]
     });
     this.setNewDataWithRes(dataType);
+    
   },
   //设置新数据
   setNewDataWithRes: function (dataType) {
@@ -311,9 +329,13 @@ Page({
   },
   //显示底部弹出框
   showBottomModel:function(e){
-    var index=e.currentTarget.dataset.index
+    var index = e.currentTarget.dataset.index
+    var topItems = this.data.topItems
+    var that=this
+    if(!topItems[index].ifSign){
+    
     console.log("手动"+index)
-    var topItems=this.data.topItems
+    
     topItems[index].ifshowModel=true
     var animation=wx.createAnimation({
       duration:200,
@@ -332,6 +354,43 @@ Page({
         animationBottom:animation.export()
       })
     }.bind(this),200)
+    }else{
+      wx.showModal({
+        title: '提示',
+        content: '是否取消签到',
+        success:function(res){
+          if(res.confirm){
+             var suvMan={"schId":topItems[index].schId,"siWeek":topItems[index].schWeek}
+             var url = 'https://www.xsix103.cn/SignInSystem/Teacher/removeCozSignIn.do'
+             var method = "POST"
+             var header = {
+               'Cookie': app.globalData.header.Cookie
+             }
+             var params = suvMan
+             network.request(url, params, method, header).then((data)=>{
+               if(data){
+                 wx.showToast({
+                   title: '取消成功',
+                   icon:"success",
+                   duration:2000
+                 })
+                 topItems[index].ifSign=false
+                 that.setData({
+                   topItems:topItems
+                 })
+                 getSign(topItems[index].schId)
+               }else{
+                 wx.showToast({
+                   title: '取消失败',
+                   icon:"none",
+                   duration:2000
+                 })
+               }
+             })
+          }
+        }
+      })
+    }
   },
 //隐藏底部弹出框
   hideBottomModel:function(e){
@@ -357,6 +416,220 @@ Page({
       })
     }.bind(this),200)
   },
+  manDt:function(e){
+    this.setData({
+      now:e.detail.value
+    })
+  },
+  //发起签到的表单
+  formSubmit:function(e){
+    console.log("form  "+JSON.stringify(e.detail.value))
+    var that=this
+    var index=e.currentTarget.dataset.index
+    var temp=e.detail.value
+    var topItems=this.data.topItems
+    
+    if(temp.autoSign&&!temp.manSign){
+      var suvMan={"schId":topItems[index].schId,"siWeek":topItems[index].schWeek,"siTime":[1970,1,1,8,0,1],"suvManAutoOpen":true}
+      var url = 'https://www.xsix103.cn/SignInSystem/Teacher/setCozSignIn.do'
+      var method = "POST"
+      var header = {
+        'Cookie': app.globalData.header.Cookie
+      }
+      var params = suvMan
+      network.request(url, params, method, header).then((data)=>{
+        console.log("自动")
+        if(data){
+          that.hideBottomModel(e)
+          wx.showToast({
+            title: '设置成功',
+            icon:"success",
+            duration:2000
+          })
+          topItems[index].ifSign = true
+          that.setData({
+            topItems:topItems
+          })
+        }else{
+          wx.showToast({
+            title: '设置失败',
+            icon: "none",
+            duration: 2000
+          })
+        }
+      })
+    } else if (!temp.autoSign && temp.manSign){
+      temp.manDt[0] += date.getFullYear()
+      temp.manDt[1] += 1
+      temp.manDt[2] += 1
+      var suvMan = { "schId": topItems[index].schId, "siWeek": topItems[index].schWeek, "siTime": temp.manDt, "suvManAutoOpen": false }
+      var url = 'https://www.xsix103.cn/SignInSystem/Teacher/setCozSignIn.do'
+      var method = "POST"
+      var header = {
+        'Cookie': app.globalData.header.Cookie
+      }
+      var params = suvMan
+      network.request(url, params, method, header).then((data) => {
+        console.log("人工")
+        if (data) {
+          that.hideBottomModel(e)
+          wx.showToast({
+            title: '设置成功',
+            icon: "success",
+            duration: 2000
+          })
+          topItems[index].ifSign = true
+          that.setData({
+            topItems:topItems
+          })
+        } else {
+          wx.showToast({
+            title: '设置失败',
+            icon: "none",
+            duration: 2000
+          })
+        }
+      })
+    } else if (temp.autoSign && temp.manSign){
+      var suvMan = { "schId": topItems[index].schId, "siWeek": topItems[index].schWeek, "siTime": temp.manDt, "suvManAutoOpen": true }
+      var url = 'https://www.xsix103.cn/SignInSystem/Teacher/setCozSignIn.do'
+      var method = "POST"
+      var header = {
+        'Cookie': app.globalData.header.Cookie
+      }
+      var params = suvMan
+      network.request(url, params, method, header).then((data) => {
+        console.log("都有")
+        if (data) {
+          that.hideBottomModel(e)
+          wx.showToast({
+            title: '设置成功',
+            icon: "success",
+            duration: 2000
+          })
+          topItems[index].ifSign = true
+          that.setData({
+            topItems:topItems
+          })
+        } else {
+          wx.showToast({
+            title: '设置失败',
+            icon: "none",
+            duration: 2000
+          })
+        }
+      })
+    }else{
+      console.log("都没有")
+      that.hideBottomModel(e)
+    }
+
+  },
+  //手动签到弹出时间
+  manSign:function(e){
+    this.setData({
+      isMan:e.detail.value
+    })
+  },
+  //设置督导
+  setMonitor:function(e){
+    var topItems=this.data.topItems
+    var index=e.currentTarget.dataset.index
+    var that=this
+    if(!topItems[index].ifMonitor){
+      topItems[index].ifMonitor1=false
+      this.setData({
+        topItems:topItems
+      })
+    }else{
+      wx.showModal({
+        title: '提示',
+        content: '是否取消督导',
+        success:function(res){
+          if(res.confirm){
+            var paramStr=topItems[index].schId+"&"+topItems[index].suvWeek
+            var url = 'https://www.xsix103.cn/SignInSystem/Teacher/removeCozSuv.do'
+            var method = "POST"
+            var header = {
+              'Cookie': app.globalData.header.Cookie
+            }
+            var params = paramStr
+            network.request(url, params, method, header).then((data)=>{
+              if(data){
+                wx.showToast({
+                  title: '取消成功',
+                  icon:"success",
+                  duration:2000
+                })
+                topItems[index].ifMonitor=false
+                that.setData({
+                  topItems:topItems
+                })
+              }else{
+                wx.showToast({
+                  title: '取消失败',
+                  icon: "none",
+                  duration: 2000
+                })
+              }
+            })
+          }
+        }
+      })
+    }
+  },
+  //取消督导模态框
+  cancelMonitor:function(e){
+    var topItems=this.data.topItems
+    var index=e.currentTarget.dataset.index
+    topItems[index].ifMonitor1=true
+    this.setData({
+      topItems:topItems
+    })
+  },
+  //输入督导周
+  confirmInput:function(e){
+    var topItems = this.data.topItems
+    var index = e.currentTarget.dataset.index
+    topItems[index].suvWeek=e.detail.value
+    console.log("输入的是" + topItems[index].suvWeek)
+    this.setData({
+      topItems:topItems
+    })
+  },
+  //提交设置的督导
+  confirmMonitor:function(e){
+    var that=this
+    var topItems = this.data.topItems
+    var index = e.currentTarget.dataset.index
+    var paramStr = topItems[index].schId + "&" + topItems[index].suvWeek
+    var url = 'https://www.xsix103.cn/SignInSystem/Teacher/setCozSuv.do'
+    var method = "POST"
+    var header = {
+      'Cookie': app.globalData.header.Cookie
+    }
+    var params = paramStr
+    network.request(url, params, method, header).then((data)=>{
+      if (data) {
+        wx.showToast({
+          title: '设置成功',
+          icon: "success",
+          duration: 2000
+        })
+        topItems[index].ifMonitor = true
+        topItems[index].ifMonitor1=true
+        that.setData({
+          topItems: topItems
+        })
+      } else {
+        wx.showToast({
+          title: '设置失败',
+          icon: "none",
+          duration: 2000
+        })
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -368,7 +641,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+    var now = this.data.now
+    now = [0, date.getMonth() - 1, date.getDay() - 1, date.getHours(), date.getMinutes(), date.getSeconds()]
+    getSign(17)
+    this.setData({
+      now: now
+    })
+
   },
 
   /**

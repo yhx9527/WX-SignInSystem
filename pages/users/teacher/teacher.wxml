@@ -13,7 +13,7 @@
     <swiper-item>
       <view class="secondCard">
   <view class="secondIcon" bindtap="showBottomModel"data-index="{{index}}">
-    <image wx:if="{{!ifAuto}}"class="Icon1"src="../../image/TB3.png"></image>
+    <image wx:if="{{!item.ifSign}}"class="Icon1"src="../../image/TB3.png"></image>
     <image wx:else class="Icon1"src="../../image/TA3.png"></image>
     <text class="secondEx">发起签到</text>
   </view>
@@ -22,12 +22,16 @@
     <image wx:else class="Icon1"src="../../image/TA2.png"></image>
     <text class="secondEx">审批请假({{leaves}})</text>
   </view>
-  <view class="secondIcon">
-    <image wx:if="{{!ifMan}}"class="Icon1"src="../../image/TB1.png"></image>
+  <view class="secondIcon"bindtap="setMonitor"data-index="{{index}}">
+    <image wx:if="{{!item.ifMonitor}}"class="Icon1"src="../../image/TB1.png"></image>
     <image wx:else class="Icon1"src="../../image/TA1.png"></image>
     <text class="secondEx">设置督导</text>
   </view>
+
 </view>
+  <modal hidden="{{item.ifMonitor1}}"title="{{item.schDay+item.schTime}}进行督导"confirm-text="确认"cancel-text="取消"bindcancel="cancelMonitor"bindconfirm="confirmMonitor"data-index="{{index}}">
+    <input type="number"placeholder="请输入督导周(默认第{{item.schWeek}}周)"bindinput="confirmInput"data-index="{{index}}"></input>
+  </modal>
 <view class="line"style="background-color:{{background}}"></view>
 <view class="thirdCard">
   <text class="thirdEx">学生名单</text>
@@ -100,7 +104,7 @@
 
 
 <view class="hideBack"bindtap="hideBottomModel"wx:if="{{item.ifshowModel}}"data-index="{{index}}"></view>
-  <form class="bottomWindow"wx:if="{{item.ifshowModel}}"animation="{{animationBottom}}">
+  <form class="bottomWindow"wx:if="{{item.ifshowModel}}"animation="{{animationBottom}}"bindsubmit="formSubmit"data-index="{{index}}">
     <view class="choice">  
       <view class="choiceText">自动签到</view>
       <view class="switchView">
@@ -114,8 +118,8 @@
         <switch checked="{{isMan}}"name="manSign"bindchange="manSign"></switch>
       </view>
     </view>
-    <view wx:if="true">
-      <picker-view indicator-style='height: 50px;'style="width: 100%;height: 300px;"value="{{now}}"bindChange="manDt"name="manDt">
+    <view wx:if="{{isMan}}">
+      <picker-view indicator-style='height: 50px;'style="width: 100%;height: 150px;"mask-style=""value="{{now}}"bindchange="manDt"name="manDt">
         <picker-view-column>
           <view wx:for="{{Date[0]}}"style="line-height: 50px">{{item}}年</view>
         </picker-view-column>
@@ -136,7 +140,7 @@
         </picker-view-column>
       </picker-view>
     </view>
-    <button formType='submit'type='primary'>确认</button>
+    <button formType='submit'type='primary'style="border-radius: 0px; ">确认</button>
   </form>
 
 
