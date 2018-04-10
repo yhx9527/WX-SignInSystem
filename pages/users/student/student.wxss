@@ -2,6 +2,8 @@
 page{
   background-color: #eaeaea;
   height: auto;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 .item{  
     display: flex;    

@@ -1,5 +1,5 @@
 <!--学生界面-->
-<view class="container"wx:if="{{studentPermit==1}}">
+<view wx:if="{{studentPermit==1}}">
  
 
   <view class="marquee_box">
@@ -27,7 +27,7 @@
           </view>
               
         <view class="hengfu"><text class="hengfuText">我的全部课程</text></view>
-        <scroll-view scroll-top="{{scrollTop}}"scroll-y="true"style="height:{{scrollHeight}}px;"enable-back-to-top="true">
+        <scroll-view scroll-top="{{scrollTop}}"scroll-y="true"enable-back-to-top="true">
           
           <view wx:for="{{cards}}"wx:for-item="card"class="touch-card {{card.isTouchMove?'touch-move-active':''}}"id="{{card.id}}"data-index="{{card.index}}"bindtouchstart="start" bindtouchmove='move'>
               <view class="out2-1">                        

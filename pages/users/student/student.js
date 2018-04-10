@@ -44,36 +44,42 @@ var transchedules=function(schedules){
   var temp=JSON.parse(JSON.stringify(schedules))
   var newschedules=new Array();
   var finalschedules=new Array();
-  for(var i=0,j=-1;i<temp.length-1;i++){
-   
+
+  for(var i=0,j=0;i<temp.length-1;i++){
+    j=j+1    
     if(temp[i].schDay==temp[i+1].schDay){
       newschedules.push(temp[i]);
-      j=j+1;
-      newschedules[j].schTime = temp[i].schTime + "," +temp[i+1].schTime+"节课";
-      switch(newschedules[j].schDay){
-        case 1: newschedules[j].schDay = "星期一" + newschedules[j].schTime 
-          break;
-        case 2: newschedules[j].schDay = "星期二" + newschedules[j].schTime 
-          break;
-        case 3: newschedules[j].schDay = "星期三" + newschedules[j].schTime 
-          break;
-        case 4: newschedules[j].schDay = "星期四" + newschedules[j].schTime 
-          break;
-        case 5: newschedules[j].schDay = "星期五" + newschedules[j].schTime 
-          break;
-        case 6: newschedules[j].schDay = "星期六" + newschedules[j].schTime 
-          break;
-        case 7: newschedules[j].schDay = "星期日" + newschedules[j].schTime 
-          break;
-        default:
-          break;
-      }
+      j=j-1;
+      newschedules[j].schTime = newschedules[j].schTime + "," +temp[i+1].schTime;
    
     }
-
   }
+  for(var j=0;j<newschedules.length;j++){
+    newschedules[j].schTime="第"+newschedules[j].schTime+"节课"
+    newschedules[j].schDayT=newschedules[j].schDay
+    switch (newschedules[j].schDay) {
+      case 1: newschedules[j].schDay = "星期一" + newschedules[j].schTime
+        break;
+      case 2: newschedules[j].schDay = "星期二" + newschedules[j].schTime
+        break;
+      case 3: newschedules[j].schDay = "星期三" + newschedules[j].schTime
+        break;
+      case 4: newschedules[j].schDay = "星期四" + newschedules[j].schTime
+        break;
+      case 5: newschedules[j].schDay = "星期五" + newschedules[j].schTime
+        break;
+      case 6: newschedules[j].schDay = "星期六" + newschedules[j].schTime
+        break;
+      case 7: newschedules[j].schDay = "星期日" + newschedules[j].schTime
+        break;
+      default:
+        break;
+    }
+  }
+
+  
   for(var i=0,j=-1;i<newschedules.length-1;i++){
-    if(newschedules[i].location.locName==newschedules[i+1].location.locName){
+    if(newschedules[i].schDayT!=newschedules[i+1].schDayT){
       finalschedules.push(newschedules[i]);
       j=j+1;
       finalschedules[j].schDay = newschedules[i].schDay+"和"+newschedules[i+1].schDay
