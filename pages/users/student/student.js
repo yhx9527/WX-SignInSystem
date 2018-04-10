@@ -6,7 +6,7 @@ var endX;
 var endY;
 var key=false;
 var maxRight=160;
-
+/*
 var ReportDataSync = [
   {
     reportType: "按时间排序",
@@ -38,6 +38,7 @@ function loadDropDownMenu() {
     initSubMenuHighLight.push(report)
   }
 }
+*/
 //自制数组
 var transchedules=function(schedules){
   var temp=JSON.parse(JSON.stringify(schedules))

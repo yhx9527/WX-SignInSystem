@@ -1,6 +1,7 @@
 @import "../teacher/list/list.wxss";
 page{
-  background-color: #eaeaea
+  background-color: #eaeaea;
+  height: auto;
 }
 .item{  
     display: flex;    

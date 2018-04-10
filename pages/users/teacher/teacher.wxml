@@ -1,4 +1,4 @@
-
+<view style="height:100%">
 <view class="top-title">{{teacherList.courseName}}</view>
 <view class="top-items">
   <view class="top-item {{currentTopItem==idx ? ('color'+idx) : ''}}" wx:for="{{topItems}}"wx:for-item="item"wx:for-index="idx"data-idx="{{idx}}"bindtap="switchTab">
@@ -148,5 +148,5 @@
   </view>
 </swiper>
 
-
+</view>
 

@@ -7,7 +7,7 @@
       <text class="member">{{person.xingming}}</text>
       <text class="member">{{person.xuehao}}</text>
     
-    <view class="userinfo-work">
+    <view class="userinfo-work"wx:if="{{person.userPermit[1]==1}}">
       <text class="work"bindtap="point">信用分:{{points}}</text>
       <view class="cut-line2"></view>
       <text class="work"bindtap="leaveNumber">请假次数:{{leaveNum}}</text>
@@ -17,12 +17,12 @@
     </view>  
 </view>
 
-<view class="top-tab">
+<view class="top-tab"wx:if="{{person.userPermit[1]==1}}">
   <view class="top-tab-item {{currentTopItem==idx ? 'active' : ''}}" wx:for="{{topTabItems}}" wx:for-index="idx" data-idx="{{idx}}" bindtap="switchTab">
     {{item}}
   </view>
 </view>
-<swiper class="swiper" current="{{currentTopItem}}" bindchange="bindChange" duration="300" style="height:{{swiperHeight}}px" >
+<swiper class="swiper" current="{{currentTopItem}}" bindchange="bindChange" duration="300" style="height:{{swiperHeight}}px" wx:if="{{person.userPermit[1]==1}}">
 
   <!--督导课堂-->
   <swiper-item>
@@ -81,7 +81,7 @@
     <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData">
       <view style="height:12rpx;background-color:#eaeaea"></view>
 
-      <view class="item-view" wx:for="{{leaveDataList}}"  wx:for-item="item">
+      <view class="item-view" wx:for="{{leaveDataList}}"  wx:for-item="item"bindtap="checkLeave"data-item="item">
          <view class="itemSon">                        
             <image class="img" src="../../image/shenhe.jpg" mode='scaleToFill'></image>
             <view class="course-wrapper">
@@ -91,12 +91,14 @@
             <text class="courseTime">时间：{{item.courseTime}}</text>
             
             </view>
+            <!--
             <view class="remindbtn">
              <button class="remindTextbtn1"bindtap="noLeave"data-signinres="{{item.signInRes}}"data-index="{{item.index}}"style="background-color:#FF8C00">驳回</button>
               <button class="remindTextbtn1"bindtap="yesLeave"data-signinres="{{item.signInRes}}"data-index="{{item.index}}">通过</button>
               
             
             </view>
+            -->
           </view>
       </view>
       <view style="height:12rpx;background-color:#eaeaea"></view>

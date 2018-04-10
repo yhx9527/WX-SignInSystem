@@ -1,7 +1,6 @@
 page{
   overflow: hidden;
   height: 100%;
-
 }
 .top-title{
   background-color: #12b7f4;

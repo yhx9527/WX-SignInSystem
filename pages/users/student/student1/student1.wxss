@@ -3,8 +3,7 @@ page{
 }
 .img-plus-style {  
   height: 150rpx;  
-  width: 150rpx;  
-  position: absolute;  
+  width: 150rpx;   
   bottom: 1rpx;
   right: 300rpx;  
   z-index: 100;  
@@ -24,7 +23,20 @@ page{
   bottom: 1rpx;  
   right: 300rpx;  
   opacity: 0;
+}
+.spin1{
+  height:200rpx;
+width:200rpx;
+position:absolute;
+bottom:1rpx;
+display:flex;
+flex-direction:column;
+align-items:center;
+right:275rpx;
 
+}
+.sendM{
+  color:#12b7f4;
 }
 .explain{
   width:150rpx;

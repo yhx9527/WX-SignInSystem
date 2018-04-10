@@ -44,7 +44,7 @@ var getAll=function(that){
   }
   var params={}
   network.request(url,params,method,header).then((data)=>{
-    var allDataList = new Array();
+    var allDataList = []
     for (var index in data) {
       var temp = process(data[index].schedule)
       allDataList.push({ "ArrayFlag": index, "id": data[index].suvId, "courseName": data[index].course.cozName, "courseTeacher": data[index].course.teacher.userName, "courseTime": temp.schDay + temp.schTime, "coursePlace": data[index].schedule.location.locName, "suvLeave": data[index].suvLeave, "suvId": data[index].suvId, "student": data[index].student, "schedule": data[index].schedule, "course": data[index].course, "suvWeek": data[index].suvWeek, "suvMan": data[index].suvMan,"workgive":false,"suvSch":data[index] })
@@ -57,7 +57,7 @@ var getAll=function(that){
 //判断正在课程是否已督导并获取
 var Monitoring=function(that){
 
-  var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/isSucRec.do'
+  var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/isSuvRec.do'
   var method="POST"
   var header={
     'Cookie': app.globalData.header.Cookie
@@ -195,6 +195,16 @@ var findIndex=function(list,temp){
   }
   }
 }
+//身份函数
+var transPermit=function(person){
+  if(person.userPermit[2]==1){
+    person.memberInfo="老师"
+  }else if(person.userPermit[0]==1&&person.userPermit[1]==1){
+    person.memberInfo="督导队员，学生"
+  } else if (person.userPermit[0] == 1 && person.userPermit[1] == 1){
+    person.memberInfo = "学生"
+  }
+}
 Page({
 
   /**
@@ -236,13 +246,24 @@ Page({
    */
   onReady: function () {
     var that = this;
-    setTimeout(function(){getLeaves(that)},1000)
+    var person = wx.getStorageSync('person')
+    if(person.userPermit[1]==1){
+      setTimeout(function () { getLeaves(that) }, 1000)
+    }
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
           swiperHeight: (res.windowHeight - 37)
         });
       }
+    })
+    
+    transPermit(person)
+    wx.setStorageSync('person', person)
+    that.setData({
+      userInfo: app.globalData.userInfo,
+      hasUserInfo: true,
+      person: { "xingming": person.userName, "xuehao": person.userId, "userPermit": person.userPermit, "memberInfo": person.memberInfo }
     })
   },
   //切换顶部标签
@@ -275,17 +296,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    var that = this
-    that.setNewDataWithRes(dataType);
     var person = wx.getStorageSync('person')
-    that.setData({
-      userInfo: app.globalData.userInfo,
-      hasUserInfo: true,
-      person: { "xingming": person.userName, "xuehao": person.userId, "userPermit": person.userPermit, "memberInfo": "督导队员" }
-    })
+    if (person.userPermit[1] == 1) {
+      this.setNewDataWithRes(dataType);
+    }
+    
 
   },
-
   /**
    * 生命周期函数--监听页面隐藏
    */
@@ -873,6 +890,12 @@ Page({
           console.log("用户点击取消")
         }
       }
+    })
+  },
+  checkLeave:function(e){
+    let str=JSON.stringify(e.currentTarget.dataset.item)
+    wx.navigateTo({
+      url: './checkLeave/checkLeave?jsonStr='+str,
     })
   },
   /**
