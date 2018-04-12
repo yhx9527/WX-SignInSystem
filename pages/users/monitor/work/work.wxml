@@ -22,11 +22,11 @@
     </view>
     <view class="content">
       <text class="content-read"> 实到人数:</text>
-      <input class="content-write"name="suvRecNum"></input>
+      <input class="content-write"name="suvRecNum"type="number"></input>
     </view>
     <view class="content">
       <text class="content-read"> 请假人数:</text>
-      <input class="content-write"name="suvLeave"></input>
+      <input class="content-write"name="suvLeave"type="number"></input>
     </view>
   </view>
   <view class="form-title">
@@ -35,11 +35,11 @@
   <view class="form-content">
     <view class="content">
       <text class="content-read">玩手机人数:</text>
-      <input class="content-write"name="suvRecBadNum1"></input>
+      <input class="content-write"name="suvRecBadNum1"type="number"></input>
     </view>
     <view class="content">
       <text class="content-read"> 睡觉人数:</text>
-      <input class="content-write"name="suvRecBadNum2"></input>
+      <input class="content-write"name="suvRecBadNum2"type="number"></input>
     </view>
     <view class="content">
       <text class="content-read">备注:</text>

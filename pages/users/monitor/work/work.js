@@ -30,7 +30,6 @@ Page({
     date:"",
     time:"",
     course: {},
-    monitorName:"",
     showModalStatus:false,
     checked:false,
   },
@@ -63,7 +62,7 @@ Page({
     var flag = checkForm(e.detail.value)
     var that=this
     if (flag) {
-      var suvRecord={"suvId":that.data.course.suvId,"suvRecBadNum":e.detail.suvRecBadNum1+e.detail.suvRecBadNum2,"suvRecInfo":e.detail.suvRecInfo,"suvRecName":that.data.monitorName,"suvRecNum":e.detail.suvRecNum}
+      var suvRecord={"suvId":parseInt(that.data.course.suvid),"suvRecBadNum":parseInt(e.detail.value.suvRecBadNum1)+parseInt(e.detail.value.suvRecBadNum2),"suvRecInfo":e.detail.value.suvRecInfo,"suvRecName":that.data.course.xingming,"suvRecNum":parseInt(e.detail.value.suvRecNum),"suvWeek":that.data.course.suvweek}
       wx.request({
         url: 'https://www.xsix103.cn/SignInSystem/Supervisor/insertSuvRec.do',
         data:suvRecord,
@@ -75,10 +74,15 @@ Page({
           if(res.data){
             wx.showToast({
               title: '提交成功',
+              icon:'success',
+              duration:2000
             })
-            wx.navigateBack({
-              delta:1
-            })
+            setTimeout(function(){
+              wx.navigateBack({
+                delta: 1
+              })
+            },2000)
+            
           }else{
             wx.showModal({
               title: '提示',

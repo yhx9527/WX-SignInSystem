@@ -1,4 +1,5 @@
 const app=getApp()
+const util=require("../../../../utils/util.js")
 Page({
 
   /**
@@ -20,10 +21,14 @@ Page({
    */
   onLoad: function (options) {
     let item1 = JSON.parse(options.jsonStr);
-    this.setData({
+    var that = this;
+    var temp = util.formatTime(new Date());
+    var dates = temp.split(' ')
+    that.setData({
       courseItem: item1,
       height:app.globalData.Height,
-      width:app.globalData.Width
+      width:app.globalData.Width,
+      dates: dates[0]
     });
   },
 
