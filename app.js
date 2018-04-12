@@ -52,7 +52,7 @@ App({
     code:null,
     userInfo: null,
     header:{'Cookie':''},
-    locationInfo:null
+    locationInfo:null,
     
   },
 

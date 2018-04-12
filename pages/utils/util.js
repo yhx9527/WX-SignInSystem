@@ -11,83 +11,106 @@ function formatTime(date) {
 
   return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
-
 function formatNumber(n) {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
+function transchedules(schedules){
+  var temp = JSON.parse(JSON.stringify(schedules))
+  var newschedules = new Array();
+  var finalschedules = new Array();
 
+  for (var i = 0, j = 0; i < temp.length - 1; i++) {
+    j = j + 1
+    if (temp[i].schDay == temp[i + 1].schDay) {
+      newschedules.push(temp[i]);
+      j = j - 1;
+      newschedules[j].schTime = newschedules[j].schTime + "," + temp[i + 1].schTime;
 
-
-//网络请求
-function request(parameters = "",success, method = "GET", header = {}) {
-  wx.request({
-    url: config.BaseURL +(method == "GET" ? "?" : "")+ parameters,
-    data: {},
-    method: method, // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-    header: header ? header : "application/json", // 设置请求的 header
-    success: function(res){
-      console.log(res);
-      success(res);
-    },
-    fail: function() {
-      // fail
-    },
-    complete: function() {
-      // complete
     }
-  })
-}
-
-//HUD 
-//成功提示
-function showSuccess(title = "成功啦", duration = 5000){
-  wx.showToast({
-      title: title ,
-      icon: 'success',
-      duration:(duration <= 0) ? 5000 : duration
-  });
-}
-//loading提示
-function showLoading(title = "请稍后", duration = 5000) {
-  wx.showToast({
-      title: title ,
-      icon: 'loading',
-      duration:(duration <= 0) ? 5000 : duration
-  });
-}
-//隐藏提示框
-function hideToast(){
-  wx.hideToast();
-}
-
-//显示带取消按钮的消息提示框
-function alertViewWithCancel(title="提示",content="消息提示",confirm,showCancel="true"){
-  wx.showModal({
-    title: title,
-    content: content,
-    showCancel: showCancel,
-    success: function(res) {
-      if (res.confirm) {
-        confirm();
-      }
+  }
+  for (var j = 0; j < newschedules.length; j++) {
+    newschedules[j].schTime = "第" + newschedules[j].schTime + "节课"
+    newschedules[j].schDayT = newschedules[j].schDay
+    switch (newschedules[j].schDay) {
+      case 1: newschedules[j].schDay = "星期一" + newschedules[j].schTime
+        break;
+      case 2: newschedules[j].schDay = "星期二" + newschedules[j].schTime
+        break;
+      case 3: newschedules[j].schDay = "星期三" + newschedules[j].schTime
+        break;
+      case 4: newschedules[j].schDay = "星期四" + newschedules[j].schTime
+        break;
+      case 5: newschedules[j].schDay = "星期五" + newschedules[j].schTime
+        break;
+      case 6: newschedules[j].schDay = "星期六" + newschedules[j].schTime
+        break;
+      case 7: newschedules[j].schDay = "星期日" + newschedules[j].schTime
+        break;
+      default:
+        break;
     }
-  });
+  }
+
+
+  for (var i = 0, j = -1; i < newschedules.length - 1; i++) {
+    if (newschedules[i].schDayT != newschedules[i + 1].schDayT) {
+      finalschedules.push(newschedules[i]);
+      j = j + 1;
+      finalschedules[j].schDay = newschedules[i].schDay + "和" + newschedules[i + 1].schDay
+    }
+
+  }
+  if (JSON.stringify(finalschedules) !== "[]")
+    return finalschedules;
+  else
+    return newschedules;
 }
-//显示不取消按钮的消息提示框
-function alertView(title="提示",content="消息提示",confirm){
-  alertViewWithCancel(title,content,confirm,false);
+function transchedule(schedules){
+  var temp = JSON.parse(JSON.stringify(schedules))
+  var newschedules = new Array();
+
+  for (var i = 0, j = 0; i < temp.length - 1; i++) {
+    j = j + 1
+    if (temp[i].schDay == temp[i + 1].schDay) {
+      newschedules.push(temp[i]);
+      j = j - 1;
+      newschedules[j].schTime = newschedules[j].schTime + "," + temp[i + 1].schTime;
+
+    }
+  }
+  for (var j = 0; j < newschedules.length; j++) {
+    newschedules[j].schTime = "第" + newschedules[j].schTime + "节课"
+    newschedules[j].schDayT = newschedules[j].schDay
+    newschedules[j].schedule=schedules[j]
+    switch (newschedules[j].schDay) {
+      case 1: newschedules[j].schDay = "星期一" 
+        break;
+      case 2: newschedules[j].schDay = "星期二" 
+        break;
+      case 3: newschedules[j].schDay = "星期三" 
+        break;
+      case 4: newschedules[j].schDay = "星期四" 
+        break;
+      case 5: newschedules[j].schDay = "星期五" 
+        break;
+      case 6: newschedules[j].schDay = "星期六" 
+        break;
+      case 7: newschedules[j].schDay = "星期日" 
+        break;
+      default:
+        break;
+    }
+  }
+  console.log("zhenghe  "+JSON.stringify(newschedules))
+    return newschedules;
 }
 
 module.exports = {
   formatTime: formatTime,
-  request: request,
-  showSuccess: showSuccess,
-  showLoading: showLoading,
-  hideToast: hideToast,
-  alertViewWithCancel: alertViewWithCancel,
-  alertView: alertView,
- 
+  formatNumber:formatNumber,
+  transchedules:transchedules,
+  transchedule:transchedule,
 }
 
 

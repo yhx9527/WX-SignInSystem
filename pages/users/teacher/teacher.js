@@ -1,4 +1,5 @@
 var common=require("../student/student.js")
+const util=require("../../utils/util.js")
 const network = require("../../utils/network.js")
 const app=getApp()
 const date=new Date()
@@ -162,9 +163,9 @@ Page({
     setDate(that,Date,now)
     console.log("老师单个课程页数据:"+temp.list)
     var topItems=that.data.topItems
-    
-    for(var index in temp.list.schedules){
-      var a = common.transchedule(temp.list.schedules[index])
+    var schedule=util.transchedule(temp.list.schedules)
+    for(var index in schedule){
+      var a = schedule[index]
       a.ifSign=false
       a.ifMonitor=false
       a.ifMonitor1=true
@@ -172,8 +173,8 @@ Page({
       //topItems.push(common.transchedule(temp.list.schedules[index]))
       topItems.push(a)
     }
-    getMonitoring(that, temp.list.schedules[0]);
-    getAbsence(that, temp.list.schedules[0]);
+    getMonitoring(that,schedule[0].schedule);
+    getAbsence(that, schedule[0].schedule);
     getLeaves(that)
     var Width = (app.globalData.Width)/(topItems.length)
     this.setData({
@@ -184,7 +185,6 @@ Page({
       background:"#C7F3FF",
       
     })
-    console.log("单个课程" + JSON.stringify(temp.list.schedules[0]))
     
     
   },
@@ -202,27 +202,27 @@ Page({
   //设置新数据
   setNewDataWithRes: function (dataType) {
     var that = this;
-    var schedules=that.data.teacherList.schedules
+    var topItems=that.data.topItems
     switch (dataType) {
       //第一节课
       case 0:
-        getMonitoring(that,schedules[0]);
-        getAbsence(that, schedules[0]);
+        getMonitoring(that,topItems[0].schedule);
+        getAbsence(that, topItems[0].schedule);
         break;
       //第二节课
       case 1:
-        getMonitoring(that,schedules[1]);
-        getAbsence(that,schedules[1]);
+        getMonitoring(that, topItems[1].schedule);
+        getAbsence(that, topItems[1].schedule);
         break;
       //第三节课
       case 2:
-        getMonitoring(that,schedules[2]);
-        getAbsence(that,schedules[2]);
+        getMonitoring(that, topItems[2].schedule);
+        getAbsence(that, topItems[2].schedule);
         break;
       //第四节课
       case 3:
-        getMonitoring(that,schedules[3]);
-        getAbsence(that,schedules[3]);
+        getMonitoring(that, topItems[3].schedule);
+        getAbsence(that, topItems[3].schedule);
         break;
       default:
         break;

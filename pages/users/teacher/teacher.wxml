@@ -29,7 +29,7 @@
   </view>
 
 </view>
-  <modal hidden="{{item.ifMonitor1}}"title="{{item.schDay+item.schTime}}进行督导"confirm-text="确认"cancel-text="取消"bindcancel="cancelMonitor"bindconfirm="confirmMonitor"data-index="{{index}}">
+  <modal hidden="{{item.ifMonitor1}}"title="{{item.schDay}}进行督导"confirm-text="确认"cancel-text="取消"bindcancel="cancelMonitor"bindconfirm="confirmMonitor"data-index="{{index}}">
     <input type="number"placeholder="请输入督导周(默认第{{item.schWeek}}周)"bindinput="confirmInput"data-index="{{index}}"></input>
   </modal>
 <view class="line"style="background-color:{{background}}"></view>
@@ -95,7 +95,7 @@
     </view>
   </view>
   <view class='buttonView'>
-    <button type="warn"bindtap="stopClass"data-schid="{{item.schId}}"data-schweek="{{item.schWeek}}"data-schtime="{{item.schTime}}"data-schday="{{item.schDay}}">课程停课</button>
+    <button type="warn"bindtap="stopClass"data-schid="{{item.schId}}"data-schweek="{{item.schWeek}}"data-schday="{{item.schDay}}"data-schtime="{{item.schTime}}">课程停课</button>
   </view>
 </view>
 

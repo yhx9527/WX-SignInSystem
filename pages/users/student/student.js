@@ -1,5 +1,6 @@
 const app=getApp()
 const network = require("../../utils/network.js")
+const util=require("../../utils/util.js")
 var startX;
 var startY;
 var endX;
@@ -40,6 +41,7 @@ function loadDropDownMenu() {
 }
 */
 //自制数组
+/*
 var transchedules=function(schedules){
   var temp=JSON.parse(JSON.stringify(schedules))
   var newschedules=new Array();
@@ -92,7 +94,7 @@ var transchedules=function(schedules){
     return newschedules;
 
 }
-
+*/
 var getCards=function(that){
   //获取课表
   var url = "https://www.xsix103.cn/SignInSystem/Student/showCourses.do"
@@ -106,7 +108,7 @@ var getCards=function(that){
     var count = 0;
     var cards = that.data.cards;
     for (var index in data.courses) {
-      var final = transchedules(data.courses[index].schedules)
+      var final = util.transchedules(data.courses[index].schedules)
       //for (var i in final) {
 
         cards.push({ "index":index,"id": data.courses[index].cozId, "courseName": data.courses[index].cozName, "courseTeacher": data.courses[index].teacher.userName, "courseTime": final[0].schDay, "coursePlace": final[0].location.locName, "locLat": final[0].location.locLat, "locLon": final[0].location.locLon, "right": 0, "startRight": 0 ,"isTouchMove":false})
@@ -189,7 +191,7 @@ var getTchList=function(that){
   network.request(url, params, method, header).then((data)=>{
     var teacherLists = that.data.teacherLists;
     for (var index in data.courses) {
-      var final = transchedules(data.courses[index].schedules)
+      var final = util.transchedules(data.courses[index].schedules)
       var a=data.courses[index]
       for (var i in final) {
         teacherLists.push({ "cozId":a.cozId , "courseName": a.cozName, "courseNum": 100, "courseTime": final[i].schDay, "coursePlace": final[i].location.locName,"teacher":data.teacher,"schedules":a.schedules })
