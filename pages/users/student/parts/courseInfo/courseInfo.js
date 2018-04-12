@@ -1,6 +1,7 @@
 // pages/users/student/pages/parts/courseInfo/courseInfo.js
 var app=getApp();
 const network=require("../../../../utils/network.js")
+const util=require("../../../../utils/util.js")
 var dataType = 0;
 var types = ["1", "41", "10"];
 var DATATYPE = {
@@ -134,11 +135,6 @@ Page({
   onUnload: function () {
 
   },
-  //时间格式化函数
-  formatTime:function(Time){
-    var temp=Time[0]+"-"+Time[1]+"-"+Time[2]+" "+Time[3]+":"+Time[4]+":"+Time[5]
-    return temp
-  },
   //设置新数据
   setNewDataWithRes: function (dataType) {
     var that=this
@@ -159,7 +155,7 @@ Page({
           var signDataList = new Array();
           for (var index in data) {
             var id = data[index].siId
-            var time = that.formatTime(data[index].siTime)
+            var time = util.formatArrayTime(data[index].siTime)
             signDataList.push({ "id": id, "time": time })
           }
 
@@ -193,7 +189,7 @@ Page({
         network.request(url,params,method,header).then((data)=>{
           var noDataList = new Array();
           for (var index in data) {
-            var time = that.formatTime(data[index].siTime)
+            var time = util.formatArrayTime(data[index].siTime)
             var id = data[index].siId
             noDataList.push({ "id": id, "time": time })
           }

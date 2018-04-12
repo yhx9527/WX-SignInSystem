@@ -895,7 +895,7 @@ Page({
   checkLeave:function(e){
     let str=JSON.stringify(e.currentTarget.dataset.item)
     wx.navigateTo({
-      url: './checkLeave/checkLeave?jsonStr='+str,
+      url: './checkLeave/checkLeave?jsonStr1='+str,
     })
   },
   /**

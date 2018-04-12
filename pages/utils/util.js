@@ -15,6 +15,10 @@ function formatNumber(n) {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
+function formatArrayTime(Time) {
+  var temp = Time[0] + "-" + Time[1] + "-" + Time[2] + " " + Time[3] + ":" + Time[4] + ":" + Time[5]
+  return temp
+}
 function transchedules(schedules){
   var temp = JSON.parse(JSON.stringify(schedules))
   var newschedules = new Array();
@@ -32,6 +36,7 @@ function transchedules(schedules){
   for (var j = 0; j < newschedules.length; j++) {
     newschedules[j].schTime = "第" + newschedules[j].schTime + "节课"
     newschedules[j].schDayT = newschedules[j].schDay
+    newschedules[j].schedule=schedules[0]
     switch (newschedules[j].schDay) {
       case 1: newschedules[j].schDay = "星期一" + newschedules[j].schTime
         break;
@@ -58,6 +63,7 @@ function transchedules(schedules){
       finalschedules.push(newschedules[i]);
       j = j + 1;
       finalschedules[j].schDay = newschedules[i].schDay + "和" + newschedules[i + 1].schDay
+      finalschedules[j].schedule=schedules[0]
     }
 
   }
@@ -111,6 +117,7 @@ module.exports = {
   formatNumber:formatNumber,
   transchedules:transchedules,
   transchedule:transchedule,
+  formatArrayTime: formatArrayTime
 }
 
 

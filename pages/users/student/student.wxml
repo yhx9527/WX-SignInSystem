@@ -40,7 +40,7 @@
                 </view>
               </view>
               <view class="out2-2">
-                <view id="{{card.id}}"class="remove1-1"bindtap="leave"data-courseID="{{card.id}}"data-courseName="{{card.courseName}}"data-courseTeacher="{{card.courseTeacher}}"data-courseTime="{{card.courseTime}}"data-coursePlace="{{card.coursePlace}}">请假</view>
+                <view id="{{card.id}}"class="remove1-1"bindtap="leave"data-courseName="{{card.courseName}}"data-schedule="{{card.schedule}}"data-schweek="{{card.schWeek}}">请假</view>
                 <view id="{{card.id}}"class="remove2-1"bindtap="signMap"data-statu="open"data-courseID="{{card.id}}"data-locLat="{{card.locLat}}"data-locLon="{{card.locLon}}">签到</view>
                 </view>
           </view>

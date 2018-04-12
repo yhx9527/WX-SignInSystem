@@ -1,5 +1,5 @@
 
-  <form class="form" bindsubmit='formSubmit'style="height:{{height}}px;width:{{width}}px">
+  <form class="form"bindsubmit='formSubmitLeave'style="height:{{height}}px;width:{{width}}px">
     <view class="head">
       请假条
     </view>
@@ -11,21 +11,25 @@
       请选择请假日期
     </view>
     <view class="section">
-      <picker mode="date" value="{{date}}"start="2018-01-01"end="2018-12-31"bindchange="bindDateChange"name="leaveDate">
+      <picker mode="date" value="{{date}}"start="2018-01-01"end="2018-12-31"bindchange="bindDateChange"name="leaveDate"name="dates">
         <view class="picker">{{dates}}</view>
       </picker>
     </view>
-    <view class="title">请假原因</view>
-      <textarea class="reason"maxlength="50"value="{{reason}}"name="leaveReason"/>
+    <view class="title">请选择请假周次</view>
+    <view class="section">
+      <picker mode="selector"value="{{schWeek-1}}"range="{{Weeks}}"bindchange="bindWeekChange"name="schWeek">
+        <view class="picker">第{{schWeek}}周</view>
+      </picker>
+    </view>
+      <!--textarea class="reason"maxlength="50"value="{{reason}}"name="leaveReason"/-->
       <view class="title">请假凭证</view>
     <view class="box">
       <view wx:if="{{tempFilePaths!==[]}}"wx:for="{{tempFilePaths}}"wx:for-item="tempFilePath"bindtap="previewImage"data-path="{{tempFilePath}}">
       
       <image class="image"src="{{tempFilePath}}"mode="aspecFill"/>
       </view>
-      <image class="image"src="../../../../image/add.png"bindtap="{{tempFilePaths.length<3 ? 'chooseimage' : 'NOTchoose'}}"mode="scaleToFill"></image>
+      <image class="image"src="../../../../image/add.png"bindtap="{{tempFilePaths.length<1 ? 'chooseimage' : 'NOTchoose'}}"mode="scaleToFill"></image>
     </view>
-    <button class="button1"formType="submit">提交</button>
-    <button class="button2"bindtap="historyLeave">历史请假</button>
+    <button type="primary"class="button1"formType="submit">提交</button>
   </form>
 

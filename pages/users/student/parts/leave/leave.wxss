@@ -59,9 +59,7 @@
   background-color: white;
 }
 .button1{
-  width: 90%;
   margin-top: 20px;
-  background-color: green
 }
 .button2{
   width: 90%;

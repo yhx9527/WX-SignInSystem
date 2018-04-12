@@ -111,7 +111,7 @@ var getCards=function(that){
       var final = util.transchedules(data.courses[index].schedules)
       //for (var i in final) {
 
-        cards.push({ "index":index,"id": data.courses[index].cozId, "courseName": data.courses[index].cozName, "courseTeacher": data.courses[index].teacher.userName, "courseTime": final[0].schDay, "coursePlace": final[0].location.locName, "locLat": final[0].location.locLat, "locLon": final[0].location.locLon, "right": 0, "startRight": 0 ,"isTouchMove":false})
+        cards.push({ "index":index,"id": data.courses[index].cozId, "courseName": data.courses[index].cozName, "courseTeacher": data.courses[index].teacher.userName, "courseTime": final[0].schDay, "coursePlace": final[0].location.locName, "locLat": final[0].location.locLat, "locLon": final[0].location.locLon, "right": 0, "startRight": 0 ,"isTouchMove":false,"schWeek":final[0].schWeek,"schedule":final[0].schedule})
       //}
 
     }
@@ -476,6 +476,7 @@ Page({
     
 
   },
+  /*
   //一级菜单点击 
   tapMainMenu: function (e) {
     //获取当前一级菜单标识 
@@ -540,7 +541,7 @@ Page({
     this.animation(index);
 
   },
-
+*/
   run1: function () {
     var vm = this;
     var interval = setInterval(function () {
