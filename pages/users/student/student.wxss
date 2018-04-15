@@ -10,9 +10,8 @@ page{
     width:100%;
     height:auto; 
     position:relative;
-    flex-direction: column
-
-
+    flex-direction: column;
+    border-bottom:1px solid lightgray;
 } 
 .itemSon{
   display: flex;

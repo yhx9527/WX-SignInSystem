@@ -69,11 +69,15 @@ Page({
                     header: {},
                     success: function (res) {
                       if(res.data!=null){
-                      var map = config.jsonToMap(JSON.stringify(res.header));
-                      var a = map.get("Set-Cookie")
-                      console.log(a)
-                      app.globalData.header.Cookie = a.split(";")[0]
-                      console.log("login:" + app.globalData.header.Cookie)
+                      //var map = config.jsonToMap(JSON.stringify(res.header));
+                      //var a = map.get("Set-Cookie")
+                      //console.log(a)
+                      //app.globalData.header['Access-Token'] = a.split(";")[0]
+                      //console.log("login:" + app.globalData.header.Cookie)
+
+                      //app.globalData.header = 'Access-Token' +':'+ res.data.token
+                      app.globalData.header['Access-Token']=res.data.token
+                      console.log("login:" + app.globalData.header['Access-Token'])
                       var userPermit = processPermit(res.data.user.userPermit);
                       var person = { "userPermit": userPermit, "userId": res.data.user.userId, "userName": res.data.user.userName }
                       //个人信息报存本地
@@ -171,11 +175,12 @@ Page({
       success:function(res){
         console.log(res.data)
   
-        var map = config.jsonToMap(JSON.stringify(res.header));
-        var a = map.get("Set-Cookie")
-        console.log(a)
-        app.globalData.header.Cookie = a.split(";")[0]
-        console.log("wxlogin"+app.globalData.header.Cookie)
+        //var map = config.jsonToMap(JSON.stringify(res.header));
+        //var a = map.get("Set-Cookie")
+        //console.log(a)
+        //app.globalData.header.Cookie = a.split(";")[0]
+        //console.log("wxlogin"+app.globalData.header.Cookie)
+        
           if (res.data.err == "1") {
             wx.showModal({
               title: '提示',
@@ -193,6 +198,8 @@ Page({
           
           //app.globalData.header.Cookie = 'JSESSIONID=' + data.sessionUser;
           //跳转界面
+            app.globalData.header['Access-Token'] = res.data.token
+            console.log("wxlogin:" + app.globalData.header['Access-Token'])
           wx.switchTab({
             url: '../users/student/student',
           })

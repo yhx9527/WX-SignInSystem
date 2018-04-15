@@ -67,9 +67,7 @@ Page({
         url: 'https://www.xsix103.cn/SignInSystem/Supervisor/insertSuvRec.do',
         data:suvRecord,
         method:"POST",
-        header:{
-          'Cookie': app.globalData.header.Cookie
-        },
+        header: app.globalData.header,
         success:function(res){
           if(res.data){
             wx.showToast({
@@ -156,9 +154,7 @@ Page({
           url: 'https://www.xsix103.cn/SignInSystem/Supervisor/openManSignIn.do',
           data:suvMan,
           method:"POST",
-          header:{
-            'Cookie': app.globalData.header.Cookie
-          },
+          header:app.globalData.header,
           success:function(res){
             console.log(res.data)
             if(res.data){
@@ -188,9 +184,7 @@ Page({
           url: 'https://www.xsix103.cn/SignInSystem/Supervisor/initAutoSignIn.do',
           data: suvMan,
           method: "POST",
-          header: {
-            'Cookie': app.globalData.header.Cookie
-          },
+          header: app.globalData.header,
           success: function (res) {
             console.log(res.data)
             if (res.data) {
@@ -221,9 +215,7 @@ Page({
         url: 'https://www.xsix103.cn/SignInSystem/Supervisor/closeManSignIn.do',
         data: suvMan,
         method: "POST",
-        header: {
-          'Cookie': app.globalData.header.Cookie
-        },
+        header:app.globalData.header,
         success:function(res){
           console.log(res.data)
           if(res.data){

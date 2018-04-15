@@ -10,7 +10,7 @@
 }
 .bottom-item {
   display: inline-block;
-  width: 25%;
+  width: 33%;
   height: 100%;
   vertical-align: text-bottom;
   text-align: center;

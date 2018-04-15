@@ -86,7 +86,7 @@ Page({
       filePath: that.data.tempFilePaths[0],
       name: 'voucher',
       header: {
-        'Cookie': app.globalData.header.Cookie,
+        'Access-Token': app.globalData.header['Access-Token'],
         "content-type": 'multipart/form-data'
        },
       formData:{

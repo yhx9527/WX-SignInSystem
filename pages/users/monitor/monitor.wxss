@@ -137,3 +137,9 @@ background-color:#32CD32;
 display:flex;
 align-items:center;
 }
+.shuzhe{
+  width: 20px;
+  color:  #12b7f4;
+  font-weight: bold;
+  margin-right: 10px;
+}

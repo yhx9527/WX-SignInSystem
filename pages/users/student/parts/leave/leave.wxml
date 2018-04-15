@@ -6,7 +6,7 @@
     <view class="title">
       请假课程
     </view>
-      <input class="inputCourse" value="{{courseItem.coursename}}"></input>
+      <input class="inputCourse" value="{{courseItem.coursename}}"disabled="true"></input>
     <view class="title">  
       请选择请假日期
     </view>

@@ -147,10 +147,7 @@ Page({
         var url = "https://www.xsix103.cn/SignInSystem/Student/fOneCozSignIn.do"
         var params=schedule
         var method="POST"
-        var header={
-          'Cookie': app.globalData.header.Cookie,
-          'content-type': 'application/json' // 默认值
-        }
+        var header=app.globalData.header.Cookie
         network.request(url,params,method,header).then((data)=>{
           var signDataList = new Array();
           for (var index in data) {
@@ -182,10 +179,7 @@ Page({
         var url = "https://www.xsix103.cn/SignInSystem/Student/fOneCozAbsent.do"
         var params=schedule
         var method="POST"
-        var header = {
-          'Cookie': app.globalData.header.Cookie,
-          'content-type': 'application/json' // 默认值
-        }
+        var header = app.globalData.header.Cookie
         network.request(url,params,method,header).then((data)=>{
           var noDataList = new Array();
           for (var index in data) {

@@ -99,11 +99,9 @@ var getCards=function(that){
   //获取课表
   var url = "https://www.xsix103.cn/SignInSystem/Student/showCourses.do"
   var params={}
-  var header = {
-    'Cookie': app.globalData.header.Cookie
-  }
+  var header = app.globalData.header
   var method="POST"
-  console.log("获取课表"+header.Cookie)
+  console.log("获取课表"+header)
   network.request(url,params,method,header).then((data)=>{
     var count = 0;
     var cards = that.data.cards;
@@ -157,9 +155,7 @@ module.exports = {
 //获取正在签到的课程
 var getSigning=function(that){
   var url = "https://www.xsix103.cn/SignInSystem/Student/checkCourse.do"
-  var header = {
-    'Cookie': app.globalData.header.Cookie
-  }
+  var header = app.globalData.header
   var params={}
   var method="POST"
   network.request(url,params,method,header).then((data)=>{
@@ -169,7 +165,7 @@ var getSigning=function(that){
     var final = transchedule(data.schedule)
 
 
-    signingCard = { "id": data.course.cozId, "courseName": data.course.cozName, "courseTeacher": data.course.teacher.userName, "courseTime": final.schDay + final.schTime, "coursePlace": final.location.locName, "locLat": final.location.locLat, "locLon": final.location.locLon, "right": 0, "startRight": 0, "schId": data.schedule.schId, "schWeek": data.schedule.schWeek, "schTime": data.schedule.schTime, "schDay": data.schedule.schDay, "schYear": data.schedule.schYear, "schTerm": data.schedule.schTerm, "schFortnight": data.schedule.schFortnight, "isTouchMove": false }
+    signingCard = { "loc":99,"id": data.course.cozId, "courseName": data.course.cozName, "courseTeacher": data.course.teacher.userName, "courseTime": final.schDay + final.schTime, "coursePlace": final.location.locName, "locLat": final.location.locLat, "locLon": final.location.locLon, "right": 0, "startRight": 0, "schId": data.schedule.schId, "schWeek": data.schedule.schWeek, "schTime": data.schedule.schTime, "schDay": data.schedule.schDay, "schYear": data.schedule.schYear, "schTerm": data.schedule.schTerm, "schFortnight": data.schedule.schFortnight, "isTouchMove": false }
 
 
 
@@ -184,9 +180,7 @@ var getSigning=function(that){
 var getTchList=function(that){
   var url = "https://www.xsix103.cn/SignInSystem/Teacher/showTchCourses.do"
   var params = {}
-  var header = {
-    'Cookie': app.globalData.header.Cookie
-  }
+  var header = app.globalData.header
   var method = "POST"
   network.request(url, params, method, header).then((data)=>{
     var teacherLists = that.data.teacherLists;
@@ -238,9 +232,9 @@ Page({
     schedule: {},//发送给后台的单个签到
     studentPermit: 0,
     teacherPermit: 0,
-    reportData: [],
-    subMenuDisplay: [],
-    subMenuHighLight: [],
+    //reportData: [],
+    //subMenuDisplay: [],
+   // subMenuHighLight: [],
     animationData: {},
     animationData1: {},
     teacherLists: [],
@@ -248,6 +242,66 @@ Page({
     person:{}
   },
   //全部课程的滑动
+  allStart:function(e){
+    var touch = e.touches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
+    var cards = this.data.cards;
+    for (var i in cards) {
+      var data = cards[i];
+      data.startRight = data.right;
+    }
+  },
+  allMove:function(e){
+    var self = this;
+    var index = e.currentTarget.dataset.index;
+    var cards = this.data.cards;
+      var touch = e.touches[0];
+      endX = touch.clientX;
+      endY = touch.clientY;
+      var angle = self.angle({ X: startX, Y: startY }, { X: endX, Y: endY })
+      //var res=cards;
+      if (Math.abs(angle) > 30) return;
+      //right to left
+      if ((endX - startX) < 0) {
+        var startRight = cards[index].startRight;
+            var change = startX - endX;
+            startRight += change;
+            if (startRight > maxRight)
+              startRight = maxRight;
+            cards[index].right = startRight;
+          
+        
+      } else {
+        var startRight = cards[index].startRight;
+            var change = endX - startX;
+            startRight -= change;
+            if (startRight < 0)
+              startRight = 0;
+            cards[index].right = startRight;
+          
+        
+      }
+      self.setData({
+        cards: cards
+      });
+    
+  },
+  allEnd:function(e){
+    var cards = this.data.cards;
+    var index = e.currentTarget.dataset.index;
+
+      if (cards[index].right <= 100 / 2) {
+        cards[index].right = 0;
+      } else {
+        cards[index].right = maxRight;
+      }
+
+    this.setData({
+      cards: cards
+    });
+  },
+  /*
   start:function(e){
     var touch=e.touches[0];
     startX=touch.clientX;
@@ -257,7 +311,7 @@ Page({
       //var data=cards[index];
       //data.startRight=data.right;
     //}
-  },
+  },*/
   /*end:function(e){
     var cards=this.data.cards;
     //for(var i in cards){
@@ -282,6 +336,7 @@ Page({
     //返回角度 /Math.atan()返回数字的反正切值
     return 360 * Math.atan(_Y / _X) / (2 * Math.PI);
   },
+  /*
   move:function(e){
     var self=this;
     var index=e.currentTarget.dataset.index;
@@ -304,7 +359,7 @@ Page({
             startRight+=change;
             if(startRight>maxRight)
             startRight=maxRight;
-            res[index].right=startRight;**/
+            res[index].right=startRight;
           //}
         //}
         cards[index].isTouchMove=true;
@@ -317,7 +372,7 @@ Page({
             startRight -= change;
             if (startRight <0)
               startRight = 0;
-            res[index].right = startRight;*/
+            res[index].right = startRight;
       //}
     //}
     cards[index].isTouchMove=false
@@ -327,7 +382,7 @@ Page({
   });
 
     
-  },
+  },*/
   /*
   MOVE:function(e){
     var self = this;
@@ -392,6 +447,63 @@ Page({
   */
 
   //签到课程的滑动
+  signingStart:function(e){
+    var touch=e.touches[0]
+    startX=touch.clientX
+    startY=touch.clientY
+    var signingCard=this.data.signingCard
+    signingCard.startRight=signingCard.right
+  },
+  signingMove:function(e){
+    var self = this;
+    var loc = e.currentTarget.dataset.loc;
+    var signingCard = this.data.signingCard;
+    var touch = e.touches[0];
+      endX = touch.clientX;
+      endY = touch.clientY;
+    var angle = self.angle({ X: startX, Y: startY }, { X: endX, Y: endY })
+      //var res=cards;
+      if (Math.abs(angle) > 30) return;
+      //right to left
+      if ((endX - startX) < 0) {
+        if (signingCard.loc == loc) {
+          var startRight = signingCard.startRight;
+          var change = startX - endX;
+          startRight += change;
+          if (startRight > maxRight)
+            startRight = maxRight;
+          signingCard.right = startRight;
+        }
+
+      } else {
+
+        if (signingCard.loc == loc) {
+          var startRight = signingCard.startRight;
+          var change = endX - startX;
+          startRight -= change;
+          if (startRight < 0)
+            startRight = 0;
+          signingCard.right = startRight;
+        }
+
+      }
+      self.setData({
+        signingCard: signingCard
+      });
+  },
+  signingEnd:function(e){
+    var signingCard = this.data.signingCard;
+    if (signingCard.right <= 100 / 2) {
+      signingCard.right = 0;
+    } else {
+      signingCard.right = maxRight;
+    }
+
+    this.setData({
+      signingCard: signingCard
+    });
+  },
+//动画效果版滑动
   move1: function (e) {
     var self = this;
     var signingCard = this.data.signingCard;
@@ -850,10 +962,7 @@ Page({
       url: "https://www.xsix103.cn/SignInSystem/Student/checkSignIn.do",
       data: wx.getStorageSync('schedule'),
       method:'POST',
-      header:{
-        'Cookie': app.globalData.header.Cookie,
-        'content-type': 'application/json' // 默认值
-      },
+      header: app.globalData.header,
       success(res){
         console.log(res.data)
         if(!res.data){

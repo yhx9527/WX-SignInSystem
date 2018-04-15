@@ -81,7 +81,7 @@
     <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData">
       <view style="height:12rpx;background-color:#eaeaea"></view>
 
-      <view class="item-view" wx:for="{{leaveDataList}}"  wx:for-item="item"bindtap="checkLeave"data-item="{{item}}">
+      <view class="item-view" wx:for="{{leaveDataList}}"  wx:for-item="item"bindtap="McheckLeave"data-coursename="{{item.courseName}}"data-signinres="{{item.signInRes}}">
          <view class="itemSon">                        
             <image class="img" src="../../image/shenhe.jpg" mode='scaleToFill'></image>
             <view class="course-wrapper">
@@ -99,6 +99,7 @@
             
             </view>
             -->
+            <view class="shuzhe">{{leaveStatu}}</view>
           </view>
       </view>
       <view style="height:12rpx;background-color:#eaeaea"></view>

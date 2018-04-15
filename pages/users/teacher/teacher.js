@@ -54,9 +54,7 @@ var getMonitoring=function(that,schedule){
   var url ="https://www.xsix103.cn/SignInSystem/Teacher/fSuvRecByCoz.do"
   var params = schedule
   
-  var header = {
-    'Cookie': app.globalData.header.Cookie
-  }
+  var header =app.globalData.header
   var method = "POST"
   network.request(url, params, method, header).then((data)=>{
     if(data.length!=0){
@@ -74,9 +72,7 @@ var getAbsence = function (that, schedule) {
   var url = "https://www.xsix103.cn/SignInSystem/Teacher/fSchAbsRecByCoz.do"
   var params = schedule
 
-  var header = {
-    'Cookie': app.globalData.header.Cookie
-  }
+  var header = app.globalData.header
   var method = "POST"
   network.request(url, params, method, header).then((data) => {
     that.setData({
@@ -89,9 +85,7 @@ var getLeaves = function (that) {
   var url = "https://www.xsix103.cn/SignInSystem/Teacher/getLeaves.do"
   var params = {}
 
-  var header = {
-    'Cookie': app.globalData.header.Cookie
-  }
+  var header = app.globalData.header
   var method = "POST"
   network.request(url, params, method, header).then((data) => {
     that.setData({
@@ -113,9 +107,7 @@ var getLeaves = function (that) {
 var getSign=function(schId){
   var url = 'https://www.xsix103.cn/SignInSystem/Teacher/getCozSignIn.do'
   var method = "POST"
-  var header = {
-    'Cookie': app.globalData.header.Cookie
-  }
+  var header =app.globalData.header
   var params = schId
   network.request(url, params, method, header).then((data)=>{
     console.log("getSign  ")
@@ -280,22 +272,21 @@ Page({
     })
   },
   //审核请假
-  checkLeave:function(e){
+  /*checkLeave:function(e){
     console.log(e)
     let str=JSON.stringify(e.currentTarget.dataset)
     wx.navigateTo({
       url: './checkLeaves/checkLeaves?jsonStr='+str,
     })
   },
+  */
   //课程停课
   stopClass:function(e){
     var tishi = e.currentTarget.dataset.schday + e.currentTarget.dataset.schtime+"进行停课"
     var params=e.currentTarget.dataset.schid+"&"+e.currentTarget.dataset.schweek
     console.log(params);
     var url = "https://www.xsix103.cn/SignInSystem/Teacher/fSchAbsRecByCoz.do"
-    var header = {
-      'Cookie': app.globalData.header.Cookie
-    }
+    var header =app.globalData.header
     var method = "POST"
     wx.showModal({
       title: '提示',
@@ -363,9 +354,7 @@ Page({
              var suvMan={"schId":topItems[index].schId,"siWeek":topItems[index].schWeek}
              var url = 'https://www.xsix103.cn/SignInSystem/Teacher/removeCozSignIn.do'
              var method = "POST"
-             var header = {
-               'Cookie': app.globalData.header.Cookie
-             }
+             var header =app.globalData.header
              var params = suvMan
              network.request(url, params, method, header).then((data)=>{
                if(data){
@@ -433,9 +422,7 @@ Page({
       var suvMan={"schId":topItems[index].schId,"siWeek":topItems[index].schWeek,"siTime":[1970,1,1,8,0,1],"suvManAutoOpen":true}
       var url = 'https://www.xsix103.cn/SignInSystem/Teacher/setCozSignIn.do'
       var method = "POST"
-      var header = {
-        'Cookie': app.globalData.header.Cookie
-      }
+      var header = app.globalData.header
       var params = suvMan
       network.request(url, params, method, header).then((data)=>{
         console.log("自动")
@@ -465,9 +452,7 @@ Page({
       var suvMan = { "schId": topItems[index].schId, "siWeek": topItems[index].schWeek, "siTime": temp.manDt, "suvManAutoOpen": false }
       var url = 'https://www.xsix103.cn/SignInSystem/Teacher/setCozSignIn.do'
       var method = "POST"
-      var header = {
-        'Cookie': app.globalData.header.Cookie
-      }
+      var header =app.globalData.header
       var params = suvMan
       network.request(url, params, method, header).then((data) => {
         console.log("人工")
@@ -494,9 +479,7 @@ Page({
       var suvMan = { "schId": topItems[index].schId, "siWeek": topItems[index].schWeek, "siTime": temp.manDt, "suvManAutoOpen": true }
       var url = 'https://www.xsix103.cn/SignInSystem/Teacher/setCozSignIn.do'
       var method = "POST"
-      var header = {
-        'Cookie': app.globalData.header.Cookie
-      }
+      var header =app.globalData.header
       var params = suvMan
       network.request(url, params, method, header).then((data) => {
         console.log("都有")
@@ -550,9 +533,7 @@ Page({
             var paramStr=topItems[index].schId+"&"+topItems[index].suvWeek
             var url = 'https://www.xsix103.cn/SignInSystem/Teacher/removeCozSuv.do'
             var method = "POST"
-            var header = {
-              'Cookie': app.globalData.header.Cookie
-            }
+            var header =app.globalData.header
             var params = paramStr
             network.request(url, params, method, header).then((data)=>{
               if(data){
@@ -605,9 +586,7 @@ Page({
     var paramStr = topItems[index].schId + "&" + topItems[index].suvWeek
     var url = 'https://www.xsix103.cn/SignInSystem/Teacher/setCozSuv.do'
     var method = "POST"
-    var header = {
-      'Cookie': app.globalData.header.Cookie
-    }
+    var header = app.globalData.header
     var params = paramStr
     network.request(url, params, method, header).then((data)=>{
       if (data) {

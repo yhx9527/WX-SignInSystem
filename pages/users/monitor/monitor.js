@@ -2,12 +2,12 @@
 var app=getApp()
 const network=require("../../utils/network.js")
 var dataType = 0;
-var types = ["1", "41", "10", "29"];
+var types = ["1", "11", "21", "31"];
 var DATATYPE = {
   ALLDATATYPE: "1",
-  HISTORYDATATYPE: "41",
-  LEAVEDATATYPE: "10",
-  GIVEDATATYPE: "29",
+  HISTORYDATATYPE: "11",
+  LEAVEDATATYPE: "21",
+  GIVEDATATYPE: "31",
 };
 
 //督导课程页处理
@@ -39,9 +39,7 @@ var getAll=function(that){
 
   var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/showSuvCourses.do'
   var method="POST"
-  var header = {
-    'Cookie': app.globalData.header.Cookie
-  }
+  var header = app.globalData.header
   var params={}
   network.request(url,params,method,header).then((data)=>{
     var allDataList = []
@@ -59,9 +57,7 @@ var Monitoring=function(that){
 
   var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/isSuvRec.do'
   var method="POST"
-  var header={
-    'Cookie': app.globalData.header.Cookie
-  }
+  var header= app.globalData.header
   var params={}
   network.request(url,params,method,header).then((data)=>{
     if (!data) {
@@ -93,9 +89,8 @@ var Monitoring=function(that){
 var getHistory=function(that){
   var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/findHisSuvRecRes.do'
   var method = "POST"
-  var header = {
-    'Cookie': app.globalData.header.Cookie
-  }
+  var header = app.globalData.header
+
   var params = {}
   network.request(url, params, method, header).then((data)=>{
     var historyDataList = new Array();
@@ -143,13 +138,20 @@ var getLeaves=function(that){
 var checkLeaves = function (that) {
   var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/getLeaves.do'
   var method = "POST"
-  var header = {
-    'Cookie': app.globalData.header.Cookie
-  }
+  var header = app.globalData.header
+
   var params = {}
+  var leaveStatu
   network.request(url, params, method, header).then((data) => {
     var leaveDataList = new Array();
     for (var index in data) {
+      if(data[index].siApprove==0){
+        leaveStatu="待审核"
+      } else if (data[index].siApprove == 1){
+        leaveStatu="已通过"
+      } else if (data[index].siApprove == 2){
+        leaveStatu="已驳回"
+      }
       var temp = process(data[index].oneCozAndSch.schedule)
       var siTime = formatTime(data[index].siTime)
       var a = data[index]
@@ -157,6 +159,7 @@ var checkLeaves = function (that) {
     }
     that.setData({
       leaveDataList: leaveDataList,
+      leaveStatu: leaveStatu
     })
   })
 
@@ -166,9 +169,8 @@ var checkLeaves = function (that) {
 var getGive = function (that) {
   var url = "https://www.xsix103.cn/SignInSystem/Supervisor/findToBeSupervised.do"
   var method = "POST"
-  var header = {
-    'Cookie': app.globalData.header.Cookie
-  }
+  var header = app.globalData.header
+
   var params = {}
   network.request(url, params, method, header).then((data) => {
     var giveDataList = new Array();
@@ -224,6 +226,7 @@ Page({
     //个人资料
     userInfo: {},
     points:100,
+    leaveStatu:""
   },
   //信用分
   point:function(){
@@ -430,9 +433,7 @@ Page({
                 url: 'https://www.xsix103.cn/SignInSystem/Supervisor/openAutoSignIn.do',
                 method: "POST",
                 data: suvMan,
-                header: {
-                  'Cookie': app.globalData.header.Cookie,
-                },
+                header: app.globalData.header,
                 success:function(res){
                   if(res.data){
                   console.log(res.data)
@@ -478,9 +479,7 @@ Page({
                 url: 'https://www.xsix103.cn/SignInSystem/Supervisor/closeAutoSignIn.do',
                 method: "POST",
                 data: suvMan,
-                header: {
-                  'Cookie': app.globalData.header.Cookie,
-                },
+                header: app.globalData.header,
                 success: function (res) {
                   console.log(res.data)
                   console.log("关闭后"+that.data.allDataList[arrayflag].suvMan.suvManAutoOpen)
@@ -540,9 +539,7 @@ Page({
               url: 'https://www.xsix103.cn/SignInSystem/Supervisor/initAutoSignIn.do',
               method: "POST",
               data: suvMan,
-              header: {
-                'Cookie': app.globalData.header.Cookie,
-              },
+              header: app.globalData.header,
               success: function (res) {
                 console.log(res.data)
                 if(res.data){
@@ -598,9 +595,7 @@ Page({
             url: 'https://www.xsix103.cn/SignInSystem/Supervisor/suvLeave.do',
             data: SuvSch,
             method: "POST",
-            header: {
-              'Cookie': app.globalData.header.Cookie
-            },
+            header: app.globalData.header,
             success: function (res) {
               console.log(res.data)
               if(res.data){
@@ -670,9 +665,7 @@ Page({
         if(res.confirm){
           var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/giveUpPower.do'
           var method = "POST"
-          var header = {
-            'Cookie': app.globalData.header.Cookie
-          }
+          var header = app.globalData.header
           var params = e.currentTarget.dataset.suvsch
           
           network.request(url, params, method, header).then((data)=>{
@@ -820,82 +813,11 @@ Page({
   },
   
   */
-  //通过请假
-  yesLeave:function(e){
-    wx.showModal({
-      title: '提示',
-      content: '审核通过该请假',
-      success:function(res){
-        if(res.confirm){
-          var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/approveLeave.do'
-          var method = "POST"
-          var header = {
-            'Cookie': app.globalData.header.Cookie
-          }
-          console.log(e.currentTarget)
-          var params = e.currentTarget.dataset.signinres
-
-          network.request(url, params, method, header).then((data)=>{
-            if(data){
-              wx.showToast({
-                title: '通过',
-                icon:"success",
-                duration:1500
-              })
-            }else{
-              wx.showToast({
-                title: '通过失败',
-                icon: "none",
-                duration: 1500
-              })
-            }
-          })
-        }else if(res.cancel){
-          console.log("用户点击取消")
-        }
-      }
-    })
-  },
-  //驳回请假
-  noLeave:function(e){
-    wx.showModal({
-      title: '提示',
-      content: '驳回该请假',
-      success: function (res) {
-        if (res.confirm) {
-          var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/rejectLeave.do'
-          var method = "POST"
-          var header = {
-            'Cookie': app.globalData.header.Cookie
-          }
-          console.log(e.currentTarget)
-          var params = e.currentTarget.dataset.signinres
-
-          network.request(url, params, method, header).then((data) => {
-            if (data) {
-              wx.showToast({
-                title: '驳回',
-                icon: "success",
-                duration: 1500
-              })
-            } else {
-              wx.showToast({
-                title: '驳回失败',
-                icon: "none",
-                duration: 1500
-              })
-            }
-          })
-        } else if (res.cancel) {
-          console.log("用户点击取消")
-        }
-      }
-    })
-  },
-  checkLeave:function(e){
-    let str=JSON.stringify(e.currentTarget.dataset.item)
+  
+  McheckLeave:function(e){
+    let str=JSON.stringify(e.currentTarget.dataset)
     wx.navigateTo({
-      url: './checkLeave/checkLeave?jsonStr1='+str,
+      url: './checkLeave/checkLeave?jsonString='+str,
     })
   },
   /**

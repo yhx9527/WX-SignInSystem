@@ -51,7 +51,7 @@ App({
     Width:null,
     code:null,
     userInfo: null,
-    header:{'Cookie':''},
+    header:{'Access-Token':''},
     locationInfo:null,
     
   },

@@ -45,16 +45,16 @@
                 <text class="bottom-item-content-text">{{item.repost}}</text>
                 </view>
                 <!--分割线-->
-                <view class="cut-line"></view>
+                <!--view class="cut-line"></view-->
             </view>
 
             <!--课堂消息-->
-            <view class="bottom-item"catchtap="workClassMes">
+            <!--view class="bottom-item"catchtap="workClassMes">
                 <view class="bottom-item-content">
                 <image src="../../image/MB4.png" mode="center"class="bottom-item-content-image"></image>
                 <text class="bottom-item-content-text">{{item.comment}}</text>
                 </view>
-            </view>
+            </view-->
 
     </view>
 </template>
