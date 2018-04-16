@@ -1,0 +1,10 @@
+<view class="top-title">{{absence.coursename+absence.coursetime}}</view>
+<view class="top-title">缺勤名单</view>
+<view wx:for="{{absence.absence}}"wx:for-item="item">
+  <view class="head">第{{item.sarWeek}}周</view>
+  <view wx:for="{{item.studentList}}"wx:for-item="item1">
+    <view class="head-text">
+      {{item1.userName}}   {{item1.userId}}
+    </view>
+  </view>
+</view>

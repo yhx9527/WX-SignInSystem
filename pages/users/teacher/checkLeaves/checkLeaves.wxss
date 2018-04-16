@@ -1,0 +1,2 @@
+@import "../absence/absence.wxss";
+@import "../../monitor/monitor.wxss";

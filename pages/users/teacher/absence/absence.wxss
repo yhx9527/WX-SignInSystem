@@ -1,0 +1,22 @@
+.top-title{
+  background-color: #12b7f4;
+  flex:1;
+  text-align: center;
+  color:white;
+  padding-bottom:3px;
+}
+.head{
+  background-color:#ECECEB;
+text-align:center;
+font-size:18px;
+padding-top:1px;
+padding-bottom:1px;
+
+}
+.head-text{
+border:1rpx solid #ECECEB;
+padding-top:10px;
+padding-bottom:10px;
+padding-left:10px;
+
+}

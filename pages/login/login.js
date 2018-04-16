@@ -93,6 +93,14 @@ Page({
                         })
                       }
                     },
+                    fail: function (res) {
+                      console.log("失败原因： " + JSON.stringify(res))
+                      wx.showToast({
+                        title: '连接失败',
+                        icon: 'loading',
+                        duration: 2000
+                      })
+                    }
                   })
                   console.log('用户点击确定')
                 }else{
@@ -163,14 +171,16 @@ Page({
     wx.login({
       success: function(res1){
     if(res1.code){
+
     wx.request({
       url: 'https://www.xsix103.cn/SignInSystem/wxLogin.do',
       method:"POST",
       data:{
         code: res1.code
       },
+  
       header:{
-        "content-type": "application/x-www-form-urlencoded"
+        "content-type": "application/x-www-form-urlencoded",
       },
       success:function(res){
         console.log(res.data)
@@ -205,9 +215,12 @@ Page({
           })
         }
       },
-      fail:function(){
-        wx.showLoading({
+      fail:function(res){
+        console.log("失败原因： "+JSON.stringify(res))
+        wx.showToast({
           title: '连接失败',
+          icon:'loading',
+          duration:2000
         })
       }
     })
