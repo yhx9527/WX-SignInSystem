@@ -99,7 +99,7 @@
             
             </view>
             -->
-            <view class="shuzhe">{{leaveStatu}}</view>
+            <view class="shuzhe">{{item.leaveStatu}}</view>
           </view>
       </view>
       <view style="height:12rpx;background-color:#eaeaea"></view>

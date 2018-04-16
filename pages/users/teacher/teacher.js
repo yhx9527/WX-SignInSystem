@@ -81,25 +81,25 @@ var getAbsence = function (that, schedule) {
     
   })
 }
-var getLeaves = function (that) {
+var getLeaves = function (that,topItems) {
   var url = "https://www.xsix103.cn/SignInSystem/Teacher/getLeaves.do"
   var params = {}
 
   var header = app.globalData.header
   var method = "POST"
   network.request(url, params, method, header).then((data) => {
-    that.setData({
-      leaves: data.length
-    })
-    if(data.length>0){
-      that.setData({
-        ifLeaves:true
-      })
-    }else{
-      that.setData({
-        ifLeaves:false
-      })
+    for(var i in topItems){
+    topItems[i].signInRes=[]
+    var a=topItems[i].signInRes
+    for(var j in data){
+      if(topItems[i].schDayT==data[j].oneCozAndSch.schedule.schDay){
+        a.push(data[j])
+      }
     }
+    }
+    that.setData({
+      topItems:topItems
+    })
   })
 
 }
@@ -167,11 +167,11 @@ Page({
     }
     getMonitoring(that,schedule[0].schedule);
     getAbsence(that, schedule[0].schedule);
-    getLeaves(that)
+    getLeaves(that,topItems)
     var Width = (app.globalData.Width)/(topItems.length)
-    this.setData({
+    that.setData({
       teacherList:temp.list,
-      topItems:topItems,
+      topItems:that.data.topItems,
       Height:app.globalData.Height,
       Width:Width,
       background:"#C7F3FF",
@@ -272,14 +272,14 @@ Page({
     })
   },
   //审核请假
-  /*checkLeave:function(e){
-    console.log(e)
+  
+  checkLeave:function(e){
     let str=JSON.stringify(e.currentTarget.dataset)
     wx.navigateTo({
-      url: './checkLeaves/checkLeaves?jsonStr='+str,
+      url: './checkLeaves/checkLeaves?jsonString='+str,
     })
   },
-  */
+  
   //课程停课
   stopClass:function(e){
     var tishi = e.currentTarget.dataset.schday + e.currentTarget.dataset.schtime+"进行停课"

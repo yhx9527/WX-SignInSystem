@@ -17,10 +17,10 @@
     <image wx:else class="Icon1"src="../../image/TA3.png"></image>
     <text class="secondEx">发起签到</text>
   </view>
-  <view class="secondIcon"bindtap="checkLeave"data-coursename="{{teacherList.courseName}}">
-    <image wx:if="{{!ifLeaves}}"class="Icon1"src="../../image/TB2.png"></image>
+  <view class="secondIcon"bindtap="checkLeave"data-coursename="{{teacherList.courseName}}"data-schday="{{item.schDayT}}">
+    <image wx:if="{{item.signInRes.length==0}}"class="Icon1"src="../../image/TB2.png"></image>
     <image wx:else class="Icon1"src="../../image/TA2.png"></image>
-    <text class="secondEx">审批请假({{leaves}})</text>
+    <text class="secondEx">审批请假({{item.signInRes.length}})</text>
   </view>
   <view class="secondIcon"bindtap="setMonitor"data-index="{{index}}">
     <image wx:if="{{!item.ifMonitor}}"class="Icon1"src="../../image/TB1.png"></image>

@@ -141,10 +141,11 @@ var checkLeaves = function (that) {
   var header = app.globalData.header
 
   var params = {}
-  var leaveStatu
+  
   network.request(url, params, method, header).then((data) => {
     var leaveDataList = new Array();
     for (var index in data) {
+      var leaveStatu
       if(data[index].siApprove==0){
         leaveStatu="待审核"
       } else if (data[index].siApprove == 1){
@@ -155,11 +156,10 @@ var checkLeaves = function (that) {
       var temp = process(data[index].oneCozAndSch.schedule)
       var siTime = formatTime(data[index].siTime)
       var a = data[index]
-      leaveDataList.push({ "index":index,"id": a.siId, "courseName": a.oneCozAndSch.course.cozName, "courseStudent": a.student.userName, "courseXuehao": a.student.userId, "courseTime": temp.schDay + temp.schTime, "siTime": siTime, "siLeave": a.siLeave,"signInRes":data[index] })
+      leaveDataList.push({ "index":index,"id": a.siId, "courseName": a.oneCozAndSch.course.cozName, "courseStudent": a.student.userName, "courseXuehao": a.student.userId, "courseTime": temp.schDay + temp.schTime, "siTime": siTime, "siLeave": a.siLeave,"signInRes":data[index],"leaveStatu":leaveStatu })
     }
     that.setData({
       leaveDataList: leaveDataList,
-      leaveStatu: leaveStatu
     })
   })
 
@@ -226,7 +226,6 @@ Page({
     //个人资料
     userInfo: {},
     points:100,
-    leaveStatu:""
   },
   //信用分
   point:function(){
