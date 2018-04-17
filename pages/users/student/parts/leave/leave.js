@@ -105,6 +105,12 @@ Page({
               delta: 1
             })
           }, 2000)
+        } else if (res.data == "false" && res.statusCode == 200){
+          wx.showToast({
+            title: '已提交请假条',
+            icon: "none",
+            duration: 2000
+          })
         }else{
           wx.showToast({
             title: '提交失败',

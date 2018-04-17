@@ -22,15 +22,14 @@
               </view>
             <!--/view-->
             <!--view class="out2-2"-->
-              <view id="{{signingCard.id}}"class="remove1"catchtap="leave"data-courseID="{{signingCard.id}}"data-courseName="{{signingCard.courseName}}"data-courseTeacher="{{signingCard.courseTeacher}}"data-courseTime="{{signingCard.courseTime}}"data-coursePlace="{{signingCard.coursePlace}}">请假</view>
-              <view id="{{signingCard.id}}"class="remove2"catchtap="signMaping"data-statu="open"data-courseID="{{signingCard.id}}"data-locLat="{{signingCard.locLat}}"data-locLon="{{signingCard.locLon}}">签到</view>
+              <view id="{{signingCard.id}}"class="remove1"catchtap="leave"data-courseName="{{signingCard.courseName}}"data-schedule="{{signingCard.schedule}}"data-schweek="{{signingCard.schWeek}}">请假</view>
+              <view id="{{signingCard.id}}"class="remove2"catchtap="signMaping"data-statu="open">签到</view>
             <!--/view-->
             </view>
           </view>
               
         <view class="hengfu"><text class="hengfuText">我的全部课程</text></view>
-        <scroll-view scroll-top="{{scrollTop}}"scroll-y="true"enable-back-to-top="true">
-          
+        <scroll-view scroll-y="true"enable-back-to-top="true">
           <view wx:for="{{cards}}"wx:for-item="card"class="item"id="{{card.id}}"data-index="{{card.index}}"bind:touchstart="allStart" bind:touchmove='allMove'bind:touchend='allEnd'style='right:{{card.right}}px'>
             <view class="itemSon">
               <!--view class="out2-1"-->                        

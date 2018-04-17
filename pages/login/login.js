@@ -205,11 +205,14 @@ Page({
             })
           }
         else {
-          
+            app.globalData.header['Access-Token'] = res.data.token
+            console.log("login:" + app.globalData.header['Access-Token'])
+            var userPermit = processPermit(res.data.user.userPermit);
+            var person = { "userPermit": userPermit, "userId": res.data.user.userId, "userName": res.data.user.userName }
+            //个人信息报存本地
+            wx.setStorageSync('person', person)
           //app.globalData.header.Cookie = 'JSESSIONID=' + data.sessionUser;
           //跳转界面
-            app.globalData.header['Access-Token'] = res.data.token
-            console.log("wxlogin:" + app.globalData.header['Access-Token'])
           wx.switchTab({
             url: '../users/student/student',
           })

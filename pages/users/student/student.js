@@ -5,7 +5,6 @@ var startX;
 var startY;
 var endX;
 var endY;
-var key=false;
 var maxRight=160;
 /*
 var ReportDataSync = [
@@ -40,79 +39,28 @@ function loadDropDownMenu() {
   }
 }
 */
-//自制数组
-/*
-var transchedules=function(schedules){
-  var temp=JSON.parse(JSON.stringify(schedules))
-  var newschedules=new Array();
-  var finalschedules=new Array();
-
-  for(var i=0,j=0;i<temp.length-1;i++){
-    j=j+1    
-    if(temp[i].schDay==temp[i+1].schDay){
-      newschedules.push(temp[i]);
-      j=j-1;
-      newschedules[j].schTime = newschedules[j].schTime + "," +temp[i+1].schTime;
-   
-    }
-  }
-  for(var j=0;j<newschedules.length;j++){
-    newschedules[j].schTime="第"+newschedules[j].schTime+"节课"
-    newschedules[j].schDayT=newschedules[j].schDay
-    switch (newschedules[j].schDay) {
-      case 1: newschedules[j].schDay = "星期一" + newschedules[j].schTime
-        break;
-      case 2: newschedules[j].schDay = "星期二" + newschedules[j].schTime
-        break;
-      case 3: newschedules[j].schDay = "星期三" + newschedules[j].schTime
-        break;
-      case 4: newschedules[j].schDay = "星期四" + newschedules[j].schTime
-        break;
-      case 5: newschedules[j].schDay = "星期五" + newschedules[j].schTime
-        break;
-      case 6: newschedules[j].schDay = "星期六" + newschedules[j].schTime
-        break;
-      case 7: newschedules[j].schDay = "星期日" + newschedules[j].schTime
-        break;
-      default:
-        break;
-    }
-  }
-
-  
-  for(var i=0,j=-1;i<newschedules.length-1;i++){
-    if(newschedules[i].schDayT!=newschedules[i+1].schDayT){
-      finalschedules.push(newschedules[i]);
-      j=j+1;
-      finalschedules[j].schDay = newschedules[i].schDay+"和"+newschedules[i+1].schDay
-    }
-
-  }
-  if(JSON.stringify(finalschedules)!=="[]")
-    return finalschedules;
-  else
-    return newschedules;
-
-}
-*/
 var getCards=function(that){
   //获取课表
   var url = "https://www.xsix103.cn/SignInSystem/Student/showCourses.do"
   var params={}
   var header = app.globalData.header
   var method="POST"
-  console.log("获取课表"+header)
   network.request(url,params,method,header).then((data)=>{
-    var count = 0;
-    var cards = that.data.cards;
+    var cards = []
     for (var index in data.courses) {
+      if(data.courses[index].schedules.length>1){
       var final = util.transchedules(data.courses[index].schedules)
+      }else{
+        var final = util.transchedule1(data.courses[index].schedules)
+        console.log("yjkd"+JSON.stringify(final))
+      }
       //for (var i in final) {
 
         cards.push({ "index":index,"id": data.courses[index].cozId, "courseName": data.courses[index].cozName, "courseTeacher": data.courses[index].teacher.userName, "courseTime": final[0].schDay, "coursePlace": final[0].location.locName, "locLat": final[0].location.locLat, "locLon": final[0].location.locLon, "right": 0, "startRight": 0 ,"isTouchMove":false,"schWeek":final[0].schWeek,"schedule":final[0].schedule})
       //}
 
     }
+    //console.log("全部课表:"+cards)
     that.setData({
       cards: cards
     })
@@ -127,19 +75,19 @@ var transchedule = function (schedule) {
       newschedules=JSON.parse(JSON.stringify(schedule))
       newschedules.schTime = "第"+schedule.schTime + "节课";
       switch (newschedules.schDay) {
-        case 1: newschedules.schDay = "星期一" 
+        case 1: newschedules.schDay = "星期一" + "第" + schedule.schTime + "节课";
           break;
-        case 2: newschedules.schDay = "星期二"
+        case 2: newschedules.schDay = "星期二" + "第" + schedule.schTime + "节课";
           break;
-        case 3: newschedules.schDay = "星期三" 
+        case 3: newschedules.schDay = "星期三" + "第" + schedule.schTime + "节课";
           break;
-        case 4: newschedules.schDay = "星期四" 
+        case 4: newschedules.schDay = "星期四" + "第" + schedule.schTime + "节课";
           break;
-        case 5: newschedules.schDay = "星期五" 
+        case 5: newschedules.schDay = "星期五" + "第" + schedule.schTime + "节课";
           break;
-        case 6: newschedules.schDay = "星期六" 
+        case 6: newschedules.schDay = "星期六" + "第" + schedule.schTime + "节课";
           break;
-        case 7: newschedules.schDay = "星期日"
+        case 7: newschedules.schDay = "星期日" + "第" + schedule.schTime + "节课";
           break;
         default:
           break;
@@ -159,13 +107,14 @@ var getSigning=function(that){
   var params={}
   var method="POST"
   network.request(url,params,method,header).then((data)=>{
+    console.log("签到"+data)
     var count = 0;
-    var signingCard = that.data.signingCard;
+    var signingCard = {};
 
     var final = transchedule(data.schedule)
 
 
-    signingCard = { "loc":99,"id": data.course.cozId, "courseName": data.course.cozName, "courseTeacher": data.course.teacher.userName, "courseTime": final.schDay + final.schTime, "coursePlace": final.location.locName, "locLat": final.location.locLat, "locLon": final.location.locLon, "right": 0, "startRight": 0, "schId": data.schedule.schId, "schWeek": data.schedule.schWeek, "schTime": data.schedule.schTime, "schDay": data.schedule.schDay, "schYear": data.schedule.schYear, "schTerm": data.schedule.schTerm, "schFortnight": data.schedule.schFortnight, "isTouchMove": false }
+    signingCard = { "loc":99, "courseName": data.course.cozName, "courseTeacher": data.course.teacher.userName, "courseTime": final.schDay , "coursePlace": final.location.locName, "locLat": final.location.locLat, "locLon": final.location.locLon, "right": 0, "startRight": 0,"schWeek": data.schedule.schWeek,"schedule":data.schedule, "isTouchMove": false }
 
 
 
@@ -209,7 +158,6 @@ Page({
   data: {
     cards: [],
     signingCard: {}, //正在签到
-    scrollTop: 0,
     scrollHeight: 0,
     text:"签到仅限课前十分钟和上课十分钟之内有效！！！",
     marqueePace: 0.5,//滚动速度
@@ -224,14 +172,14 @@ Page({
     showModalStatus:false,
     locationInfo:null,
     //自己位置
-    longitude:11,
-    latitude:2,
+    longitude:null,
+    latitude:null,
     ifSign:"签到时间未到",
     //地图缩放比例
     scale:18,
     schedule: {},//发送给后台的单个签到
-    studentPermit: 0,
-    teacherPermit: 0,
+    studentPermit: null,
+    teacherPermit: null,
     //reportData: [],
     //subMenuDisplay: [],
    // subMenuHighLight: [],
@@ -301,34 +249,6 @@ Page({
       cards: cards
     });
   },
-  /*
-  start:function(e){
-    var touch=e.touches[0];
-    startX=touch.clientX;
-    startY=touch.clientY;
-    var index=e.currentTarget.index
-    //for(var i in cards){
-      //var data=cards[index];
-      //data.startRight=data.right;
-    //}
-  },*/
-  /*end:function(e){
-    var cards=this.data.cards;
-    //for(var i in cards){
-      var index=e.currentTarget.dataset.index
-      var data=cards[index];
-      if(data.right<=160/2){
-        data.right=0;
-      }else{
-        data.right=maxRight;
-      }
-    //}
-    this.setData({
-      cards:cards
-    });
-    key=false;
-    console.log("结束滑动")
-  },*/
   //计算滑动角度
   angle: function (start, end) {
     var _X = end.X - start.X,
@@ -336,115 +256,6 @@ Page({
     //返回角度 /Math.atan()返回数字的反正切值
     return 360 * Math.atan(_Y / _X) / (2 * Math.PI);
   },
-  /*
-  move:function(e){
-    var self=this;
-    var index=e.currentTarget.dataset.index;
-    var cards=this.data.cards;
-    //滑动变化坐标
-      var touch=e.changedTouches[0];
-      endX=touch.clientX;
-      endY=touch.clientY;
-    //获取滑动角度
-    var angle=self.angle({X:startX,Y:startY},{X:endX,Y:endY})
-      //var res=cards;
-      if(Math.abs(angle)>30)return;
-      //right to left
-      if((endX-startX)<0){
-        //for(var k in res){
-          //var data=res[index];
-          //if(res[k].id==dataID){
-            /**var startRight=res[index].startRight;
-            var change=startX-endX;
-            startRight+=change;
-            if(startRight>maxRight)
-            startRight=maxRight;
-            res[index].right=startRight;
-          //}
-        //}
-        cards[index].isTouchMove=true;
-      }else{
-        //for (var k in res) {
-          //var data = res[k];
-          //if (res[k].id == dataID) {
-            /*var startRight = res[index].startRight;
-            var change = endX-startX;
-            startRight -= change;
-            if (startRight <0)
-              startRight = 0;
-            res[index].right = startRight;
-      //}
-    //}
-    cards[index].isTouchMove=false
-  }
-  self.setData({
-    cards:cards
-  });
-
-    
-  },*/
-  /*
-  MOVE:function(e){
-    var self = this;
-    var index = e.currentTarget.dataset.index;
-    var cards = this.data.cards;
-    //滑动变化坐标
-    var touch = e.changedTouches[0];
-    endX = touch.clientX;
-    endY = touch.clientY;
-    //获取滑动角度
-    var angle = self.angle({ X: startX, Y: startY }, { X: endX, Y: endY })
-    //var res=cards;
-    if (Math.abs(angle) > 30) return;
-    //right to left
-    if ((endX - startX) < 0) {
-      //for(var k in res){
-      var data=cards[index];
-      //if(res[k].id==dataID){
-      var startRight=cards[index].startRight;
-      var change=startX-endX;
-      startRight+=change;
-      if(startRight>maxRight)
-      startRight=maxRight;
-      cards[index].right=startRight;
-      //}
-      //}
-      cards[index].isTouchMove = true;
-    } else {
-      //for (var k in res) {
-      var data = cards[index];
-      //if (res[k].id == dataID) {
-      var startRight = cards[index].startRight;
-      var change = endX-startX;
-      startRight -= change;
-      if (startRight <0)
-        startRight = 0;
-      cards[index].right = startRight;
-      //}
-      //}
-      cards[index].isTouchMove = false
-    }
-    self.setData({
-      cards: cards
-    });
-    console.log("滑动中")
-  },
-  END:function(e){
-    var cards = this.data.cards;
-    var index = e.currentTarget.dataset.index;
-
-      var data = cards[index];
-      if (data.right <= 160 / 2) {
-        data.right = 0;
-      } else {
-        data.right = maxRight;
-      }
-
-    this.setData({
-      cards: cards
-    });
-  },
-  */
 
   //签到课程的滑动
   signingStart:function(e){
@@ -503,6 +314,7 @@ Page({
       signingCard: signingCard
     });
   },
+/*
 //动画效果版滑动
   move1: function (e) {
     var self = this;
@@ -526,7 +338,7 @@ Page({
     });
 
   },
-
+*/
   /**
    * 生命周期函数--监听页面加载
    */
@@ -654,6 +466,9 @@ Page({
 
   },
 */
+/** 
+*文字移动
+*/
   run1: function () {
     var vm = this;
     var interval = setInterval(function () {
@@ -723,6 +538,8 @@ Page({
   //正在签到地图
   signMaping:function(e){
     var that=this;
+    var currentStatu = e.currentTarget.dataset.statu;
+    this.util(currentStatu)
       app.getLocationInfo(function (locationInfo) {
         
         console.log('map', locationInfo);
@@ -811,8 +628,10 @@ Page({
           locHAcc: 0,
           locName: "sec_tch"
         }
+        
         var term = wx.getStorageSync('SigningCourse')
-        var schedule = {
+        var schedule = term.schedule
+        /*{
           schId: term.schedule.schId,
           cozId: term.course.cozId,
           schTime: term.schedule.schTime,
@@ -824,12 +643,11 @@ Page({
           location: datal,
           cozSuspendList: term.schedule.cozSuspendList,
 
-        }
+        }*/
         wx.setStorageSync('schedule', schedule)
     
         })
-      var currentStatu = e.currentTarget.dataset.statu;
-      this.util(currentStatu)
+  
         
   
       //}
@@ -899,7 +717,7 @@ Page({
           id: 1,
           iconPath: '../../image/jian.png',
           position: {
-            left: 255,
+            left: 245,
             top: 0,
             width: 30,
             height: 30
@@ -910,7 +728,7 @@ Page({
           id: 2,
           iconPath: '../../image/jia.png',
           position: {
-            left: 290,
+            left: 280,
             top: 0,
             width: 30,
             height: 30
@@ -950,7 +768,9 @@ Page({
       })
       // }
     }
-
+  },
+  //地图视野变化时触发
+  regionchange:function(e){
 
   },
   //点击签到
@@ -970,10 +790,7 @@ Page({
           url: "https://www.xsix103.cn/SignInSystem/Student/signIn.do",
           data: wx.getStorageSync('schedule'),
           method: 'POST',
-          header: {
-            'Cookie': app.globalData.header.Cookie,
-            'content-type': 'application/json' // 默认值
-          },
+          header: app.globalData.header,
           success: function (res) {
             console.log(res.data);
             if (res.data.location && res.data.time) {

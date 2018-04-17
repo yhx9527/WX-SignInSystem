@@ -111,13 +111,42 @@ function transchedule(schedules){
   console.log("zhenghe  "+JSON.stringify(newschedules))
     return newschedules;
 }
+ function transchedule1(schedule) {
 
+  var newschedules = []
+  newschedules = JSON.parse(JSON.stringify(schedule))
+  for(var index in schedule){
+  newschedules[index].schTime = "第" + schedule[index].schTime + "节课";
+  switch (newschedules[index].schDay) {
+    case 1: newschedules[index].schDay = "星期一" + "第" + schedule[index].schTime + "节课";
+      break;
+    case 2: newschedules[index].schDay = "星期二" + "第" + schedule[index].schTime + "节课";
+      break;
+    case 3: newschedules[index].schDay = "星期三" + "第" + schedule[index].schTime + "节课";
+      break;
+    case 4: newschedules[index].schDay = "星期四" + "第" + schedule[index].schTime + "节课";
+      break;
+    case 5: newschedules[index].schDay = "星期五" + "第" + schedule[index].schTime + "节课";
+      break;
+    case 6: newschedules[index].schDay = "星期六" + "第" + schedule[index].schTime + "节课";
+      break;
+    case 7: newschedules[index].schDay = "星期日" + "第" + schedule[index].schTime + "节课";
+      break;
+    default:
+      break;
+  }
+  }
+  if (newschedules.length!=0)
+    return newschedules;
+
+}
 module.exports = {
   formatTime: formatTime,
   formatNumber:formatNumber,
   transchedules:transchedules,
   transchedule:transchedule,
-  formatArrayTime: formatArrayTime
+  formatArrayTime: formatArrayTime,
+  transchedule1: transchedule1
 }
 
 
