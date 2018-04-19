@@ -158,7 +158,6 @@ flex-direction:row;
   white-space: nowrap;
   position: absolute;
   top: 0;
-  font-size: 14px;
 }
 .hengfu{
  width:100%;

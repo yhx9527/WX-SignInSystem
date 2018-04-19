@@ -45,9 +45,7 @@ Page({
     currentTopItem: "0",
     swiperHeight: "0",
     scrollTop:"1",
-    courseItem:{
-      "courseid": "A", "coursename": "LOL", "courseplace": "品学楼", "courseteacher": "Jack", "coursetime": "Tuesday"
-    },
+    courseItem:{},
     refreshHeight: 0,//获取高度  
     refreshing: false,//是否在刷新中  
     refreshAnimation: {}, //加载更多旋转动画数据  
@@ -58,15 +56,29 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options.jsonStr)
     let item1=JSON.parse(options.jsonStr);
-    this.setNewDataWithRes(dataType);
-    this.setData({
-      courseItem:item1,
-      swiperHeight:app.globalData.Height
-    });
-   
-
-  },
+    var url = "https://www.xsix103.cn/SignInSystem/Student/fOneCozSignIn.do"
+    var params = item1.schedule
+    var method = "POST"
+    var header = app.globalData.header
+    var that=this
+    network.request(url, params, method, header).then((data) => {
+      var signDataList = new Array();
+      for (var index in data) {
+        var id = data[index].siId
+        var time = util.formatArrayTime(data[index].siTime)
+        signDataList.push({ "id": id, "time": time })
+      }
+    that.setData({
+      signDataList: signDataList
+    }) 
+  })
+  that.setData({
+    courseItem: item1,
+    swiperHeight: app.globalData.Height,
+  })
+},
   test:function(){
     console.log(courseItem)
   },
@@ -138,16 +150,17 @@ Page({
   //设置新数据
   setNewDataWithRes: function (dataType) {
     var that=this
-    
-    var term = wx.getStorageSync('SigningCourse')
-    var schedule=term.schedule
+    var courseItem=that.data.courseItem
+    console.log("aaaa"+JSON.stringify(courseItem))
+    var schedule = {}
+    schedule = courseItem.schedule;
     switch (types[dataType]) {
       //历史签到
       case DATATYPE.SIGNDATATYPE:
         var url = "https://www.xsix103.cn/SignInSystem/Student/fOneCozSignIn.do"
         var params=schedule
         var method="POST"
-        var header=app.globalData.header.Cookie
+        var header=app.globalData.header
         network.request(url,params,method,header).then((data)=>{
           var signDataList = new Array();
           for (var index in data) {
@@ -163,23 +176,14 @@ Page({
         break;
       //历史请假
       case DATATYPE.LEAVEDATATYPE:
-        that.data.list = [{
-          "id": "2016220401007",
-          "time": "2018-02-07 19:59:59"
-        }, { "id": "2016220401007", "time": "2018-02-07 20:59:59" }];
-        target.setData({
-          leaveDataList: [{
-            "id": "2016220401007",
-            "time": "2018-02-07 19:59:59"
-          }, { "id": "2016220401007", "time": "2018-02-07 20:59:59" }]
-        });
+        console.log("请假")
         break;
       //历史缺勤
       case DATATYPE.NODATATYPE:
         var url = "https://www.xsix103.cn/SignInSystem/Student/fOneCozAbsent.do"
         var params=schedule
         var method="POST"
-        var header = app.globalData.header.Cookie
+        var header = app.globalData.header
         network.request(url,params,method,header).then((data)=>{
           var noDataList = new Array();
           for (var index in data) {

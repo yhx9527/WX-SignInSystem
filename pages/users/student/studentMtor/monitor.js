@@ -391,7 +391,7 @@ Page({
     console.log(this.data.leaves)
    let str=JSON.stringify(this.data.leaves)
    wx.navigateTo({
-     url: './monitorLeave/monitorLeave?jsonStr='+str,
+     url: '../../monitor/monitorLeave/monitorLeave?jsonStr='+str,
    })
   },
   //查看督导课程历史记录
@@ -399,7 +399,7 @@ Page({
     console.log("历史记录页")
     let str = JSON.stringify(e.currentTarget.dataset);
     wx.navigateTo({
-      url: './hisRecord/hisRecord?jsonStr=' + str
+      url: '../../monitor/hisRecord/hisRecord?jsonStr=' + str
     })
   },
   //发起自动签到快捷键

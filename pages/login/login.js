@@ -55,6 +55,7 @@ Page({
             //app.globaData.userName=this.data.Name;
             wx.login({
               success:function(res1){
+                console.log("code1:"+res1.code)
                 if(res1.code){
                   wx.request({
                     url: 'https://www.xsix103.cn/SignInSystem/login.do',
@@ -66,7 +67,7 @@ Page({
                       },
                       code: res1.code
                     },
-                    header: {},
+                    header: {"Access-Token":''},
                     success: function (res) {
                       if(res.data!=null){
                       //var map = config.jsonToMap(JSON.stringify(res.header));
@@ -170,8 +171,9 @@ Page({
 
     wx.login({
       success: function(res1){
+        console.log("code:" + res1.code)
     if(res1.code){
-
+      
     wx.request({
       url: 'https://www.xsix103.cn/SignInSystem/wxLogin.do',
       method:"POST",

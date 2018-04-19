@@ -132,14 +132,17 @@ var getTchList=function(that){
   var header = app.globalData.header
   var method = "POST"
   network.request(url, params, method, header).then((data)=>{
-    var teacherLists = that.data.teacherLists;
+    var teacherLists = [];
     for (var index in data.courses) {
-      var final = util.transchedules(data.courses[index].schedules)
-      var a=data.courses[index]
-      for (var i in final) {
-        teacherLists.push({ "cozId":a.cozId , "courseName": a.cozName, "courseNum": 100, "courseTime": final[i].schDay, "coursePlace": final[i].location.locName,"teacher":data.teacher,"schedules":a.schedules })
-        console.log(teacherLists)
+      if (data.courses[index].schedules.length > 1) {
+        var final = util.transchedules(data.courses[index].schedules)
+      } else {
+        var final = util.transchedule1(data.courses[index].schedules)
+        console.log("yjkd" + JSON.stringify(final))
       }
+      var a=data.courses[index]
+        teacherLists.push({ "cozId":a.cozId , "courseName": a.cozName, "courseNum": 100, "courseTime": final[0].schDay, "coursePlace": final[0].location.locName,"teacher":data.teacher,"schedules":a.schedules })
+      
     }
 
     that.setData({
@@ -148,7 +151,117 @@ var getTchList=function(that){
     wx.setStorageSync('teacher',data )
   })
 }
+//课程块滑动渲染函数
+var slideOne=function(self,cards,index){
+  switch (index) {
+    case '0':
+      self.setData({
+        'cards[0].right': cards[index].right
+      })
+      break;
+    case '1':
+      self.setData({
+        'cards[1].right': cards[index].right
+      })
+      break;
+    case '2':
+      self.setData({
+        'cards[2].right': cards[index].right
+      })
+      break;
+    case '3':
+      self.setData({
+        'cards[3].right': cards[index].right
+      })
+      break;
+    case '4':
+      self.setData({
+        'cards[4].right': cards[index].right
+      })
+      break;
+    case '5':
+      self.setData({
+        'cards[5].right': cards[index].right
+      })
+      break;
+    case '6':
+      self.setData({
+        'cards[6].right': cards[index].right
+      })
+      break;
+    case '7':
+      self.setData({
+        'cards[7].right': cards[index].right
+      })
+      break;
+    case '8':
+      self.setData({
+        'cards[8].right': cards[index].right
+      })
+      break;
+    case '9':
+      self.setData({
+        'cards[9].right': cards[index].right
+      })
+      break;
+    case '10':
+      self.setData({
+        'cards[10].right': cards[index].right
+      })
+      break;
+    case '11':
+      self.setData({
+        'cards[11].right': cards[index].right
+      })
+      break;
+    case '12':
+      self.setData({
+        'cards[12].right': cards[index].right
+      })
+      break;
+    case '13':
+      self.setData({
+        'cards[13].right': cards[index].right
+      })
+      break;
+    case '14':
+      self.setData({
+        'cards[14].right': cards[index].right
+      })
+      break;
+    case '15':
+      self.setData({
+        'cards[15].right': cards[index].right
+      })
+      break;
+    case '16':
+      self.setData({
+        'cards[16].right': cards[index].right
+      })
+      break;
+    case '17':
+      self.setData({
+        'cards[17].right': cards[index].right
+      })
+      break;
+    case '18':
+      self.setData({
+        'cards[18].right': cards[index].right
+      })
+      break;
+    case '19':
+      self.setData({
+        'cards[19].right': cards[index].right
+      })
+      break;
+    case '20':
+      self.setData({
+        'cards[20].right': cards[index].right
+      })
+      break;
+  }
 
+}
 
 Page({
 
@@ -162,9 +275,11 @@ Page({
     text:"签到仅限课前十分钟和上课十分钟之内有效！！！",
     marqueePace: 0.5,//滚动速度
     marqueeDistance: 0,//初始滚动距离
+    orientation: 'left',//滚动方向
     marqueeDistance2: 0,
     marquee2copy_status:false,
     marquee2_margin: 60,
+    size:14,
     interval: 30 ,// 时间间隔
     hidden:true,
     showModalStatus:false,
@@ -228,10 +343,8 @@ Page({
           
         
       }
-      self.setData({
-        'cards[index].right': cards[index].right
-      });
-    
+      slideOne(self,cards,index)
+      
   },
   allEnd:function(e){
     var cards = this.data.cards;
@@ -242,10 +355,7 @@ Page({
       } else {
         cards[index].right = maxRight;
       }
-
-    this.setData({
-      'cards[index].right': cards[index].right
-    });
+    slideOne(this,cards,index)
   },
   //计算滑动角度
   angle: function (start, end) {

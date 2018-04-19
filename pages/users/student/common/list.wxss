@@ -1,5 +1,3 @@
-
-/**DropDownMenu**/ 
   
 /*总菜单容器*/ 
   
@@ -86,6 +84,46 @@
     position:relative;
     flex-direction: column;
     z-index: 0;
+}
+.firstCard{
+  display: flex;
+  flex-direction: row;
+  height: 160rpx;
+  border-bottom: 1px solid #dddcdc;
+  margin-left:10px;
+  margin-right:10px;
+  margin-top:5px;
+
+}
+.Icon{
+  height:150rpx;
+  width:150rpx;
+  margin-right:10px;
+  margin-top:5rpx;
+
+}
+.Icon1{
+  height:100rpx;
+  width:100rpx;
+  margin-top:10px;
+
+}
+.firstCourse{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex:1;
+  justify-content: space-between;
+}
+.courseName{
+    font-size: 32rpx;
+    overflow: hidden;
+    flex: 1;
+    font-weight: bold;
+}
+.courseOther{
+   font-size: 30rpx;
+   font-weight:lighter;
 }
 .hengfu{
  width:100%;

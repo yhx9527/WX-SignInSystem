@@ -3,7 +3,7 @@
  
 
   <view class="marquee_box">
-    <view class="marquee_text" style="left:{{marqueeDistance2}}px;">
+    <view class="marquee_text" style="{{orientation}}:{{marqueeDistance2}}px;font-size: {{size}}px;">
       <text>{{text}}</text>
       <text wx:if="{{marquee2copy_status}}" style="margin-left:{{marquee2_margin}}px;">{{text}}</text>  
     </view>
@@ -14,7 +14,7 @@
             <view class="itemSon">
             <!--view class="out2-1"-->                        
               <image class="img" src="../../image/second.jpg" mode='scaleToFill'></image>  
-              <view class="course-wrapper" catchtap='courseInfo'data-courseID="{{signingCard.id}}"data-courseName="{{signingCard.courseName}}"data-courseTeacher="{{signingCard.courseTeacher}}"data-courseTime="{{signingCard.courseTime}}"data-coursePlace="{{signingCard.coursePlace}}">
+              <view class="course-wrapper" catchtap='courseInfo'data-courseID="{{signingCard.id}}"data-courseName="{{signingCard.courseName}}"data-courseTeacher="{{signingCard.courseTeacher}}"data-courseTime="{{signingCard.courseTime}}"data-coursePlace="{{signingCard.coursePlace}}"data-schedule="{{signingCard.schedule}}">
                 <text class="courseName">{{signingCard.courseName}}</text>
                 <text class="courseTeacher">老师：{{signingCard.courseTeacher}}</text>
                 <text class="courseTime">时间：{{signingCard.courseTime}}</text>
@@ -34,7 +34,7 @@
             <view class="itemSon">
               <!--view class="out2-1"-->                        
                 <image class="img" src="../../image/first.jpg" mode='scaleToFill'></image>  
-                <view class="course-wrapper" catchtap='courseInfo'data-courseID="{{card.id}}"data-courseName="{{card.courseName}}"data-courseTeacher="{{card.courseTeacher}}"data-courseTime="{{card.courseTime}}"data-coursePlace="{{card.coursePlace}}">
+                <view class="course-wrapper" catchtap='courseInfo'data-courseID="{{card.id}}"data-courseName="{{card.courseName}}"data-courseTeacher="{{card.courseTeacher}}"data-courseTime="{{card.courseTime}}"data-coursePlace="{{card.coursePlace}}"data-schedule="{{card.schedule}}">
                   <text class="courseName">{{card.courseName}}</text>
                   <text class="courseTeacher">老师：{{card.courseTeacher}}</text>
                   <text class="courseTime">时间：{{card.courseTime}}</text>
@@ -80,5 +80,5 @@
 </view>
 <!--老师界面-->
 <view wx:if="{{teacherPermit==1}}">
-  <include src="../teacher/list/list.wxml"/>
+  <include src="./common/list.wxml"/>
 </view>

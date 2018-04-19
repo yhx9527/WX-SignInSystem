@@ -154,7 +154,7 @@ Page({
     var now=that.data.now
     setDate(that,Date,now)
     console.log("老师单个课程页数据:"+temp.list)
-    var topItems=that.data.topItems
+    var topItems=[]
     var schedule=util.transchedule(temp.list.schedules)
     for(var index in schedule){
       var a = schedule[index]

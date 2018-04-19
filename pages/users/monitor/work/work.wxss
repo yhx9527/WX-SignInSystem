@@ -1,4 +1,4 @@
-@import "../common/mainTabCell.wxss";
+@import "../../student/common/mainTabCell.wxss";
 
 .item-view{
   background-color: white;

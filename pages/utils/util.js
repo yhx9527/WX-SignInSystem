@@ -82,7 +82,8 @@ function transchedule(schedules){
       newschedules.push(temp[i]);
       j = j - 1;
       newschedules[j].schTime = newschedules[j].schTime + "," + temp[i + 1].schTime;
-
+      if(newschedules.length>=2&&newschedules[j].schDay==newschedules[j+1].schDay)
+        newschedules.pop(newschedules[j + 1])
     }
   }
   for (var j = 0; j < newschedules.length; j++) {
@@ -108,7 +109,8 @@ function transchedule(schedules){
         break;
     }
   }
-  console.log("zhenghe  "+JSON.stringify(newschedules))
+  
+  console.log("zhenghe  "+JSON.stringify(newschedules,undefined,'\t'))
     return newschedules;
 }
  function transchedule1(schedule) {
@@ -117,6 +119,7 @@ function transchedule(schedules){
   newschedules = JSON.parse(JSON.stringify(schedule))
   for(var index in schedule){
   newschedules[index].schTime = "第" + schedule[index].schTime + "节课";
+  newschedules[index].schedule=schedule[index]
   switch (newschedules[index].schDay) {
     case 1: newschedules[index].schDay = "星期一" + "第" + schedule[index].schTime + "节课";
       break;
