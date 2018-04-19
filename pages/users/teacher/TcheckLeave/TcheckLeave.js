@@ -1,76 +1,84 @@
-const app=getApp()
-const network = require("../../../utils/network.js")
-const util=require("../../../utils/util.js")
-
-var getLeaves = function (that,schday) {
-  var url = "https://www.xsix103.cn/SignInSystem/Teacher/getLeaves.do"
-  var params = {}
-  var header =  app.globalData.header
-  var method = "POST"
-  network.request(url, params, method, header).then((data) => {
-    var leaves = []
-    for (var i in data) {
-      if(data[i].oneCozAndSch.schedule.schDay==schday){
-      var leave = {}
-      leave.signInRes = data[i]
-      leave.siTime1 = util.formatArrayTime(data[i].siTime)
-      if (data[i].siApprove == 0) {
-        leave.leaveStatu = "待审核"
-      } else if (data[i].siApprove == 1) {
-        leave.leaveStatu = "已通过"
-      } else if (data[i].siApprove == 2) {
-        leave.leaveStatu = "已驳回"
-      }
-      leaves.push(leave)
-    }
-    }
-
-    that.setData({
-      leaves: leaves
-    })
-  })
-}
+const app = getApp()
+const util = require('../../../utils/util.js')
+const network = require('../../../utils/network.js')
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    leaves:[],
-    coursename:""
+    dates: '2018-10-08',
+    tempFilePaths: "",
+    schWeek: 1,
+    courseName: "",
+    signInRes: {},
+    ifyes: false,
+    ifno: false,
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that=this;
-    let temp=JSON.parse(options.jsonString)
-    getLeaves(that,temp.schday)
-    that.setData({
-      coursename:temp.coursename,
-    })
+    var that = this;
+    let leave = {}
+    console.log(options)
+    try {
+      leave = JSON.parse(options.jsonString)
+    }
+    catch (err) {
+      leave = JSON.parse(options.jsonString + '"' + "}" + "}")
+    }
+    finally {
+      console.log(leave.signinres)
+      var temp = util.formatArrayTime(leave.signinres.siTime)
+      var dates = temp.split(' ')[0]
+      var ifyes
+      var ifno
+      var leaveStatu
+      if (leave.signinres.siApprove == 0) {
+        ifyes = false
+        ifno = false
+
+      } else if (leave.signinres.siApprove == 1) {
+        ifyes = true
+        ifno = false
+
+      } else if (leave.signinres.siApprove == 2) {
+        ifyes = false
+        ifno = true
+
+      }
+      that.setData({
+        dates: dates,
+        signInRes: leave.signinres,
+        courseName: leave.coursename,
+        schWeek: leave.signinres.siWeek,
+        tempFilePaths: 'data:image/png;base64,' + leave.signinres.siVoucher,
+        ifyes: ifyes,
+        ifno: ifno
+      })
+    }
+
+
 
   },
-  //查看详情
-  checkLeave:function(e){
-    let str = JSON.stringify(e.currentTarget.dataset)
-    wx.navigateTo({
-      url: '../TcheckLeave/TcheckLeave?jsonString='+str,
-    })
-  },
   //通过请假
-  yesLeave: function (e) {
+  yesLeave: function () {
+    var that = this
     wx.showModal({
       title: '提示',
       content: '审核通过该请假',
       success: function (res) {
         if (res.confirm) {
-          var url = 'https://www.xsix103.cn/SignInSystem/Teacher/approveLeave.do'
+          var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/approveLeave.do'
           var method = "POST"
-          var header = app.globalData.header
-          console.log(e.currentTarget)
-          var params = e.currentTarget.dataset.signinres
+          var header = {
+            "Access-Token": app.globalData.header['Access-Token'],
+            'content-type': 'application/json;charset=UTF-8'
+          }
+          var params = that.data.signInRes
 
           network.request(url, params, method, header).then((data) => {
             if (data) {
@@ -79,6 +87,11 @@ Page({
                 icon: "success",
                 duration: 1500
               })
+              setTimeout(function () {
+                wx.navigateBack({
+                  delta: 1
+                })
+              }, 1500)
             } else {
               wx.showToast({
                 title: '通过失败',
@@ -92,19 +105,23 @@ Page({
         }
       }
     })
+
   },
   //驳回请假
-  noLeave: function (e) {
+  noLeave: function () {
+    var that = this
     wx.showModal({
       title: '提示',
       content: '驳回该请假',
       success: function (res) {
         if (res.confirm) {
-          var url = 'https://www.xsix103.cn/SignInSystem/Teacher/rejectLeave.do'
+          var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/rejectLeave.do'
           var method = "POST"
-          var header =  app.globalData.header
-          console.log(e.currentTarget)
-          var params = e.currentTarget.dataset.signinres
+          var header = {
+            "Access-Token": app.globalData.header['Access-Token'],
+            'content-type': 'application/json;charset=UTF-8'
+          }
+          var params = that.data.signInRes
 
           network.request(url, params, method, header).then((data) => {
             if (data) {
@@ -113,6 +130,11 @@ Page({
                 icon: "success",
                 duration: 1500
               })
+              setTimeout(function () {
+                wx.navigateBack({
+                  delta: 1
+                })
+              }, 1500)
             } else {
               wx.showToast({
                 title: '驳回失败',
@@ -127,53 +149,52 @@ Page({
       }
     })
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    
+
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    
+
   }
 })

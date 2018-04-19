@@ -1,4 +1,4 @@
-@import "../../student/student.wxss";
+@import "../student.wxss";
 
 
 

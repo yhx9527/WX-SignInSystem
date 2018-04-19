@@ -1,0 +1,31 @@
+  <view class="top-title">审核请假</view>
+  <view class="form" bindsubmit='formSubmit'style="height:{{height}}px;width:{{width}}px">
+    <view class="head">
+      请假条
+    </view>
+    <view class="title">
+      请假课程
+    </view>
+      <input class="inputCourse" value="{{courseName}}"disabled="true"></input>
+    <view class="title">  
+      请假日期
+    </view>
+    <view class="section">    
+        <view class="picker">{{dates}}</view>
+    </view>
+    <view class="title">请选择请假周次</view>
+    <view class="section">
+        <view class="picker">第{{schWeek}}周</view>
+    </view>
+      <view class="title">请假凭证</view>
+    <view class="box">
+      <view bindtap="previewImage">
+      <image class="image"src="{{tempFilePaths}}"mode="aspecFill"/>
+      </view>
+    </view>
+    
+    <button wx:if="{{!ifyes&&!ifno}}"type="primary"bindtap="yesLeave"style="background-color:#32CD32;width:100%;margin-top:20px">通过</button>
+    <button wx:if="{{ifyes&&!ifno}}"type="primary"disabled="true"style="background-color:#32CD32;width:100%;margin-top:20px">已通过</button>
+    <button wx:if="{{!ifyes&&!ifno}}"type='warn'bindtap="noLeave"style="background-color:#FF8C00;width:100%;margin-top:20px">驳回</button>
+    <button wx:if="{{!ifyes&&ifno}}"type='warn'disbled="true"style="background-color:#FF8C00;width:100%;margin-top:20px">已驳回</button>
+  </view>

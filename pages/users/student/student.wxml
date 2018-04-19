@@ -3,7 +3,7 @@
  
 
   <view class="marquee_box">
-    <view class="marquee_text" style="{{orientation}}:{{marqueeDistance2}}px;font-size: {{size}}px;">
+    <view class="marquee_text" style="left:{{marqueeDistance2}}px;">
       <text>{{text}}</text>
       <text wx:if="{{marquee2copy_status}}" style="margin-left:{{marquee2_margin}}px;">{{text}}</text>  
     </view>
@@ -23,7 +23,7 @@
             <!--/view-->
             <!--view class="out2-2"-->
               <view id="{{signingCard.id}}"class="remove1"catchtap="leave"data-courseName="{{signingCard.courseName}}"data-schedule="{{signingCard.schedule}}"data-schweek="{{signingCard.schWeek}}">请假</view>
-              <view id="{{signingCard.id}}"class="remove2"catchtap="signMaping"data-statu="open">签到</view>
+              <view id="{{signingCard.id}}"class="remove2"catchtap="signMaping"data-statu="open"data-locLat="{{signingCard.locLat}}"data-locLon="{{signingCard.locLon}}">签到</view>
             <!--/view-->
             </view>
           </view>

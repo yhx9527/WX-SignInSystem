@@ -54,9 +54,9 @@
   <view class="spin" animation="{{animInput}}">  
     <image src="../../../image/specialMessage.png" class="img-style" bindtap="sendMessage"></image>
     <image src="../../../image/text3.PNG"class="explain"></image></view>-->
-  <view class="spin1">   
+  <view class="spin1"wx:if="{{monitorPermit==1||teacherPermit==1}}">   
     <view class="sendM">发布通知</view>
-    <image src="../../../image/special.png" class="img-plus-style" bindtap="sendMessage"wx:if="{{monitorPermit==1||teacherPermit==1}}"></image>
+    <image src="../../../image/special.png" class="img-plus-style" bindtap="sendMessage"></image>
   </view>
 <!--发布通知模态框-->
   <modal hidden="{{hiddenSendMessage}}" title="发布通知" confirm-text="发送" cancel-text="取消" bindcancel="cancelMessage" bindconfirm="confirmMessage">  

@@ -1,6 +1,6 @@
 /* pages/users/student/pages/parts/courseInfo/courseInfo.wxss */
-@import "../../../monitor/monitor.wxss";
-@import "../../../monitor/common/mainTabCell.wxss";
+@import "../../studentMtor/monitor.wxss";
+@import "../../common/mainTabCell.wxss";
 .item-view{
   background-color: white;
   margin: 10rpx 12rpx 10rpx 12rpx;

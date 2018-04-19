@@ -1,0 +1,135 @@
+ <!--index.wxml-->
+<import src="../../monitor/common/mainTabCell.wxml" />
+
+ <view class="userinfo" >
+    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+    
+      <text class="member">{{person.xingming}}</text>
+      <text class="member">{{person.xuehao}}</text>
+    
+    <view class="userinfo-work"wx:if="{{person.userPermit[1]==1}}">
+      <text class="work"bindtap="point">信用分:{{points}}</text>
+      <view class="cut-line2"></view>
+      <text class="work"bindtap="leaveNumber">请假次数:{{leaveNum}}</text>
+    </view>
+    <view class="userinfo-work"style="margin-bottom:5px">
+      <text class="work">简介:{{person.memberInfo}}</text>
+    </view>  
+</view>
+
+<view class="top-tab"wx:if="{{person.userPermit[1]==1}}">
+  <view class="top-tab-item {{currentTopItem==idx ? 'active' : ''}}" wx:for="{{topTabItems}}" wx:for-index="idx" data-idx="{{idx}}" bindtap="switchTab">
+    {{item}}
+  </view>
+</view>
+<swiper class="swiper" current="{{currentTopItem}}" bindchange="bindChange" duration="300" style="height:{{swiperHeight}}px" wx:if="{{person.userPermit[1]==1}}">
+
+  <!--督导课堂-->
+  <swiper-item>
+    <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" >
+      <view class="hengfu"><text class="hengfuText">正在督导</text></view>
+        <view style="height:12rpx;background-color:#eaeaea"></view>
+          <view class="item-view "bindtap="monitorCourse" data-courseID="{{item.id}}"data-courseName="{{item.courseName}}"data-courseTeacher="{{item.courseTeacher}}"data-courseTime="{{item.courseTime}}"data-coursePlace="{{item.coursePlace}}"data-suvId="{{item.suvId}}"data-schId="{{item.schedule.schId}}"data-suvWeek="{{item.suvWeek}}"data-suvMan="{{item.suvMan}}">
+               <template is="mainTabCell" data="{{item}}" />
+       
+          </view>
+        
+      <view class="hengfu"><text class="hengfuText">全部督导</text></view>
+      <view style="height:12rpx;background-color:#eaeaea"></view>
+      
+      <view class="item-view " wx:for="{{allDataList}}"  wx:for-item="item"bindtap="monitorCourse" data-ArrayFlag="{{item.ArrayFlag}}"data-courseID="{{item.id}}"data-courseName="{{item.courseName}}"data-courseTeacher="{{item.courseTeacher}}"data-courseTime="{{item.courseTime}}"data-coursePlace="{{item.coursePlace}}"data-suvId="{{item.suvId}}"data-schId="{{item.schedule.schId}}"data-suvWeek="{{item.suvWeek}}"data-suvMan="{{item.suvMan}}"data-xingming="{{item.student.userName}}">
+        
+          <template is="mainTabCell" data="{{item}}" />
+
+       
+      </view>
+      <view style="height:12rpx;background-color:#eaeaea"></view>
+    </scroll-view>
+  </swiper-item>
+
+  <!--历史记录-->
+  <swiper-item>
+    <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData" >
+      <view style="height:12rpx;background-color:#eaeaea"></view>
+      
+      <view class="item-view" wx:for="{{historyDataList}}"  wx:for-item="item"bindtap="historyCourse"data-courseID="{{item.id}}"data-courseName="{{item.courseName}}"data-courseTeacher="{{item.courseTeacher}}"data-courseTime="{{item.courseTime}}"data-coursePlace="{{item.coursePlace}}"data-suvRecord="{{item.suvRecord}}">
+        
+          <view class="itemSon">                        
+            <image class="img" src="../../../image/first.jpg" mode='scaleToFill'></image>
+            <view class="course-wrapper">
+            <text class="courseName">{{item.courseName}}</text>
+            <text class="courseTeacher">老师：{{item.courseTeacher}}</text>
+            <text class="courseTime">时间：{{item.courseTime}}</text>
+            <text class="coursePlace">地点：{{item.coursePlace}}</text>
+            </view>
+            <view class="remind">
+             
+                <text class="remindText">完成</text>
+                <text class="remindText">督导</text>
+            
+            </view>
+          </view>
+        
+      </view>
+
+      <view style="height:12rpx;background-color:#eaeaea"></view>
+    </scroll-view>
+  </swiper-item>
+
+  <!--审核请假-->
+  <swiper-item>
+    <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData">
+      <view style="height:12rpx;background-color:#eaeaea"></view>
+
+      <view class="item-view" wx:for="{{leaveDataList}}"  wx:for-item="item"bindtap="McheckLeave"data-coursename="{{item.courseName}}"data-signinres="{{item.signInRes}}">
+         <view class="itemSon">                        
+            <image class="img" src="../../../image/shenhe.jpg" mode='scaleToFill'></image>
+            <view class="course-wrapper">
+            <text class="courseName">{{item.courseName}}</text>
+            <text class="courseTeacher">请假学生姓名：{{item.courseStudent}}</text>
+            <text class="coursePlace">请假学生学号：{{item.courseXuehao}}</text>
+            <text class="courseTime">时间：{{item.courseTime}}</text>
+            
+            </view>
+            <!--
+            <view class="remindbtn">
+             <button class="remindTextbtn1"bindtap="noLeave"data-signinres="{{item.signInRes}}"data-index="{{item.index}}"style="background-color:#FF8C00">驳回</button>
+              <button class="remindTextbtn1"bindtap="yesLeave"data-signinres="{{item.signInRes}}"data-index="{{item.index}}">通过</button>
+              
+            
+            </view>
+            -->
+            <view class="shuzhe">{{item.leaveStatu}}</view>
+          </view>
+      </view>
+      <view style="height:12rpx;background-color:#eaeaea"></view>
+    </scroll-view>
+  </swiper-item>
+
+  <!--督导转接-->
+  <swiper-item>
+    <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData">
+      <view style="height:12rpx;background-color:#eaeaea"></view>
+      
+      <view class="item-view" wx:for="{{giveDataList}}"  wx:for-item="item">
+        <view class="itemSon">                        
+            <image class="img" src="../../../image/first.jpg" mode='scaleToFill'></image>
+            <view class="course-wrapper">
+            <text class="courseName">{{item.courseName}}</text>
+            <text class="courseTeacher">老师：{{item.courseTeacher}}</text>
+            <text class="courseTime">时间：{{item.courseTime}}</text>
+            <text class="coursePlace">地点：{{item.coursePlace}}</text>
+            </view>
+            <view class="remindbtn">
+             
+              <button class="remindTextbtn"bindtap="receive"data-suvSch="{{item.suvSch}}"data-index="{{item.index}}">领取</button>
+                
+            
+            </view>
+          </view>
+      </view>
+      <view style="height:12rpx;background-color:#eaeaea"></view>
+    </scroll-view>
+  </swiper-item>
+</swiper>
+

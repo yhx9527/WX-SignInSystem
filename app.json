@@ -3,18 +3,29 @@
     "pages/login/login",
     "pages/users/student/student",
     "pages/users/student/student1/student1",
-    "pages/users/monitor/monitor",
+    "pages/users/student/studentMtor/monitor",
     "pages/users/student/parts/leave/leave",
-    "pages/users/monitor/work/work",
-    "pages/parts/courseInfo/courseInfo",
-    "pages/users/student/parts/courseInfo/courseInfo",
-    "pages/users/monitor/hisRecord/hisRecord",
-    "pages/users/monitor/monitorLeave/monitorLeave",
-    "pages/users/teacher/teacher",
-    "pages/users/teacher/list/list",
-    "pages/users/teacher/absence/absence",
-    "pages/users/teacher/checkLeaves/checkLeaves",
-    "pages/users/monitor/checkLeave/checkLeave"
+    "pages/users/student/parts/courseInfo/courseInfo" 
+  ],
+  "subPackages":[
+    {
+      "root":"pages/users/teacher/",
+      "pages":[
+          "absence/absence",
+          "checkLeaves/checkLeaves",
+          "teacher",
+          "TcheckLeave/TcheckLeave" 
+      ]
+    },
+    {
+      "root":"pages/users/monitor/",
+      "pages":[
+        "work/work",
+        "monitorLeave/monitorLeave",
+        "hisRecord/hisRecord",
+        "checkLeave/checkLeave"
+      ]
+    }
   ],
 
   "window": {
@@ -43,7 +54,7 @@
         "selectedIconPath": "pages/image/tab_message_selected.png"
       },
       {
-        "pagePath": "pages/users/monitor/monitor",
+        "pagePath": "pages/users/student/studentMtor/monitor",
         "iconPath": "pages/image/tab_myself_normal.png",
         "text": "个人中心",
         "selectedIconPath": "pages/image/tab_myself_selected.png"

@@ -1,4 +1,4 @@
-@import "../teacher/list/list.wxss";
+@import "./common/list.wxss";
 page{
   background-color: #eaeaea;
   height: auto;
@@ -158,6 +158,7 @@ flex-direction:row;
   white-space: nowrap;
   position: absolute;
   top: 0;
+  font-size: 14px;
 }
 .hengfu{
  width:100%;
@@ -274,6 +275,13 @@ padding-bottom:4px;
 } 
 .radio{ 
  margin-right: 20px; 
+}
+.Icon{
+  height:150rpx;
+  width:150rpx;
+  margin-right:10px;
+  margin-top:5rpx;
+
 } 
 .grid { display: -webkit-box; display: box; } 
 .col-0 {-webkit-box-flex:0;box-flex:0;} 

@@ -165,8 +165,6 @@ Page({
     marqueeDistance2: 0,
     marquee2copy_status:false,
     marquee2_margin: 60,
-    size: 14,
-    orientation: 'left',//滚动方向
     interval: 30 ,// 时间间隔
     hidden:true,
     showModalStatus:false,
@@ -231,7 +229,7 @@ Page({
         
       }
       self.setData({
-        cards: cards
+        'cards[index].right': cards[index].right
       });
     
   },
@@ -246,7 +244,7 @@ Page({
       }
 
     this.setData({
-      cards: cards
+      'cards[index].right': cards[index].right
     });
   },
   //计算滑动角度
@@ -299,7 +297,7 @@ Page({
 
       }
       self.setData({
-        signingCard: signingCard
+        'signingCard.right': signingCard.right
       });
   },
   signingEnd:function(e){
@@ -311,7 +309,7 @@ Page({
     }
 
     this.setData({
-      signingCard: signingCard
+      'signingCard.right': signingCard.right
     });
   },
 /*
@@ -971,11 +969,9 @@ Page({
             showModalStatus: false
           }
         );
-        wx.showToast({
-          title: '已签到',
-          icon: 'success',
-          duration: 1500
-
+        wx.showModal({
+          title: '提示',
+          content: '已签到，请勿重复操作',
         })
 
       }

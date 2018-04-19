@@ -1,2 +1,2 @@
 @import "../absence/absence.wxss";
-@import "../../monitor/monitor.wxss";
+@import "../../student/studentMtor/monitor.wxss";

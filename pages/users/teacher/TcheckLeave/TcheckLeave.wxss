@@ -1,0 +1,11 @@
+@import "../../student/parts/leave/leave.wxss";
+.top-title{
+   background-color: #12b7f4;
+  flex:1;
+  text-align: center;
+  color:white;
+  padding-bottom:3px;
+}
+page{
+  height: 100%;
+}
