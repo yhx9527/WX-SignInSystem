@@ -151,7 +151,7 @@ Page({
   setNewDataWithRes: function (dataType) {
     var that=this
     var courseItem=that.data.courseItem
-    console.log("aaaa"+JSON.stringify(courseItem))
+    //console.log("aaaa"+JSON.stringify(courseItem))
     var schedule = {}
     schedule = courseItem.schedule;
     switch (types[dataType]) {
@@ -187,9 +187,9 @@ Page({
         network.request(url,params,method,header).then((data)=>{
           var noDataList = new Array();
           for (var index in data) {
-            var time = util.formatArrayTime(data[index].siTime)
-            var id = data[index].siId
-            noDataList.push({ "id": id, "time": time })
+            if(data[index]==-1){
+              noDataList.push("第"+(parseInt(index)+1)+"周")
+            }
           }
 
           that.setData({
@@ -209,7 +209,8 @@ Page({
     this.setData({ refreshing: true });
     updateRefreshIcon.call(this);
     var that = this;
-    that.setNewDataWithRes(e.currentTarget.dataset.idx)
+    //console.log("目前" + e.currentTarget.dataset.idx)
+    that.setNewDataWithRes(parseInt(e.currentTarget.dataset.idx))
     setTimeout(function () {
       that.setData({
         refreshing: false
@@ -253,33 +254,14 @@ Page({
    DownLoad:function(){
     console.log("上拉了")
    },
-  /*
-  //设置加载更多的数据
-  setMoreDataWithRes(res, target) {
-    switch (types[dataType]) {
-      //历史签到
-      case DATATYPE.SIGNDATATYPE:
-        target.setData({
-          signDataList: target.data.signDataList.concat(res.data.list)
-        });
-        break;
-      //历史请假
-      case DATATYPE.LEAVEDATATYPE:
-        target.setData({
-          leaveDataList: target.data.leaveDataList.concat(res.data.list)
-        });
-        console.log(array);
-        break;
-      //历史缺勤
-      case DATATYPE.NODATATYPE:
-        target.setData({
-          noDataList: target.data.noDataList.concat(res.data.list)
-        });
-        break;
-      default:
-        break;
-    }
-  },*/
+   //滑动菜单
+   bindChange: function (e) {
+     console.log("目前" + e.detail.current)
+     this.setNewDataWithRes(e.detail.current);
+     this.setData({
+       currentTopItem: e.detail.current
+     })
+   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作

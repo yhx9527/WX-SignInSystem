@@ -124,6 +124,7 @@
 .courseOther{
    font-size: 30rpx;
    font-weight:lighter;
+   white-space:nowrap;
 }
 .hengfu{
  width:100%;

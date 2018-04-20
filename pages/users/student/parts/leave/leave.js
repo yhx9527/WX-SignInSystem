@@ -49,8 +49,10 @@ Page({
     var that=this
     console.log("周  "+JSON.stringify(e.detail))
     var schedule=that.data.courseItem.schedule
+    console.log("请假schdule" + schedule)
+    if(schedule!=undefined){
     schedule.schWeek=e.detail.value.schWeek+1
-    console.log(schedule)
+    
     if (that.data.tempFilePaths.length!=0){
       /*
       console.log("临时  " + that.data.tempFilePaths[0])
@@ -134,7 +136,13 @@ Page({
       content: '请上传请假凭证',
     })
   }
-
+  }else{
+    wx.showToast({
+      title: '操作失败',
+      icon:"none",
+      duration:1500
+    })
+  }
   },
 
   /**

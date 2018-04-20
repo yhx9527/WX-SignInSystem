@@ -82,14 +82,17 @@ function transchedule(schedules){
       newschedules.push(temp[i]);
       j = j - 1;
       newschedules[j].schTime = newschedules[j].schTime + "," + temp[i + 1].schTime;
+      if (newschedules[j].schedule==undefined)
+        newschedules[j].schedule = schedules[i];
+      if(j+1<newschedules.length){
       if(newschedules.length>=2&&newschedules[j].schDay==newschedules[j+1].schDay)
         newschedules.pop(newschedules[j + 1])
+      }
     }
   }
   for (var j = 0; j < newschedules.length; j++) {
     newschedules[j].schTime = "第" + newschedules[j].schTime + "节课"
     newschedules[j].schDayT = newschedules[j].schDay
-    newschedules[j].schedule=schedules[j]
     switch (newschedules[j].schDay) {
       case 1: newschedules[j].schDay = "星期一" 
         break;
@@ -110,7 +113,7 @@ function transchedule(schedules){
     }
   }
   
-  console.log("zhenghe  "+JSON.stringify(newschedules,undefined,'\t'))
+  console.log("处理后的  "+JSON.stringify(newschedules,undefined,'\t'))
     return newschedules;
 }
  function transchedule1(schedule) {

@@ -30,7 +30,7 @@ Page({
     var that=this
     var flag=wx.getStorageSync('person')
     console.log("flag" + JSON.stringify(wx.getStorageSync('person')))
-    if(flag==[]){
+    //if(flag==[]){
     if (e.detail.value.userID.length == 0 || e.detail.value.userCode.length == 0) {
       wx.showModal({
         title: '提示',
@@ -67,7 +67,7 @@ Page({
                       },
                       code: res1.code
                     },
-                    header: {"Access-Token":''},
+                    header: app.globalData.header,
                     success: function (res) {
                       if(res.data!=null){
                       //var map = config.jsonToMap(JSON.stringify(res.header));
@@ -124,12 +124,12 @@ Page({
 
      
     }
-  }else{
+  /*}else{
     wx.showModal({
       title: '已绑定微信',
       content: '请检查网络后重开应用，等待自动跳转',
     })
-  }
+  }*/
     },
 
   /**
@@ -193,12 +193,13 @@ Page({
         //app.globalData.header.Cookie = a.split(";")[0]
         //console.log("wxlogin"+app.globalData.header.Cookie)
         
-          if (res.data.err == "1") {
+          if (res.data.isBind == false) {
             wx.showModal({
               title: '提示',
               content: '你的微信未绑定，请登录绑定',
 
             })
+            app.globalData.header['Access-Token'] = res.data.token
           } else if (res.data.err == "2") {
             console.log(res.data.errStr)
             wx.showModal({

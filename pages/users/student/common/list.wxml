@@ -9,7 +9,7 @@
   </block> 
 </dl>-->
 <view class="hengfu"><text class="hengfuText">我的全部授课</text></view>
-<scroll-view scroll-top="{{scrollTop}}" scroll-y="true" style="height:{{scrollHeight}}px;"class="teacherList"wx:if="{{!ifshade}}">
+<scroll-view scroll-top="{{scrollTop}}" scroll-y="true" style="height:{{teacherLists.length*90}}px;"class="teacherList"wx:if="{{!ifshade}}">
   <view wx:for="{{teacherLists}}" wx:for-item="teacherList" id="{{teacherList.cozId}}">
     <view class="firstCard"bindtap='singleTlist'data-list="{{teacherList}}"style="border:1px solid #dddcdc;background-color:white">
       <image class="Icon"src="../../image/teacher.jpg"></image>

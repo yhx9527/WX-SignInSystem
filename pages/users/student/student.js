@@ -272,15 +272,15 @@ Page({
     cards: [],
     signingCard: {}, //正在签到
     scrollHeight: 0,
-    text:"签到仅限课前十分钟和上课十分钟之内有效！！！",
-    marqueePace: 0.5,//滚动速度
-    marqueeDistance: 0,//初始滚动距离
-    orientation: 'left',//滚动方向
-    marqueeDistance2: 0,
-    marquee2copy_status:false,
-    marquee2_margin: 60,
-    size:14,
-    interval: 30 ,// 时间间隔
+    //text:"签到仅限课前十分钟和上课十分钟之内有效！！！",
+    //marqueePace: 0.5,//滚动速度
+    //marqueeDistance: 0,//初始滚动距离
+    //orientation: 'left',//滚动方向
+    //marqueeDistance2: 0,
+    //marquee2copy_status:false,
+    //marquee2_margin: 60,
+    //size:14,
+    //interval: 30 ,// 时间间隔
     hidden:true,
     showModalStatus:false,
     locationInfo:null,
@@ -467,13 +467,13 @@ Page({
     }); 
     
 
-    var length = that.data.text.length * that.data.size;//文字长度
-    var windowWidth = wx.getSystemInfoSync().windowWidth;// 屏幕宽度
+    //var length = that.data.text.length * that.data.size;//文字长度
+    //var windowWidth = wx.getSystemInfoSync().windowWidth;// 屏幕宽度
     var person=wx.getStorageSync('person')
     that.setData({
-      length: length,
-      windowWidth: windowWidth,
-      marquee2_margin: length < windowWidth ? windowWidth - length : that.data.marquee2_margin,//当文字长度小于屏幕长度时，需要增加补白
+      //length: length,
+      //windowWidth: windowWidth,
+      //marquee2_margin: length < windowWidth ? windowWidth - length : that.data.marquee2_margin,//当文字长度小于屏幕长度时，需要增加补白
       studentPermit:person.userPermit[0],
       teacherPermit:person.userPermit[2],
       //reportData: ReportDataSync,//菜单数据 
@@ -486,8 +486,8 @@ Page({
     getTchList(that);
     }
     if(that.data.studentPermit==1){
-    that.run1();// 水平一行字滚动完了再按照原来的方向滚动
-    that.run2();// 第一个字消失后立即从右边出现
+    //that.run1();// 水平一行字滚动完了再按照原来的方向滚动
+    //that.run2();// 第一个字消失后立即从右边出现
     getSigning(that);
     getCards(that);
     }
@@ -577,6 +577,7 @@ Page({
 /** 
 *文字移动
 */
+/*
   run1: function () {
     var vm = this;
     var interval = setInterval(function () {
@@ -619,7 +620,7 @@ Page({
       }
     }, vm.data.interval);
   },
-
+*/
   /**
    * 生命周期函数--监听页面隐藏
    */
@@ -685,7 +686,7 @@ Page({
             latitude: e.currentTarget.dataset.loclat,
             color: '#FF0000DD',
             fillColor: '#7cb5ec88',
-            radius: 10,
+            radius: 40,
             strokeWidth: 0.1
           }],
           polyline: [{
@@ -805,7 +806,7 @@ Page({
           latitude: e.currentTarget.dataset.loclat,
           color: '#FF0000DD',
           fillColor: '#7cb5ec88',
-          radius: 10,
+          radius: 40,
           strokeWidth: 0.1
         }],
         polyline: [{
@@ -901,7 +902,7 @@ Page({
           header: app.globalData.header,
           success: function (res) {
             console.log(res.data);
-            if (res.data.location && res.data.time) {
+            if (res.data.needSignIn && res.data.success) {
               var currentStatu = "successclose";
               that.util(currentStatu)
             } else {

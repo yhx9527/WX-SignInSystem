@@ -3,6 +3,7 @@ const util=require("../../utils/util.js")
 const network = require("../../utils/network.js")
 const app=getApp()
 const date=new Date()
+var dataType = 0;
 
 //日期初始化函数
 var setDate=function(that,Date,now){
@@ -50,17 +51,20 @@ that.setData({
 }
 
 
-var getMonitoring=function(that,schedule){
+var getMonitoring=function(that,schedule,schWeek){
   var url ="https://www.xsix103.cn/SignInSystem/Teacher/fSuvRecByCoz.do"
   var params = schedule
-  
   var header =app.globalData.header
   var method = "POST"
   network.request(url, params, method, header).then((data)=>{
     if(data.length!=0){
-    that.setData({
-      Monitoring:data[0]
-    })
+      for (var index in data) {
+        if(data[index].suvWeek==schWeek){
+          that.setData({
+            Monitoring: data[index]
+          })
+        }
+      }
     }else{
       that.setData({
         Monitoring:{}
@@ -68,16 +72,26 @@ var getMonitoring=function(that,schedule){
     }
   })
 }
-var getAbsence = function (that, schedule) {
+var getAbsence = function (that, schedule,schWeek) {
   var url = "https://www.xsix103.cn/SignInSystem/Teacher/fSchAbsRecByCoz.do"
   var params = schedule
 
   var header = app.globalData.header
   var method = "POST"
   network.request(url, params, method, header).then((data) => {
-    that.setData({
-      Absence:data
-    })
+    if (data.length != 0) {
+      for (var index in data) {
+        if (data[index].sarWeek == schWeek) {
+          that.setData({
+            Absence: data[index]
+          })
+        }
+      }
+    } else {
+      that.setData({
+        Absence: {}
+      })
+    }
     
   })
 }
@@ -104,13 +118,37 @@ var getLeaves = function (that,topItems) {
 
 }
 //得到该课程的是否正在签到
-var getSign=function(schId){
+var getSign=function(that,topItems,i){
   var url = 'https://www.xsix103.cn/SignInSystem/Teacher/getCozSignIn.do'
   var method = "POST"
   var header =app.globalData.header
-  var params = schId
+  var params = topItems[i].schId
   network.request(url, params, method, header).then((data)=>{
-    console.log("getSign  ")
+    for(var index in data){
+      if(data[index]==topItems[i].schWeek){
+        topItems[i].ifSign=true
+      }
+    }
+    that.setData({
+      topItems:topItems
+    })
+  })
+}
+//得到该课程的督导情况
+var getSuv=function(that,topItems,i){
+  var url = 'https://www.xsix103.cn/SignInSystem/Teacher/findCozSuv.do'
+  var method = "POST"
+  var header = app.globalData.header
+  var params = topItems[i].schId
+  network.request(url, params, method, header).then((data) => {
+    for (var index in data) {
+      if (data[index] == topItems[i].schWeek) {
+        topItems[i].ifMonitor = true
+      }
+    }
+    that.setData({
+      topItems: topItems
+    })
   })
 }
 
@@ -139,6 +177,7 @@ Page({
     ifMan:false,//发起手动签到是否亮
     Date:[],
     now:[],
+    stopWeek:0,
   },
 
   /**
@@ -153,20 +192,24 @@ Page({
     }
     var now=that.data.now
     setDate(that,Date,now)
-    console.log("老师单个课程页数据:"+temp.list)
+    //console.log("老师单个课程页数据:"+JSON.stringify(temp.list.schedules),undefined,'\t')
     var topItems=[]
+
     var schedule=util.transchedule(temp.list.schedules)
     for(var index in schedule){
       var a = schedule[index]
       a.ifSign=false
       a.ifMonitor=false
       a.ifMonitor1=true
+      a.ifStopClass=true
       a.suvWeek=a.schWeek
       //topItems.push(common.transchedule(temp.list.schedules[index]))
       topItems.push(a)
     }
-    getMonitoring(that,schedule[0].schedule);
-    getAbsence(that, schedule[0].schedule);
+    getMonitoring(that,schedule[0].schedule,schedule[0].schWeek);
+    getAbsence(that, schedule[0].schedule,schedule[0].schWeek);
+    getSign(that,topItems,0)
+    getSuv(that,topItems,0)
     getLeaves(that,topItems)
     var Width = (app.globalData.Width)/(topItems.length)
     that.setData({
@@ -182,7 +225,7 @@ Page({
   },
   //切换顶部标签
   switchTab:function(e){
-    var dataType = e.currentTarget.dataset.idx;
+    dataType = e.currentTarget.dataset.idx;
     var that=this;
     that.setData({
       currentTopItem: e.currentTarget.dataset.idx,
@@ -195,30 +238,40 @@ Page({
   setNewDataWithRes: function (dataType) {
     var that = this;
     var topItems=that.data.topItems
+    if(topItems.length!=0){
     switch (dataType) {
       //第一节课
       case 0:
         getMonitoring(that,topItems[0].schedule);
         getAbsence(that, topItems[0].schedule);
+        getSign(that,topItems,0)
+        getSuv(that,topItems,0)
         break;
       //第二节课
       case 1:
         getMonitoring(that, topItems[1].schedule);
         getAbsence(that, topItems[1].schedule);
+        getSign(that, topItems,1)
+        getSuv(that, topItems,1)
         break;
       //第三节课
       case 2:
         getMonitoring(that, topItems[2].schedule);
         getAbsence(that, topItems[2].schedule);
+        getSign(that, topItems,2)
+        getSuv(that, topItems,2)
         break;
       //第四节课
       case 3:
         getMonitoring(that, topItems[3].schedule);
         getAbsence(that, topItems[3].schedule);
+        getSign(that, topItems,3)
+        getSuv(that, topItems,3)
         break;
       default:
         break;
     }
+  }
   },
   bindChange:function(e){
     this.setData({
@@ -282,23 +335,39 @@ Page({
   
   //课程停课
   stopClass:function(e){
-    var tishi = e.currentTarget.dataset.schday + e.currentTarget.dataset.schtime+"进行停课"
-    var params=e.currentTarget.dataset.schid+"&"+e.currentTarget.dataset.schweek
+    var index=e.currentTarget.dataset.index
+    var topItems=this.data.topItems
+    topItems[index].ifStopClass=false
+    this.setData({
+      topItems:topItems
+    })
+  },
+  confirmStop:function(e){
+    //var tishi = e.currentTarget.dataset.schday + e.currentTarget.dataset.schtime+"进行停课"
+    var index=e.currentTarget.dataset.index
+    var that=this
+    var topItems=that.data.topItems
+    if(that.data.stopWeek==0){
+      var params = topItems[index].schId + "&" + topItems[index].schWeek
+    }else{
+      var params = topItems[index].schId + "&" + that.data.stopWeek
+    }
+    
     console.log(params);
     var url = "https://www.xsix103.cn/SignInSystem/Teacher/fSchAbsRecByCoz.do"
     var header =app.globalData.header
     var method = "POST"
-    wx.showModal({
-      title: '提示',
-      content: tishi,
-      success:function(res){
-        if(res.confirm){
           network.request(url, params, method, header).then((data) => {
-            if(data){
+            if(data==true){
               wx.showToast({
                 title: '停课成功',
                 icon:"success",
                 duration:2000
+              })
+              topItems[index].ifStopClass = true
+              that.setData({
+                topItems: topItems,
+                stopWeek:0
               })
             }else{
               wx.showToast({
@@ -306,17 +375,25 @@ Page({
                 icon: "none",
                 duration: 2000
               })
+              that.setData({
+                stopWeek:0
+              })
             }
           }) 
-        }else if(res.cancel){
-          
-        }
-      }
+  },
+  cancelStop:function(e){
+    var topItems = this.data.topItems
+    var index = e.currentTarget.dataset.index
+    topItems[index].ifStopClass = true
+    this.setData({
+      topItems: topItems
     })
   },
-  //手动签到设置时间
-  manDt:function(e){
-    console.log("手动时间:   "+e.detail.value)
+  confirmStopInput:function(e){
+    console.log("输入的是" + e.detail.value)
+    this.setData({
+      stopWeek:e.detail.value
+    })
   },
   //显示底部弹出框
   showBottomModel:function(e){
@@ -405,6 +482,7 @@ Page({
       })
     }.bind(this),200)
   },
+  //手动签到设置时间
   manDt:function(e){
     this.setData({
       now:e.detail.value
@@ -426,7 +504,7 @@ Page({
       var params = suvMan
       network.request(url, params, method, header).then((data)=>{
         console.log("自动")
-        if(data){
+        if(data==true){
           that.hideBottomModel(e)
           wx.showToast({
             title: '设置成功',
@@ -476,6 +554,9 @@ Page({
         }
       })
     } else if (temp.autoSign && temp.manSign){
+      temp.manDt[0] += date.getFullYear()
+      temp.manDt[1] += 1
+      temp.manDt[2] += 1
       var suvMan = { "schId": topItems[index].schId, "siWeek": topItems[index].schWeek, "siTime": temp.manDt, "suvManAutoOpen": true }
       var url = 'https://www.xsix103.cn/SignInSystem/Teacher/setCozSignIn.do'
       var method = "POST"
@@ -621,8 +702,11 @@ Page({
    */
   onShow: function () {
     var now = this.data.now
+    var topItems=this.data.topItems
     now = [0, date.getMonth() - 1, date.getDay() - 1, date.getHours(), date.getMinutes(), date.getSeconds()]
-    getSign(17)
+    this.setNewDataWithRes(dataType)
+
+    
     this.setData({
       now: now
     })

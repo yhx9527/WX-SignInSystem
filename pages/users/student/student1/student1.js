@@ -19,7 +19,8 @@ Page({
     teacherPermit:0,
     centendata:[],//通知单
     hasMessage:false,
-    person:{}//个人资料
+    person:{},//个人资料
+    memberInfo:""
   },
 
   
@@ -74,13 +75,13 @@ Page({
     console.log(time)
     this.setData({
 
-      centendata:[{"time":time,"is_show_right":"1","content":"通知内容","character":"督导员"}],
+      centendata:[{"time":time,"is_show_right":"1","content":"正在开发中...敬请期待！！！","character":this.data.memberInfo}],
       hiddenSendMessage: true,
       hasMessage:true
     })
 
     wx.showToast({
-      title: '发布成功',
+      title: '正在开发中...',
       icon: 'success',
       duration: 2000
     }); 
@@ -151,10 +152,16 @@ Page({
   onLoad: function (options) {
     var that=this;
     var person=wx.getStorageSync('person')
+    if (person.userPermit[1]==1){
+      var memberInfo="督导员"
+    } else if (person.userPermit[2]==1){
+      var memberInfo=person.userName+"老师"
+    }
     that.setData({
       monitorPermit:person.userPermit[1],
       teacherPermit:person.userPermit[2],
-      person:person
+      person:person,
+      memberInfo:memberInfo
     })
   },
 

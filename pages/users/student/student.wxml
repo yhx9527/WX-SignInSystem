@@ -2,12 +2,12 @@
 <view wx:if="{{studentPermit==1}}"class="container">
  
 
-  <view class="marquee_box">
+  <!--view class="marquee_box">
     <view class="marquee_text" style="{{orientation}}:{{marqueeDistance2}}px;font-size: {{size}}px;">
       <text>{{text}}</text>
       <text wx:if="{{marquee2copy_status}}" style="margin-left:{{marquee2_margin}}px;">{{text}}</text>  
     </view>
-  </view>
+  </view-->
         <view class="hengfu"><text class="hengfuText">正在签到</text></view>
 
           <view id="{{signingCard.id}}" data-loc="{{signingCard.loc}}"class="item" bind:touchstart="signingStart" bind:touchmove='signingMove'bind:touchend='signingEnd'style='right:{{signingCard.right}}px'>

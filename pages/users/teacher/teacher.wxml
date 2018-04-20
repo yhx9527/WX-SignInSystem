@@ -42,7 +42,7 @@
 </view>
 <view class="fourCard">
   <view class="cardTitle"style="background-color:{{background}}">
-    <text class="titleText1">督导队记录(第 {{Monitoring.suvWeek}} 周)</text>
+    <text class="titleText1">督导队记录(第 {{item.schWeek}} 周)</text>
     <text class="titleText2">记录人:{{Monitoring.suvRecName}}</text>
   </view>
   <view class="cardContent">
@@ -95,8 +95,11 @@
     </view>
   </view>
   <view class='buttonView'>
-    <button type="warn"bindtap="stopClass"data-schid="{{item.schId}}"data-schweek="{{item.schWeek}}"data-schday="{{item.schDay}}"data-schtime="{{item.schTime}}">课程停课</button>
+    <button type="warn"bindtap="stopClass"data-index="{{index}}">课程停课</button>
   </view>
+   <modal hidden="{{item.ifStopClass}}"title="{{item.schDay}}进行停课"confirm-text="确认"cancel-text="取消"bindcancel="cancelStop"bindconfirm="confirmStop"data-index="{{index}}">
+    <input type="number"placeholder="请输入停课周(默认第{{item.schWeek}}周)"bindinput="confirmStopInput"data-index="{{index}}"></input>
+  </modal>
 </view>
 
 

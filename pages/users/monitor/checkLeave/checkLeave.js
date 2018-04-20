@@ -81,7 +81,7 @@ Page({
           var params = that.data.signInRes
 
           network.request(url, params, method, header).then((data) => {
-            if (data) {
+            if (data=true) {
               wx.showToast({
                 title: '通过',
                 icon: "success",
@@ -124,7 +124,7 @@ Page({
           var params =that.data.signInRes
 
           network.request(url, params, method, header).then((data) => {
-            if (data) {
+            if (data==true) {
               wx.showToast({
                 title: '驳回',
                 icon: "success",

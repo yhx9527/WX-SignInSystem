@@ -47,7 +47,9 @@ page{
  }
  .courseTime{
    font-size: 30rpx;
-   font-weight:lighter
+   font-weight:lighter;
+   white-space:nowrap;
+
  }
 
  .coursePlace{

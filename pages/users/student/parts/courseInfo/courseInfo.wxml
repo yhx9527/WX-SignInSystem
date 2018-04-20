@@ -20,14 +20,14 @@
   </view>
 </view>
  
-<swiper class="swiper" current="{{currentTopItem}}" bindchange="bindChange" duration="300"style="height:{{swiperHeight}}px"  >
+<swiper class="swiper" current="{{currentTopItem}}" bindchange="bindChange" duration="300">
 
   <!--历史签到-->
   <swiper-item>
-    <view class="refresh-block" style="height: {{refreshHeight}}px;" wx:if="{{refreshing}}"style="height:{{refreshHeight}}px">  
+    <view class="refresh-block" style="height: {{refreshHeight}}px;" wx:if="{{refreshing}}">  
     <image animation="{{refreshAnimation}}" src="../../../../image/refesh.png"></image>  
   </view>
-    <scroll-view style="height:{{swiperHeight}}px" scroll-y="true" bindscrolltoupper="upper"catchtouchstart="start"catchtouchmove="move" catchtouchend="end"data-idx="0" >
+    <scroll-view style="height:{{signDataList.length*53}}px" scroll-y="true" bindscrolltoupper="upper"catchtouchstart="start"catchtouchmove="move" catchtouchend="end"data-idx="0" >
       <view style="height:12rpx;background-color:#eaeaea"></view>
       
       <view class="jilu" wx:for="{{signDataList}}"  wx:for-item="item" id="{{item.id}}">
@@ -45,7 +45,10 @@
 
   <!--历史请假-->
   <swiper-item>
-    <scroll-view class="scrollView" scroll-y="true" bindscrolltoupper="setNewDataWithRes(1)" >
+  <view class="refresh-block" style="height: {{refreshHeight}}px;" wx:if="{{refreshing}}"style="height:{{refreshHeight}}px">  
+    <image animation="{{refreshAnimation}}" src="../../../../image/refesh.png"></image>  
+  </view>
+    <scroll-view style="height:{{leaveDataList.length*53}}px" scroll-y="true"bindscrolltoupper="upper"catchtouchstart="start"catchtouchmove="move" catchtouchend="end"data-idx="1" >
       <view style="height:12rpx;background-color:#eaeaea"></view>
       
       <view class="jilu" wx:for="{{leaveDataList}}"  wx:for-item="item">
@@ -61,15 +64,18 @@
 
   <!--历史缺勤-->
   <swiper-item>
-    <scroll-view class="scrollView" scroll-y="true" bindscrolltoupper="setNewDataWithRes(2)">
+  <view class="refresh-block" style="height: {{refreshHeight}}px;" wx:if="{{refreshing}}"style="height:{{refreshHeight}}px">  
+    <image animation="{{refreshAnimation}}" src="../../../../image/refesh.png"></image>  
+  </view>
+    <scroll-view style="height:{{noDataList.length*53}}px" scroll-y="true"bindscrolltoupper="upper"catchtouchstart="start"catchtouchmove="move" catchtouchend="end"data-idx="2">
       <view style="height:12rpx;background-color:#eaeaea"></view>
       
       <view class="jilu" wx:for="{{noDataList}}"  wx:for-item="item">
 
 
           <image class="jilu-image"src="../../../../image/htNo.png"></image>
-          <text class="jilu-time">{{item.time}}</text>
-          <text class="jilu-status">缺勤</text>
+          <text class="jilu-time"style="flex:1;text-align:right;padding-right:30px;">{{item}}</text>
+          <text class="jilu-status"style="flex:0;">缺勤</text>
 
      
       </view>

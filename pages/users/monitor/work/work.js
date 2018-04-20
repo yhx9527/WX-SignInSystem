@@ -15,7 +15,8 @@ var arrayToInt=function(array){
 }
 var testMan=function(siTime){
   var close=[1970,1,1,8,0,1]
-  if(JSON.stringify(siTime)==JSON.stringify(close)){
+  if(siTime==undefined||JSON.stringify(siTime)===JSON.stringify(close)){
+    console.log("时刻相等")
     return false
   }else
     return true
@@ -31,7 +32,6 @@ Page({
     time:"",
     course: {},
     showModalStatus:false,
-    checked:false,
   },
 
   /**
@@ -42,16 +42,24 @@ Page({
     let course=JSON.parse(options.jsonStr)
     var temp=util.formatTime(new Date)
     var dates=temp.split(" ")
-    if(course.suvman != null && testMan(course.suvman.siTime))
-      var checked=true;
-    else
-      var checked=false;
-    this.setData({
-      course:course,
-      date:dates[0],
-      time:dates[1],
-      checked:checked,
-    });
+    if(course.suvman !== null && testMan(course.suvman.siTime)){
+      var siTime=course.suvman.siTime
+      this.setData({
+        course:course,
+        date:siTime[0]+"-"+siTime[1]+"-"+siTime[2],
+        time:siTime[3]+":"+siTime[4]+":"+siTime[5],
+        checked:true
+      })
+    } 
+    else{
+      this.setData({
+        course: course,
+        date: dates[0],
+        time: dates[1],
+        checked: false,
+      });
+    }
+      
 
     
     //console.log(course);
@@ -69,7 +77,7 @@ Page({
         method:"POST",
         header: app.globalData.header,
         success:function(res){
-          if(res.data){
+          if(res.data==true){
             wx.showToast({
               title: '提交成功',
               icon:'success',
@@ -149,7 +157,7 @@ Page({
       var siTime=arrayToInt(temp)
       console.log(siTime)
       var suvMan={"schId":schId,"siWeek":siWeek,"siTime":siTime}
-      if(that.data.course.suvman!=null){
+      if(that.data.course.suvman!==null){
         wx.request({                                          //更新式人工签到
           url: 'https://www.xsix103.cn/SignInSystem/Supervisor/openManSignIn.do',
           data:suvMan,
@@ -157,7 +165,7 @@ Page({
           header:app.globalData.header,
           success:function(res){
             console.log(res.data)
-            if(res.data){
+            if(res.data==true){
               wx.showToast({
                 title: '发起成功',
                 icon: 'success',
@@ -187,12 +195,13 @@ Page({
           header: app.globalData.header,
           success: function (res) {
             console.log(res.data)
-            if (res.data) {
+            if (res.data==true) {
               wx.showToast({
                 title: '发起成功',
                 icon: 'success',
                 duration: 2000
               })
+              that.data.course.suvman={"AutoSignIn":true}
             } else {
               wx.showToast({
                 title: '发起失败',
@@ -211,6 +220,7 @@ Page({
         })
       }
     }else{
+
       wx.request({
         url: 'https://www.xsix103.cn/SignInSystem/Supervisor/closeManSignIn.do',
         data: suvMan,
@@ -218,7 +228,7 @@ Page({
         header:app.globalData.header,
         success:function(res){
           console.log(res.data)
-          if(res.data){
+          if(res.data==true){
             wx.showToast({
               title: '关闭成功',
               icon: 'success',

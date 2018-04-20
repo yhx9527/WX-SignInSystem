@@ -45,7 +45,7 @@ var getAll=function(that){
     var allDataList = []
     for (var index in data) {
       var temp = process(data[index].schedule)
-      allDataList.push({ "ArrayFlag": index, "id": data[index].suvId, "courseName": data[index].course.cozName, "courseTeacher": data[index].course.teacher.userName, "courseTime": temp.schDay + temp.schTime, "coursePlace": data[index].schedule.location.locName, "suvLeave": data[index].suvLeave, "suvId": data[index].suvId, "student": data[index].student, "schedule": data[index].schedule, "course": data[index].course, "suvWeek": data[index].suvWeek, "suvMan": data[index].suvMan,"workgive":false,"suvSch":data[index] })
+      allDataList.push({ "ArrayFlag": index, "id": data[index].suvId, "courseName": data[index].course.cozName, "courseTeacher": data[index].course.teacher.userName, "courseTime": "第"+data[index].suvWeek+"周"+temp.schDay + temp.schTime, "coursePlace": data[index].schedule.location.locName, "suvLeave": data[index].suvLeave, "suvId": data[index].suvId, "student": data[index].student, "schedule": data[index].schedule, "course": data[index].course, "suvWeek": data[index].suvWeek, "suvMan": data[index].suvMan,"workgive":false,"suvSch":data[index] })
     }
     that.setData({
       allDataList: allDataList
@@ -70,7 +70,7 @@ var Monitoring=function(that){
       network.request(url, params, method, header).then((data)=>{
         var item = {}
         var temp = process(data.schedule)
-        item = { "id": data.suvId, "courseName": "res.data.course.cozName", "courseTeacher": "res.data.course.teacher.userName", "courseTime": temp.schDay + temp.schTime, "coursePlace": data.schedule.location.locName, "suvLeave": data.suvLeave, "suvId": data.suvId, "student":data.student, "schedule": data.schedule, "course": data.course, "suvWeek": data.suvWeek, "suvMan": data.suvMan, "isAutoSign": false,"workgive":false,"suvSch":data }
+        item = { "id": data.suvId, "courseName": "res.data.course.cozName", "courseTeacher": "res.data.course.teacher.userName", "courseTime": "第"+data.suvWeek+"周"+temp.schDay + temp.schTime, "coursePlace": data.schedule.location.locName, "suvLeave": data.suvLeave, "suvId": data.suvId, "student":data.student, "schedule": data.schedule, "course": data.course, "suvWeek": data.suvWeek, "suvMan": data.suvMan, "isAutoSign": false,"workgive":false,"suvSch":data }
 
         that.setData({
           item: item
@@ -97,7 +97,7 @@ var getHistory=function(that){
     for (var index in data) {
       var temp = process(data[index].oneCozAndSch.schedule)
       var a = data[index]
-      historyDataList.push({ "id": a.suvId, "courseName": a.oneCozAndSch.course.cozName, "courseTeacher": a.oneCozAndSch.course.teacher.userName, "courseTime": temp.schDay + temp.schTime, "coursePlace": a.oneCozAndSch.schedule.location.locName, "suvRecord": a.suvRecord })
+      historyDataList.push({ "id": a.suvId, "courseName": a.oneCozAndSch.course.cozName, "courseTeacher": a.oneCozAndSch.course.teacher.userName, "courseTime": "第"+a.suvWeek+"周"+temp.schDay + temp.schTime, "coursePlace": a.oneCozAndSch.schedule.location.locName, "suvRecord": a.suvRecord })
     }
     that.setData({
       historyDataList: historyDataList
@@ -156,7 +156,7 @@ var checkLeaves = function (that) {
       var temp = process(data[index].oneCozAndSch.schedule)
       var siTime = formatTime(data[index].siTime)
       var a = data[index]
-      leaveDataList.push({ "index":index,"id": a.siId, "courseName": a.oneCozAndSch.course.cozName, "courseStudent": a.student.userName, "courseXuehao": a.student.userId, "courseTime": temp.schDay + temp.schTime, "siTime": siTime, "siLeave": a.siLeave,"signInRes":data[index],"leaveStatu":leaveStatu })
+      leaveDataList.push({ "index":index,"id": a.siId, "courseName": a.oneCozAndSch.course.cozName, "courseStudent": a.student.userName, "courseXuehao": a.student.userId, "courseTime": "第"+a.siWeek+"周"+temp.schDay + temp.schTime, "siTime": siTime, "siLeave": a.siLeave,"signInRes":data[index],"leaveStatu":leaveStatu })
     }
     that.setData({
       leaveDataList: leaveDataList,
@@ -177,7 +177,7 @@ var getGive = function (that) {
     for (var index in data) {
       var temp = process(data[index].schedule)
       var a = data[index]
-      giveDataList.push({ "index":index,"id": a.suvId, "courseName": a.course.cozName, "courseTeacher": a.course.teacher.userName, "courseTime": temp.schDay + temp.schTime, "coursePlace": a.schedule.location.locName,"suvSch":a})
+      giveDataList.push({ "index": index, "id": a.suvId, "courseName": a.course.cozName, "courseTeacher": a.course.teacher.userName, "courseTime": "第" + a.suvWeek + "周" +temp.schDay + temp.schTime, "coursePlace": a.schedule.location.locName,"suvSch":a})
     }
     that.setData({
       giveDataList: giveDataList
@@ -409,13 +409,13 @@ Page({
     var condition1=e.currentTarget.dataset.suvman;
     console.log(condition1)
     var arrayflag=e.currentTarget.dataset.arrayflag;
-    console.log(arrayflag)
+    //console.log(arrayflag)
     
     var SuvSch = e.currentTarget.dataset;
     if (JSON.stringify(SuvSch) !== "{}") {
       
       if(condition1!==null){
-        var condition2 = that.data.allDataList[arrayflag].suvMan.suvManAutoOpen
+        var condition2 = condition1.suvManAutoOpen
         console.log(condition2)            
         if(!condition2){
 
@@ -552,13 +552,19 @@ Page({
                   that.setData({
                     allDataList:allDataList
                   })
+                }else{
+                  wx.showToast({
+                    title: '发起失败',
+                    icon: "loading",
+                    duration: 2000
+                  })
                 }
                 },
               
           fail: function (res) {
             console.log(res.data)
             wx.showToast({
-              title: '发起失败',
+              title: '连接失败',
               icon: "loading",
               duration: 2000
             })
@@ -755,12 +761,10 @@ Page({
         if(res.confirm){
           var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/receiveSuvSch.do'
           var method = "POST"
-          var header = {
-            'Cookie': app.globalData.header.Cookie
-          }
+          var header = app.globalData.header
+        
           console.log(e.currentTarget)
-          var params = e.currentTarget.dataset.suvsch
-          
+          var params = JSON.stringify(e.currentTarget.dataset.suvsch)
           network.request(url, params, method, header).then((data)=>{
             if(data){
               var index=findIndex(giveDataList,temp)
