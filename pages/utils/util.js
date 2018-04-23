@@ -30,13 +30,23 @@ function transchedules(schedules){
       newschedules.push(temp[i]);
       j = j - 1;
       newschedules[j].schTime = newschedules[j].schTime + "," + temp[i + 1].schTime;
-
+      if(newschedules[0].schedule==undefined){
+      newschedules[0].schedule=[]
+      newschedules[0].schedule.push({ "schedule": schedules[i],"scheduleTime":""})
+      }
+      if (j >0) {
+        if (newschedules.length >= 2 && newschedules[j-1].schDay != newschedules[j].schDay)
+          newschedules[0].schedule.push({ "schedule": schedules[i], "scheduleTime": "" })
+      }
     }
-  }
+      
+    }
+  //console.log("第一次处理的"+JSON.stringify(newschedules,undefined,'\t'))
   for (var j = 0; j < newschedules.length; j++) {
     newschedules[j].schTime = "第" + newschedules[j].schTime + "节课"
     newschedules[j].schDayT = newschedules[j].schDay
-    newschedules[j].schedule=schedules[0]
+    if(j<newschedules[0].schedule.length)
+    newschedules[0].schedule[j].scheduleTime = newschedules[j].schTime
     switch (newschedules[j].schDay) {
       case 1: newschedules[j].schDay = "星期一" + newschedules[j].schTime
         break;
@@ -63,14 +73,20 @@ function transchedules(schedules){
       finalschedules.push(newschedules[i]);
       j = j + 1;
       finalschedules[j].schDay = newschedules[i].schDay + "和" + newschedules[i + 1].schDay
-      finalschedules[j].schedule=schedules[0]
+      finalschedules[j].schedule=newschedules[0].schedule
     }
 
   }
-  if (JSON.stringify(finalschedules) !== "[]")
+  if (JSON.stringify(finalschedules) !== "[]"){
+    //console.log("trans处理的" + JSON.stringify(finalschedules,undefined,'\t'))
     return finalschedules;
-  else
+  }
+    
+  else{
+    //console.log("trans处理的" + JSON.stringify(newschedules, undefined, '\t'))
     return newschedules;
+  }
+    
 }
 function transchedule(schedules){
   var temp = JSON.parse(JSON.stringify(schedules))
@@ -113,7 +129,7 @@ function transchedule(schedules){
     }
   }
   
-  console.log("处理后的  "+JSON.stringify(newschedules,undefined,'\t'))
+  //console.log("处理后的  "+JSON.stringify(newschedules,undefined,'\t'))
     return newschedules;
 }
  function transchedule1(schedule) {
@@ -122,7 +138,8 @@ function transchedule(schedules){
   newschedules = JSON.parse(JSON.stringify(schedule))
   for(var index in schedule){
   newschedules[index].schTime = "第" + schedule[index].schTime + "节课";
-  newschedules[index].schedule=schedule[index]
+  newschedules[index].schedule = [{
+    "schedule": schedule[index], "scheduleTime": newschedules[index].schTime}]
   switch (newschedules[index].schDay) {
     case 1: newschedules[index].schDay = "星期一" + "第" + schedule[index].schTime + "节课";
       break;
@@ -143,6 +160,7 @@ function transchedule(schedules){
   }
   }
   if (newschedules.length!=0)
+    //console.log("tran1处理的" + JSON.stringify(newschedules, undefined, '\t'))
     return newschedules;
 
 }

@@ -16,45 +16,47 @@
             <view class="bottom">
 
             <!--发起自动签到-->
-            <view class="bottom-item" catchtap="workSign"data-schId="{{item.schedule.schId}}"data-suvWeek="{{item.suvWeek}}"data-suvMan="{{item.suvMan}}"data-ArrayFlag="{{item.ArrayFlag}}">
+            <view class="bottom-item" catchtap="workSign"data-schId="{{item.schedule.schId}}"data-suvWeek="{{item.suvWeek}}"data-suvMan="{{item.suvMan}}"data-ArrayFlag="{{item.ArrayFlag}}"data-ifinsert="{{item.ifInsert}}">
                 <view class="bottom-item-content">
                 <image wx:if="{{!item.suvMan.suvManAutoOpen}}"src="../../../image/MB1.png" mode="center"class="bottom-item-content-image"></image>
                 <image wx:else src="../../../image/MA1.png" mode="center"class="bottom-item-content-image"></image>
-                <text class="bottom-item-content-text">{{item.love}}</text>
+                <!--text class="bottom-item-content-text">{{item.love}}</text-->
                 </view>
                 <!--分割线-->
                 <view class="cut-line"></view>
             </view>
 
             <!--工作请假-->
-            <view class="bottom-item"catchtap="workLeave"data-suvId="{{item.suvId}}"data-student="{{item.student}}"data-schedule="{{item.schedule}}"data-course="{{item.course}}"data-suvWeek="{{item.suvWeek}}"data-suvLeave="{{item.suvLeave}}"data-suvMan="{{item.suvMan}}"data-ArrayFlag="{{item.ArrayFlag}}">
+            <view class="bottom-item"catchtap="workLeave"data-suvId="{{item.suvId}}"data-student="{{item.student}}"data-schedule="{{item.schedule}}"data-course="{{item.course}}"data-suvWeek="{{item.suvWeek}}"data-suvLeave="{{item.suvLeave}}"data-suvMan="{{item.suvMan}}"data-ArrayFlag="{{item.ArrayFlag}}"data-ifinsert="{{item.ifInsert}}">
                 <view class="bottom-item-content">
                 <image wx:if="{{!item.suvLeave}}"src="../../../image/MB2.png" mode="center"class="bottom-item-content-image"></image>
                 <image wx:else src="../../../image/MA2.png" mode="center"class="bottom-item-content-image"></image>
-                <text class="bottom-item-content-text">{{item.hate}}</text>
+                <!--text class="bottom-item-content-text">{{item.hate}}</text-->
                 </view>
                 <!--分割线-->
                 <view class="cut-line"></view>
             </view>
 
             <!--督导转接-->
-            <view class="bottom-item"catchtap="workGive"data-suvsch="{{item.suvSch}}"data-index="{{item.ArrayFlag}}">
+            <view class="bottom-item"catchtap="transWork"data-suvsch="{{item.suvSch}}"data-ifinsert="{{item.ifInsert}}"data-index="{{item.ArrayFlag}}">
                 <view class="bottom-item-content">
-                <image wx:if="{{!item.workgive}}"src="../../../image/MB3.png" mode="center"class="bottom-item-content-image"></image>
+                <image wx:if="{{!item.transwork}}"src="../../../image/MB3.png" mode="center"class="bottom-item-content-image"></image>
                 <image wx:else src="../../../image/MA3.png" mode="center"class="bottom-item-content-image"></image>
-                <text class="bottom-item-content-text">{{item.repost}}</text>
+                <!--text class="bottom-item-content-text">{{item.comment}}</text-->
                 </view>
                 <!--分割线-->
-                <!--view class="cut-line"></view-->
+                <view class="cut-line"></view>
+            </view>
+            <!--放弃督导-->
+            <view class="bottom-item"catchtap="workGive"data-suvsch="{{item.suvSch}}"data-index="{{item.ArrayFlag}}"data-ifinsert="{{item.ifInsert}}">
+                <view class="bottom-item-content">
+                <image wx:if="{{!item.workgive}}"src="../../../image/MB4.png" mode="center"class="bottom-item-content-image"></image>
+                <image wx:else src="../../../image/MA4.png" mode="center"class="bottom-item-content-image"></image>
+                <!--text class="bottom-item-content-text">{{item.repost}}</text-->
+                </view>    
             </view>
 
-            <!--课堂消息-->
-            <!--view class="bottom-item"catchtap="workClassMes">
-                <view class="bottom-item-content">
-                <image src="../../image/MB4.png" mode="center"class="bottom-item-content-image"></image>
-                <text class="bottom-item-content-text">{{item.comment}}</text>
-                </view>
-            </view-->
+            
 
     </view>
 </template>

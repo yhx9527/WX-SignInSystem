@@ -7,7 +7,7 @@
   flex-direction: column;
   align-items: center;
   background: #12b7f4;
-  z-index:9999;
+
 }
 .userinfo-avatar {
   width: 125rpx;
@@ -54,7 +54,6 @@ userinfo-work{
   color: #7b7b7b;
   font-size: 15px;
   background-color: #f7f7f7;
-  z-index: 9998;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
@@ -127,7 +126,9 @@ justify-content:center;
 background-color:#32CD32;
 display:flex;
 align-items:center;
-height:35px
+height:35px;
+white-space: nowrap;
+
 }
 .remindTextbtn1{
   color:white;

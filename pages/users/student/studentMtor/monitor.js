@@ -2,12 +2,13 @@
 var app=getApp()
 const network=require("../../../utils/network.js")
 var dataType = 0;
-var types = ["1", "11", "21", "31"];
+var types = ["1", "11", "21", "31","41"];
 var DATATYPE = {
   ALLDATATYPE: "1",
   HISTORYDATATYPE: "11",
   LEAVEDATATYPE: "21",
   GIVEDATATYPE: "31",
+  TRANSDATATYPE:"41"
 };
 
 //督导课程页处理
@@ -45,7 +46,7 @@ var getAll=function(that){
     var allDataList = []
     for (var index in data) {
       var temp = process(data[index].schedule)
-      allDataList.push({ "ArrayFlag": index, "id": data[index].suvId, "courseName": data[index].course.cozName, "courseTeacher": data[index].course.teacher.userName, "courseTime": "第"+data[index].suvWeek+"周"+temp.schDay + temp.schTime, "coursePlace": data[index].schedule.location.locName, "suvLeave": data[index].suvLeave, "suvId": data[index].suvId, "student": data[index].student, "schedule": data[index].schedule, "course": data[index].course, "suvWeek": data[index].suvWeek, "suvMan": data[index].suvMan,"workgive":false,"suvSch":data[index] })
+      allDataList.push({ "ArrayFlag": index, "id": data[index].suvId, "courseName": data[index].course.cozName, "courseTeacher": data[index].course.teacher.userName, "courseTime": "第" + data[index].suvWeek + "周" + temp.schDay + temp.schTime, "coursePlace": data[index].schedule.location.locName, "suvLeave": data[index].suvLeave, "suvId": data[index].suvId, "student": data[index].student, "schedule": data[index].schedule, "course": data[index].course, "suvWeek": data[index].suvWeek, "suvMan": data[index].suvMan, "workgive": false, "suvSch": data[index], "ifInsert": false,"transwork":false},)
     }
     that.setData({
       allDataList: allDataList
@@ -54,34 +55,33 @@ var getAll=function(that){
 }
 //判断正在课程是否已督导并获取
 var Monitoring=function(that){
-
+/*
   var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/isSuvRec.do'
   var method="POST"
   var header= app.globalData.header
   var params={}
   network.request(url,params,method,header).then((data)=>{
-    if (!data) {
+    if (data==true) {
+      */
       var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/showOneSuvCoz.do'
       var method = "POST"
-      var header = {
-        'Cookie': app.globalData.header.Cookie
-      }
+      var header = app.globalData.header
       var params = {}
       network.request(url, params, method, header).then((data)=>{
         var item = {}
         var temp = process(data.schedule)
-        item = { "id": data.suvId, "courseName": "res.data.course.cozName", "courseTeacher": "res.data.course.teacher.userName", "courseTime": "第"+data.suvWeek+"周"+temp.schDay + temp.schTime, "coursePlace": data.schedule.location.locName, "suvLeave": data.suvLeave, "suvId": data.suvId, "student":data.student, "schedule": data.schedule, "course": data.course, "suvWeek": data.suvWeek, "suvMan": data.suvMan, "isAutoSign": false,"workgive":false,"suvSch":data }
+        item = { "id": data.suvId, "courseName": data.course.cozName, "courseTeacher": data.course.teacher.userName, "courseTime": "第" + data.suvWeek + "周" + temp.schDay + temp.schTime, "coursePlace": data.schedule.location.locName, "suvLeave": data.suvLeave, "suvId": data.suvId, "student": data.student, "schedule": data.schedule, "course": data.course, "suvWeek": data.suvWeek, "suvMan": data.suvMan, "isAutoSign": false, "workgive": false, "suvSch": data, "ifInsert": true,"transwork":false }
 
         that.setData({
           item: item
         })
       })
-    } else {
+    /*} else {
       that.setData({
         item: {}
       })
     }
-  })
+  })*/
 
   
 }
@@ -165,7 +165,7 @@ var checkLeaves = function (that) {
 
 
 }
-//获得督导转接记录
+//获得督导池塘记录
 var getGive = function (that) {
   var url = "https://www.xsix103.cn/SignInSystem/Supervisor/findToBeSupervised.do"
   var method = "POST"
@@ -181,6 +181,25 @@ var getGive = function (that) {
     }
     that.setData({
       giveDataList: giveDataList
+    })
+  })
+}
+//获得督导转接记录
+var getTrans = function(that){
+  var url = "https://www.xsix103.cn/SignInSystem/Supervisor/getSuvTrans.do"
+  var method = "POST"
+  var header = app.globalData.header
+
+  var params = {}
+  network.request(url, params, method, header).then((data)=>{
+    var transDataList = new Array();
+    for (var index in data) {
+      var temp = process(data[index].suvSch.schedule)
+      var a = data[index]
+      transDataList.push({ "index": index,"courseName": a.suvSch.course.cozName, "courseTeacher": a.suvSch.course.teacher.userName, "courseTime": "第" + a.suvSch.suvWeek + "周" + temp.schDay + temp.schTime, "coursePlace": a.suvSch.schedule.location.locName, "suvTrans": a,"faqiren":a.suvSch.student.userName+a.suvSch.student.userId,"ifyes":false,"ifno" :false})
+    }
+    that.setData({
+      transDataList: transDataList
     })
   })
 }
@@ -217,15 +236,17 @@ Page({
     historyDataList: [],
     leaveDataList: [],
     giveDataList: [],
+    transDataList:[],
     item: {},
     leaves:[],//请假记录
     leaveNum:0,
-    topTabItems: ["督导课堂", "历史记录", "审核请假", "督导转接"],
+    topTabItems: ["督导课堂", "历史记录", "审核请假", "督导池塘","督导转接"],
     currentTopItem: "0",
     swiperHeight: "0",
     //个人资料
     userInfo: {},
     points:100,
+    ifTransWork:true
   },
   //信用分
   point:function(){
@@ -324,22 +345,42 @@ Page({
     switch (types[dataType]) {
       //督导课堂
       case DATATYPE.ALLDATATYPE:
+        that.setData({
+          allDataList:[],
+          item:{}
+        })
         Monitoring(that);
         getAll(that);
         setTimeout(function () { getLeaves(that) }, 1000)
         break;
       //历史记录
       case DATATYPE.HISTORYDATATYPE:
+        that.setData({
+          historyDataList:[]
+        })
         getHistory(that);
         break;
       //审核请假
       case DATATYPE.LEAVEDATATYPE:
+        that.setData({
+          leaveDataList: []
+        })
         checkLeaves(that);
         break;
-      //督导转接
+      //督导池塘
       case DATATYPE.GIVEDATATYPE:
+        that.setData({
+          giveDataList: []          
+        })
         getGive(that);
         
+        break;
+      //督导转接
+      case DATATYPE.TRANSDATATYPE:
+        that.setData({
+          transDataList:[]
+        })
+        getTrans(that)
         break;
       default:
         break;
@@ -441,11 +482,19 @@ Page({
                     icon: "success",
                     duration: 2000,
                   })
+                  if (e.currentTarget.dataset.ifinsert == false){
                   var allDataList = that.data.allDataList
                   allDataList[arrayflag].suvMan = { "suvManAutoOpen": true };
                   that.setData({
                     allDataList: allDataList
                   })
+                  } else if (e.currentTarget.dataset.ifinsert == true){
+                    var item = that.data.item
+                    item.suvMan = { "suvManAutoOpen": true };
+                    that.setData({
+                      item: item
+                    })
+                  }
                   }else{
                     wx.showToast({
                       title: '发起失败',
@@ -481,18 +530,26 @@ Page({
                 header: app.globalData.header,
                 success: function (res) {
                   console.log(res.data)
-                  console.log("关闭后"+that.data.allDataList[arrayflag].suvMan.suvManAutoOpen)
+                  //console.log("关闭后"+that.data.allDataList[arrayflag].suvMan.suvManAutoOpen)
                   if (res.data) {
                     wx.showToast({
                       title: '关闭成功',
                       icon: "success",
                       duration: 2000,
                     })
+                    if (e.currentTarget.dataset.ifinsert == false){
                     var allDataList = that.data.allDataList
                     allDataList[arrayflag].suvMan = { "suvManAutoOpen": false };
                     that.setData({
                       allDataList: allDataList
                     })
+                    } else if (e.currentTarget.dataset.ifinsert == true){
+                      var item = that.data.item
+                     item.suvMan = { "suvManAutoOpen": false };
+                      that.setData({
+                        item: item
+                      })
+                    }
                   }else{
                     wx.showToast({
                       title: '已经关闭',
@@ -547,11 +604,19 @@ Page({
                     icon: "success",
                     duration: 2000,
                   })
+                  if (e.currentTarget.dataset.ifinsert == false){
                   var allDataList=that.data.allDataList
                   allDataList[arrayflag].suvMan={"suvManAutoOpen":true};
                   that.setData({
                     allDataList:allDataList
                   })
+                  } else if (e.currentTarget.dataset.ifinsert == true){
+                    var item = that.data.item
+                    item.suvMan = { "suvManAutoOpen": true };
+                    that.setData({
+                      item: item
+                    })
+                  }
                 }else{
                   wx.showToast({
                     title: '发起失败',
@@ -603,12 +668,13 @@ Page({
             header: app.globalData.header,
             success: function (res) {
               console.log(res.data)
-              if(res.data){
+              if(res.data==true){
                 wx.showToast({
                   title: '请假成功',
                   icon: 'success',
                   duration: 2000
                 })
+              if (e.currentTarget.dataset.ifinsert == false){
               var allDataList = that.data.allDataList
               var leaves=that.data.leaves
               var points=that.data.points
@@ -621,6 +687,20 @@ Page({
                   leaveNum:leaves.length,
                   points:points
               })
+              } else if(e.currentTarget.dataset.ifinsert == true){
+                var item = that.data.item
+                var leaves = that.data.leaves
+                var points = that.data.points
+                item.suvLeave = true;
+                leaves.push({ "courseName": item.courseName, "courseTeacher": item.courseTeacher, "coursePlace": item.coursePlace, "courseTime": item.courseTime })
+                points = points - 1
+                that.setData({
+                  item: item,
+                  leaves: leaves,
+                  leaveNum: leaves.length,
+                  points: points
+                })
+              }
               }else{
                 wx.showToast({
                   title: '请假失败',
@@ -658,14 +738,14 @@ Page({
     }  
     
   },
-  //点督导转接按钮
+  //点放弃督导按钮
   workGive:function(e){
-    console.log("督导转接")
+    console.log("放弃督导")
     var that=this
     if (JSON.stringify(e.currentTarget.dataset)!=="{}"){
     wx.showModal({
       title: '提示',
-      content: '转接这堂课',
+      content: '放弃督导这堂课？',
       success:function(res){
         if(res.confirm){
           var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/giveUpPower.do'
@@ -674,23 +754,32 @@ Page({
           var params = e.currentTarget.dataset.suvsch
           
           network.request(url, params, method, header).then((data)=>{
-            if(data){
+            if(data==true){
               wx.showToast({
-                title: '转接成功',
+                title: '放弃成功',
                 icon:"success",
                 duration:1500
               })
-              var allDataList = that.data.allDataList
-              var index = e.currentTarget.dataset.index
-              console.log(e.currentTarget)
-              allDataList[index].workgive=true
-              that.setData({
-                allDataList:allDataList
-              })
+              if(e.currentTarget.dataset.ifinsert==false){
+                var allDataList = that.data.allDataList
+                var index = e.currentTarget.dataset.index
+                allDataList[index].workgive = true
+                that.setData({
+                  allDataList: allDataList
+                })
+              } else if (e.currentTarget.dataset.ifinsert == true){
+                var item = that.data.item
+                
+                item.workgive = true
+                that.setData({
+                  item:item
+                })
+              }
+              
               
             }else{
               wx.showToast({
-                title: '转接失败',
+                title: '放弃失败',
                 icon: "none",
                 duration: 1500
               })
@@ -703,8 +792,78 @@ Page({
     })
   }
   },
-  workClassMes:function(e){
-    console.log("课堂消息")
+  /**
+   * 关于督导转接
+   */
+  transWork:function(e){
+   var aboutSuvTrans={'suvTrans':{"suvSch":e.currentTarget.dataset.suvsch,"userId":""},'ifInsert':e.currentTarget.dataset.ifinsert,"index":e.currentTarget.dataset.index}
+   wx.setStorageSync('aboutSuvTrans',aboutSuvTrans )
+   this.setData({
+     ifTransWork:false
+   })
+  },
+  cancelTrans:function(e){  
+    this.setData({
+      ifTransWork:true
+    })
+  },
+  confirmTransInput:function(e){
+    var aboutSuvTrans=wx.getStorageSync('aboutSuvTrans')
+    aboutSuvTrans.suvTrans.userId=e.detail.value
+    wx.setStorageSync('aboutSuvTrans', aboutSuvTrans)
+  },
+  confirmTrans:function(){
+    var aboutSuvTrans = wx.getStorageSync('aboutSuvTrans')
+    var suvTrans=aboutSuvTrans.suvTrans
+    var index=aboutSuvTrans.index
+    var ifInsert=aboutSuvTrans.ifInsert
+    var that=this
+    if(suvTrans.userId==""){
+      wx.showToast({
+        title: '输入为空',
+        icon:"none",
+        duration:1500
+      })
+    }else{
+      var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/applyForTrans.do'
+      var method = "POST"
+      var header = app.globalData.header
+      var params = suvTrans
+
+      network.request(url, params, method, header).then((data)=>{
+        if(data==true){
+          wx.showToast({
+            title: '操作成功',
+            icon:"success",
+            duration:1500
+          })
+          if(ifInsert==false){
+            var allDataList=that.data.allDataList
+            allDataList[parseInt(index)].transwork=true
+            that.setData({
+              allDataList:allDataList,
+              ifTransWork: true
+            })
+          }else if(ifInsert==true){
+            var item = that.data.item
+            item.transwork = true
+            that.setData({
+              item: item,
+              ifTransWork: true
+            })
+          }
+        }else{
+          wx.showToast({
+            title: '操作失败',
+            icon: "none",
+            duration: 1500
+          })
+          that.setData({
+            ifTransWork: true
+          })
+        }
+      })
+    }
   },
   //督导的课程页
   monitorCourse:function(e){
@@ -821,6 +980,82 @@ Page({
     let str=JSON.stringify(e.currentTarget.dataset)
     wx.navigateTo({
       url: '../../monitor/checkLeave/checkLeave?jsonString='+str,
+    })
+  },
+
+  //接受督导转接
+  receiveTrans:function(e){
+    var that=this
+    wx.showModal({
+      title: '提示',
+      content: '接受此转接',
+      success:function(res){
+        if(res.confirm){
+          var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/acceptSuvTrans.do'
+          var method = "POST"
+          var header = app.globalData.header
+          var index=e.currentTarget.dataset.index
+          var transDataList=that.data.transDataList
+          var params = e.currentTarget.dataset.suvtrans
+          network.request(url, params, method, header).then((data)=>{
+            if(data==true){
+              wx.showToast({
+                title: '接受成功',
+                icon:"success",
+                duration:1500
+              })
+            transDataList[index].ifyes=true
+            that.setData({
+              transDataList:transDataList
+            })
+            }else{
+              wx.showToast({
+                title: '接受失败',
+                icon: "none",
+                duration: 1500
+              })
+            }
+          })
+        }
+      }
+    })
+  },
+  //拒绝督导转接
+  rejectTrans: function (e) {
+    var that=this
+    wx.showModal({
+      title: '提示',
+      content: '拒绝此转接',
+      success: function (res) {
+        if (res.confirm) {
+          var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/refuseSuvTrans.do'
+          var method = "POST"
+          var header = app.globalData.header
+          var index = e.currentTarget.dataset.index
+          var transDataList = that.data.transDataList
+    
+          var params = e.currentTarget.dataset.suvtrans
+          network.request(url, params, method, header).then((data) => {
+            if (data == true) {
+              wx.showToast({
+                title: '拒绝成功',
+                icon: "success",
+                duration: 1500
+              })
+              transDataList[index].ifno = true
+              that.setData({
+                transDataList: transDataList
+              })
+            } else {
+              wx.showToast({
+                title: '拒绝失败',
+                icon: "none",
+                duration: 1500
+              })
+            }
+          })
+        }
+      }
     })
   },
   /**
