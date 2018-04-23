@@ -1,4 +1,5 @@
 const app=getApp();
+const network=require("../../../utils/network.js")
 var checkForm=function(form){
     if(form.suvRecNum==""||form.suvLeave==""||form.suvRecBadNum1==""||form.suvRecBadNum2==""||form.suvRecInfo==""){
       return false
@@ -42,7 +43,7 @@ Page({
     let course=JSON.parse(options.jsonStr)
     var temp=util.formatTime(new Date)
     var dates=temp.split(" ")
-    if(course.suvman !== null && testMan(course.suvman.siTime)){
+    if(course.suvman != undefined && course.suvman !== null && testMan(course.suvman.siTime)){
       var siTime=course.suvman.siTime
       this.setData({
         course:course,
@@ -67,66 +68,106 @@ Page({
   //提交表单
   formSubmit: function (e) {
     console.log(e.detail)
+    var that = this
+    var ifinsert=that.data.course.ifinsert
+    console.log("能否插入"+ifinsert)
+    if(ifinsert){
     var flag = checkForm(e.detail.value)
-    var that=this
-    if (flag) {
-      var suvRecord={"suvId":parseInt(that.data.course.suvid),"suvRecBadNum":parseInt(e.detail.value.suvRecBadNum1)+parseInt(e.detail.value.suvRecBadNum2),"suvRecInfo":e.detail.value.suvRecInfo,"suvRecName":that.data.course.xingming,"suvRecNum":parseInt(e.detail.value.suvRecNum),"suvWeek":that.data.course.suvweek}
-      wx.request({
-        url: 'https://www.xsix103.cn/SignInSystem/Supervisor/insertSuvRec.do',
-        data:suvRecord,
-        method:"POST",
-        header: app.globalData.header,
-        success:function(res){
-          if(res.data==true){
-            wx.showToast({
-              title: '提交成功',
-              icon:'success',
-              duration:2000
-            })
-            setTimeout(function(){
+    var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/isSuvRec.do'
+    var method = "POST"
+    var header = app.globalData.header
+    var params = {}
+    network.request(url, params, method, header).then((data)=>{
+      if(data==false){
+        if (flag) {
+
+          var suvRecord = { "suvId": parseInt(that.data.course.suvid), "suvRecBadNum": parseInt(e.detail.value.suvRecBadNum1) + parseInt(e.detail.value.suvRecBadNum2), "suvRecInfo": e.detail.value.suvRecInfo, "suvRecName": that.data.course.xingming, "suvRecNum": parseInt(e.detail.value.suvRecNum), "suvWeek": that.data.course.suvweek }
+          wx.request({
+            url: 'https://www.xsix103.cn/SignInSystem/Supervisor/insertSuvRec.do',
+            data: suvRecord,
+            method: "POST",
+            header: app.globalData.header,
+            success: function (res) {
+              if (res.data == true) {
+                wx.showToast({
+                  title: '提交成功',
+                  icon: 'success',
+                  duration: 2000
+                })
+                setTimeout(function () {
+                  wx.navigateBack({
+                    delta: 1
+                  })
+                }, 2000)
+
+              } else {
+                wx.showToast({
+                  title: '提交失败',
+                  icon: "none",
+                  duration: 2000
+                })
+              }
+              console.log(res.data)
+            },
+            fail: function (res) {
+              wx.showToast({
+                title: '连接失败',
+                icon: "loading",
+                duration: 2000
+              })
+            }
+          })
+        } else {
+          wx.showModal({
+            title: '提示',
+            content: '请填写完整',
+            success: function (res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
+        }
+      }else if(data=true){
+        wx.showModal({
+          title: '提示',
+          content: '该课程暂已有督导记录',
+          success: function (res) {
+            if (res.confirm) {
               wx.navigateBack({
                 delta: 1
               })
-            },2000)
-            
-          }else{
-            wx.showModal({
-              title: '提示',
-              content: '该课程暂未开始督导',
-              success: function (res) {
-                if (res.confirm) {
-                 wx.navigateBack({
-                   delta:1
-                 })
-                } else if (res.cancel) {
-                  console.log('用户点击取消')
-                }
-              }
-            })
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
           }
-          console.log(res.data)
-        },
-        fail:function(res){
-          wx.showToast({
-            title: '提交失败',
-            icon: "loading",
-            duration: 2000
-          })
-        }
-      })
-    } else {
+        })
+      }else{
+        wx.showToast({
+          title: '未知错误',
+          icon:"none",
+          duaration:1500
+        })
+      }
+    })
+    
+  }else{
       wx.showModal({
         title: '提示',
-        content: '请填写完整',
+        content: '该课程暂未开始督导',
         success: function (res) {
           if (res.confirm) {
-            console.log('用户点击确定')
+            wx.navigateBack({
+              delta: 1
+            })
           } else if (res.cancel) {
             console.log('用户点击取消')
           }
         }
       })
-    }
+  }
   },
   formReset:function(e){
     console.log("表单重置")

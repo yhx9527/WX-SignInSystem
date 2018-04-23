@@ -17,7 +17,7 @@
     </view>
     <view class="title">请选择请假周次</view>
     <view class="section">
-      <picker mode="selector"value="{{schWeek-1}}"range="{{Weeks}}"bindchange="bindWeekChange"name="schWeek">
+      <picker mode="selector"value="{{schWeek}}"range="{{Weeks}}"bindchange="bindWeekChange"name="schWeek">
         <view class="picker">第{{schWeek}}周</view>
       </picker>
     </view>

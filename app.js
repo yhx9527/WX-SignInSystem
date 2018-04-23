@@ -32,12 +32,12 @@ App({
       wx.getLocation({
         type: 'gcj02', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
         success: function (res) {
-          console.log("定位成功")
+          console.log("定位成功"+res)
           that.globalData.locationInfo = res;
           cb(that.globalData.locationInfo)
         },
-        fail: function () {
-          console.log("定位失败")
+        fail: function (res) {
+          console.log("定位失败"+res)
         },
         complete: function () {
           // complete

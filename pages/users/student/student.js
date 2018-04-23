@@ -50,9 +50,10 @@ var getCards=function(that){
     for (var index in data.courses) {
       if(data.courses[index].schedules.length>1){
       var final = util.transchedules(data.courses[index].schedules)
+        //console.log("整合情况" + JSON.stringify(final,undefined,'\t'))
       }else{
         var final = util.transchedule1(data.courses[index].schedules)
-        console.log("yjkd"+JSON.stringify(final))
+        
       }
       //for (var i in final) {
 
@@ -74,6 +75,9 @@ var transchedule = function (schedule) {
       var newschedules={}
       newschedules=JSON.parse(JSON.stringify(schedule))
       newschedules.schTime = "第"+schedule.schTime + "节课";
+      newschedules.schedule = [{
+        "schedule": schedule, "scheduleTime": newschedules.schTime
+      }]
       switch (newschedules.schDay) {
         case 1: newschedules.schDay = "星期一" + "第" + schedule.schTime + "节课";
           break;
@@ -114,7 +118,7 @@ var getSigning=function(that){
     var final = transchedule(data.schedule)
 
 
-    signingCard = { "loc":99, "courseName": data.course.cozName, "courseTeacher": data.course.teacher.userName, "courseTime": final.schDay , "coursePlace": final.location.locName, "locLat": final.location.locLat, "locLon": final.location.locLon, "right": 0, "startRight": 0,"schWeek": data.schedule.schWeek,"schedule":data.schedule, "isTouchMove": false }
+    signingCard = { "loc":99, "courseName": data.course.cozName, "courseTeacher": data.course.teacher.userName, "courseTime": final.schDay , "coursePlace": final.location.locName, "locLat": final.location.locLat, "locLon": final.location.locLon, "right": 0, "startRight": 0,"schWeek": data.schedule.schWeek,"schedule":final.schedule, "isTouchMove": false }
 
 
 
@@ -262,7 +266,153 @@ var slideOne=function(self,cards,index){
   }
 
 }
+//签到函数
+var SignIn = function (that, schedule,loc){
+  console.log("loc"+JSON.stringify(loc,undefined,'\t'))
+  wx.request({
+    url: "https://www.xsix103.cn/SignInSystem/Student/checkSignIn.do",
+    data: schedule,
+    method: 'POST',
+    header: app.globalData.header,
+    success(res) {
+      console.log(res.data)
+      if (res.data == false) {
+        wx.request({
+          url: "https://www.xsix103.cn/SignInSystem/Student/signIn.do",
+          data: schedule,
+          method: 'POST',
+          header: app.globalData.header,
+          success: function (res) {
+            console.log(res.data);
+            if (res.data.success == true) {
+              wx.showToast({
+                title: '签到成功',
+                icon: "success",
+                duration: 2000
+              })
+            } else {
+              if (res.data.needSignIn == true) {
+                var currentStatu = "open"
+                that.util(currentStatu)
+                that.setData({
+                    markers: [
+                      {
+                        id: 0
+                        , iconPath: "../../image/ic_position.png"
+                        , longitude: schedule.location.locLon
+                        , latitude: schedule.location.locLat
+                        , width: 30
+                        , height: 30
+                        , callout:
+                        {
+                          content: "我的位置",
+                          display: 'ALWAYS'
+                        }
 
+                      },
+                      {
+                        id: 1,
+                        iconPath: '../../image/ic_location.png',
+
+                        longitude: loc.loclon,
+                        latitude: loc.loclat,
+                        width: 30,
+                        height: 30
+                      }
+                    ]
+                    , circles: [{
+                      longitude: loc.loclon,
+                      latitude: loc.loclat,
+                      color: '#FF0000DD',
+                      fillColor: '#7cb5ec88',
+                      radius: 40,
+                      strokeWidth: 0.1
+                    }],
+                    polyline: [{
+                      points: [{
+                        longitude: loc.loclon,
+                        latitude: loc.loclat,
+                      },
+                      {
+                        longitude: schedule.location.locLon,
+                        latitude: schedule.location.locLat
+                      }],
+                      color: "#FF0000DD",
+                      width: 2,
+
+                    }],
+                    controls: [{
+                      id: 1,
+                      iconPath: '../../image/jian.png',
+                      position: {
+                        left: 245,
+                        top: 0,
+                        width: 30,
+                        height: 30
+                      },
+                      clickable: true,
+                    },
+                    {
+                      id: 2,
+                      iconPath: '../../image/jia.png',
+                      position: {
+                        left: 280,
+                        top: 0,
+                        width: 30,
+                        height: 30
+                      },
+                      clickable: true,
+                    }]
+                  })
+                if (res.data.time == false) {
+                  that.setData({
+                    SignText: "签到时间未到"
+                  })
+                } else {
+                  that.setData({
+                    SignText:"正在签到..."
+                  })
+                }
+              } else {
+                wx.showToast({
+                  title: '无需签到',
+                  icon: "none",
+                  duration: 2000
+                })
+              }
+            }
+            /*if (res.data.needSignIn && res.data.success) {
+              var currentStatu = "successclose";
+              that.util(currentStatu)
+            } else {
+              var currentStatu = "failclose"
+              that.util(currentStatu)
+            }*/
+          },
+          fail: function (res) {
+            console.log(res.data)
+            wx.showToast({
+              title: '连接失败',
+              icon: "loading",
+              duration: 2000
+            })
+          }
+        })
+      } else {
+        var currentStatu = "successedclose";
+        that.util(currentStatu)
+      }
+    },
+    fail(res) {
+      console.log(res.data)
+      wx.showToast({
+        title: '连接失败',
+        icon: "loading",
+        duration: 2000
+      })
+    }
+  })
+}
 Page({
 
   /**
@@ -287,7 +437,13 @@ Page({
     //自己位置
     longitude:null,
     latitude:null,
-    ifSign:"签到时间未到",
+    /*
+    markers:[],
+    circles:[],
+    polyline:[],
+    controls:[],
+    */
+    SignText:"",//签到失败提示
     //地图缩放比例
     scale:18,
     schedule: {},//发送给后台的单个签到
@@ -639,130 +795,93 @@ Page({
 
   //请假
   leave:function(e){
-    let str = JSON.stringify(e.currentTarget.dataset);
-    wx.navigateTo({
-      url: './parts/leave/leave?jsonStr='+str
-    })
-  },
-  //正在签到地图
-  signMaping:function(e){
-    var that=this;
-    var currentStatu = e.currentTarget.dataset.statu;
-    this.util(currentStatu)
-      app.getLocationInfo(function (locationInfo) {
-        
-        console.log('map', locationInfo);
-        that.setData({
-          longitude: locationInfo.longitude
-          , latitude: locationInfo.latitude
-          ,ifSign:"正在签到..."
-          , markers: [
-            {
-              id: 0
-              , iconPath: "../../image/ic_position.png"
-              , longitude: locationInfo.longitude
-              , latitude: locationInfo.latitude
-              , width: 30
-              , height: 30
-              , callout:
-              {
-                content: "我的位置",
-                display: 'ALWAYS'
-              }
-
-            },
-            {
-              id: 1,
-              iconPath: '../../image/ic_location.png',
-
-              longitude: e.currentTarget.dataset.loclon,
-              latitude: e.currentTarget.dataset.loclat,
-              width: 30,
-              height: 30
-            }
-          ]
-          , circles: [{
-            longitude: e.currentTarget.dataset.loclon,
-            latitude: e.currentTarget.dataset.loclat,
-            color: '#FF0000DD',
-            fillColor: '#7cb5ec88',
-            radius: 40,
-            strokeWidth: 0.1
-          }],
-          polyline: [{
-            points: [{
-              longitude: e.currentTarget.dataset.loclon,
-              latitude: e.currentTarget.dataset.loclat,
-            },
-            {
-              longitude: locationInfo.longitude,
-              latitude: locationInfo.latitude
-            }],
-            color: "#FF0000DD",
-            width: 2,
-
-          }],
-          controls: [{
-            id: 1,
-            iconPath: '../../image/jian.png',
-            position: {
-              left: 245,
-              top: 0,
-              width: 30,
-              height: 30
-            },
-            clickable: true,
-          },
-          {
-            id: 2,
-            iconPath: '../../image/jia.png',
-            position: {
-              left: 280,
-              top: 0,
-              width: 30,
-              height: 30
-            },
-            clickable: true,
-          }]
-
-
-
-
-        })
-        var datal = {
-          locLat: locationInfo.latitude,
-          locLon: locationInfo.longitude,
-          locAcc: 0,
-          locVAcc: 0,
-          locHAcc: 0,
-          locName: "sec_tch"
+    
+    var ArraySchedule=e.currentTarget.dataset.schedule
+    if(ArraySchedule.length==1){
+      let str = JSON.stringify({"coursename":e.currentTarget.dataset.coursename,"schedule":ArraySchedule[0].schedule});
+      wx.navigateTo({
+        url: './parts/leave/leave?jsonStr=' + str
+      })
+    }else if(ArraySchedule.length > 1){
+      var itemList = []
+      for(var index in ArraySchedule){
+        itemList.push(ArraySchedule[index].scheduleTime+"请假")
+      }
+      wx.showActionSheet({
+        itemList: itemList,
+        success:function(res1){
+          let str = JSON.stringify({ "coursename": e.currentTarget.dataset.coursename, "schedule": ArraySchedule[res1.tapIndex].schedule });
+          wx.navigateTo({
+            url: './parts/leave/leave?jsonStr=' + str
+          })
         }
-        
-        var term = wx.getStorageSync('SigningCourse')
-        var schedule = term.schedule
-        /*{
-          schId: term.schedule.schId,
-          cozId: term.course.cozId,
-          schTime: term.schedule.schTime,
-          schDay: term.schedule.schDay,
-          schWeek: term.schedule.schWeek,
-          schYear: term.schedule.schYear,
-          schTerm: term.schedule.schTerm,
-          schFortnight: term.schedule.schFortnight,
-          location: datal,
-          cozSuspendList: term.schedule.cozSuspendList,
-
-        }*/
-        wx.setStorageSync('schedule', schedule)
-    
-        })
-  
-        
-  
-      //}
-   // })
+      })
+    }
     
   },
+  //签到地图
+  SignMap:function(e){
+    var arraySchedule=JSON.parse(JSON.stringify(e.currentTarget.dataset.schedule))
+    var that = this
+    var locationInfo={}
+    wx.getLocation({
+      type: 'gcj02',
+      success: function(res) {
+        locationInfo=res
+        //wx.setStorageSync('locationInfo', locationInfo)
+        that.setData({
+          longitude: locationInfo.longitude,
+          latitude: locationInfo.latitude
+        })
+        if (arraySchedule.length == 1) {
+
+          var schedule = arraySchedule[0].schedule
+          schedule.location.locLat = locationInfo.latitude
+          schedule.location.locLon = locationInfo.longitude
+          SignIn(that, schedule, e.currentTarget.dataset)
+          /*} else {
+            var currentStatu = e.currentTarget.dataset.statu
+            this.util(currentStatu)
+          }*/
+
+          //var that=this;    
+
+          //}
+          // })
+        } else if (arraySchedule.length > 1) {
+          var itemList = []
+          for (var index in arraySchedule)
+            itemList.push(arraySchedule[index].scheduleTime + "签到")
+          wx.showActionSheet({
+            itemList: itemList,
+            success: function (res1) {
+              var schedule = arraySchedule[res1.tapIndex].schedule
+              schedule.location.locLat = locationInfo.latitude
+              schedule.location.locLon = locationInfo.longitude
+              SignIn(that, schedule, e.currentTarget.dataset)
+            }
+          })
+        }
+      },
+      fail:function(res){
+        console.log("未授权定位"+JSON.stringify(res,undefined,'\t'))
+        wx.showModal({
+          title: '提示',
+          content: '请先授权位置信息',
+          success:function(res2){
+            wx.openSetting({
+              success:function(res3){
+                console.log(res3)
+              }
+            })
+          }
+        })
+        //wx.setStorageSync('locationInfo', -1)
+      }
+    })
+  
+  },
+  /*
   //还未签到的地图
   signMap: function (e) {
     var that = this;
@@ -856,7 +975,7 @@ Page({
     // })
 
   },
-  
+  */
   
   //点击缩放按钮动态请求数据
   controlclick(e) {
@@ -884,62 +1003,8 @@ Page({
   },
   //点击签到
   confirm:function(e){
-    var that=this
-    console.log("hhh:"+wx.getStorageSync('schedule'))
-    if (wx.getStorageSync('schedule') !="") {
-      wx.request({
-      url: "https://www.xsix103.cn/SignInSystem/Student/checkSignIn.do",
-      data: wx.getStorageSync('schedule'),
-      method:'POST',
-      header: app.globalData.header,
-      success(res){
-        console.log(res.data)
-        if(!res.data){
-        wx.request({
-          url: "https://www.xsix103.cn/SignInSystem/Student/signIn.do",
-          data: wx.getStorageSync('schedule'),
-          method: 'POST',
-          header: app.globalData.header,
-          success: function (res) {
-            console.log(res.data);
-            if (res.data.needSignIn && res.data.success) {
-              var currentStatu = "successclose";
-              that.util(currentStatu)
-            } else {
-              var currentStatu = "failclose"
-              that.util(currentStatu)
-            }
-          },
-          fail: function (res) {
-            console.log(res.data)
-            wx.showToast({
-              title: '连接失败',
-              icon: "loading",
-              duration: 2000
-            })
-          }
-
-        })
-        }else{
-          var currentStatu="successedclose";
-          that.util(currentStatu)
-        }
-      },
-      fail(res){
-        console.log(res.data)
-        wx.showToast({
-          title: '连接失败',
-          icon: "loading",
-          duration: 2000
-        })
-      }
-    })
-    
-    
-    }else{
-      var currentStatu = e.currentTarget.dataset.statu
-      this.util(currentStatu)
-    }
+    var currentStatu = e.currentTarget.dataset.statu;
+    this.util(currentStatu)
   },
   cancel:function(e){
     var currentStatu = e.currentTarget.dataset.statu;
@@ -1062,7 +1127,7 @@ Page({
       if (currentStatu == "failclose") {
         this.setData(
           {
-            showModalStatus: true
+            showModalStatus: false
           }
         );
         wx.showToast({

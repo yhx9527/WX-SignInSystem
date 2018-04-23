@@ -8,7 +8,7 @@
       <text wx:if="{{marquee2copy_status}}" style="margin-left:{{marquee2_margin}}px;">{{text}}</text>  
     </view>
   </view-->
-        <view class="hengfu"><text class="hengfuText">正在签到</text></view>
+        <view class="hengfu"><text class="hengfuText">正在上课</text></view>
 
           <view id="{{signingCard.id}}" data-loc="{{signingCard.loc}}"class="item" bind:touchstart="signingStart" bind:touchmove='signingMove'bind:touchend='signingEnd'style='right:{{signingCard.right}}px'>
             <view class="itemSon">
@@ -23,7 +23,7 @@
             <!--/view-->
             <!--view class="out2-2"-->
               <view id="{{signingCard.id}}"class="remove1"catchtap="leave"data-courseName="{{signingCard.courseName}}"data-schedule="{{signingCard.schedule}}"data-schweek="{{signingCard.schWeek}}">请假</view>
-              <view id="{{signingCard.id}}"class="remove2"catchtap="signMaping"data-statu="open"data-locLat="{{signingCard.locLat}}"data-locLon="{{signingCard.locLon}}">签到</view>
+              <view id="{{signingCard.id}}"class="remove2"catchtap="SignMap"data-statu="open"data-locLat="{{signingCard.locLat}}"data-locLon="{{signingCard.locLon}}"data-schedule="{{signingCard.schedule}}">签到</view>
             <!--/view-->
             </view>
           </view>
@@ -42,8 +42,8 @@
                 </view>
               <!--/view-->
               <!--view class="out2-2"-->
-                <view id="{{card.id}}"class="remove1"catchtap="leave"data-courseName="{{card.courseName}}"data-schedule="{{card.schedule}}"data-schweek="{{card.schWeek}}">请假</view>
-                <view id="{{card.id}}"class="remove2"catchtap="signMap"data-statu="open"data-courseID="{{card.id}}"data-locLat="{{card.locLat}}"data-locLon="{{card.locLon}}">签到</view>
+                <view id="{{card.id}}"class="remove1"catchtap="leave"data-courseName="{{card.courseName}}"data-schedule="{{card.schedule}}">请假</view>
+                <view id="{{card.id}}"class="remove2"catchtap="SignMap"data-statu="open"data-courseID="{{card.id}}"data-loclat="{{card.locLat}}"data-loclon="{{card.locLon}}"data-schedule="{{card.schedule}}">签到</view>
                 <!--/view-->
             </view>
           </view>
@@ -56,7 +56,7 @@
   <view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}"> 
  
  <!--drawer content--> 
-    <view class="drawer_title">{{ifSign}}</view> 
+    <view class="drawer_title">{{SignText}}</view> 
     <view class="drawer_content"> 
       <map id="map4select"
  longitude="{{longitude}}" latitude="{{latitude}}" 

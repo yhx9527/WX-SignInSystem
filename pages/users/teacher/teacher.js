@@ -434,7 +434,7 @@ Page({
              var header =app.globalData.header
              var params = suvMan
              network.request(url, params, method, header).then((data)=>{
-               if(data){
+               if(data==true){
                  wx.showToast({
                    title: '取消成功',
                    icon:"success",
@@ -534,7 +534,7 @@ Page({
       var params = suvMan
       network.request(url, params, method, header).then((data) => {
         console.log("人工")
-        if (data) {
+        if (data==true) {
           that.hideBottomModel(e)
           wx.showToast({
             title: '设置成功',
@@ -564,7 +564,7 @@ Page({
       var params = suvMan
       network.request(url, params, method, header).then((data) => {
         console.log("都有")
-        if (data) {
+        if (data==true) {
           that.hideBottomModel(e)
           wx.showToast({
             title: '设置成功',
@@ -617,7 +617,7 @@ Page({
             var header =app.globalData.header
             var params = paramStr
             network.request(url, params, method, header).then((data)=>{
-              if(data){
+              if(data==true){
                 wx.showToast({
                   title: '取消成功',
                   icon:"success",
@@ -670,7 +670,7 @@ Page({
     var header = app.globalData.header
     var params = paramStr
     network.request(url, params, method, header).then((data)=>{
-      if (data) {
+      if (data==true) {
         wx.showToast({
           title: '设置成功',
           icon: "success",

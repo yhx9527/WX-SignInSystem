@@ -14,7 +14,7 @@ Page({
     tempFilePaths:[],
     height:0,
     width:0,
-    schWeek:1,
+    schWeek:-1,
     Weeks:[]
   },
 
@@ -34,7 +34,6 @@ Page({
       height:app.globalData.Height,
       width:app.globalData.Width,
       dates: dates[0],
-      schWeek:item1.schweek,
       Weeks:Weeks
     });
   },
@@ -52,7 +51,7 @@ Page({
     console.log("请假schdule" + schedule)
     if(schedule!=undefined){
     schedule.schWeek=e.detail.value.schWeek+1
-    
+    if (e.detail.value.schWeek!=-1){
     if (that.data.tempFilePaths.length!=0){
       /*
       console.log("临时  " + that.data.tempFilePaths[0])
@@ -136,6 +135,12 @@ Page({
       content: '请上传请假凭证',
     })
   }
+    }else{
+      wx.showModal({
+        title: '提示',
+        content: '请输入请假周',
+      })
+    }
   }else{
     wx.showToast({
       title: '操作失败',
