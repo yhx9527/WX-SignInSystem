@@ -51,54 +51,36 @@ that.setData({
 }
 
 
-var getMonitoring=function(that,schedule,schWeek){
+var getMonitor=function(that,schedule){
   var url ="https://www.xsix103.cn/SignInSystem/Teacher/fSuvRecByCoz.do"
   var params = schedule
   var header =app.globalData.header
   var method = "POST"
   network.request(url, params, method, header).then((data)=>{
-    if(data.length!=0){
-      for (var index in data) {
-        if(data[index].suvWeek==schWeek){
-          that.setData({
-            Monitoring: data[index]
-          })
-        }
-      }
-    }else{
       that.setData({
-        Monitoring:{}
-      })
-    }
+          Monitor: data
+        })
+     
+  
   })
 }
-var getAbsence = function (that, schedule,schWeek) {
+var getAbsence = function (that, schedule) {
   var url = "https://www.xsix103.cn/SignInSystem/Teacher/fSchAbsRecByCoz.do"
   var params = schedule
 
   var header = app.globalData.header
   var method = "POST"
   network.request(url, params, method, header).then((data) => {
-    if (data.length != 0) {
-      for (var index in data) {
-        if (data[index].sarWeek == schWeek) {
           that.setData({
-            Absence: data[index]
+            Absence: data
           })
-        }
-      }
-    } else {
-      that.setData({
-        Absence: {}
-      })
-    }
+   
     
   })
 }
 var getLeaves = function (that,topItems) {
   var url = "https://www.xsix103.cn/SignInSystem/Teacher/getLeaves.do"
   var params = {}
-
   var header = app.globalData.header
   var method = "POST"
   network.request(url, params, method, header).then((data) => {
@@ -106,16 +88,16 @@ var getLeaves = function (that,topItems) {
     topItems[i].signInRes=[]
     var a=topItems[i].signInRes
     for(var j in data){
-      if(topItems[i].schDayT==data[j].oneCozAndSch.schedule.schDay){
+      if(topItems[i].schDayT==data[j].oneCozAndSch.schedule.schDay&&data[j].siApprove==0){
         a.push(data[j])
       }
     }
     }
     that.setData({
-      topItems:topItems
+      topItems:topItems,
+      leaveData:data
     })
   })
-
 }
 //得到该课程的是否正在签到
 var getSign=function(that,topItems,i){
@@ -134,7 +116,7 @@ var getSign=function(that,topItems,i){
     })
   })
 }
-//得到该课程的督导情况
+//得到该课程的设置督导情况
 var getSuv=function(that,topItems,i){
   var url = 'https://www.xsix103.cn/SignInSystem/Teacher/findCozSuv.do'
   var method = "POST"
@@ -151,7 +133,36 @@ var getSuv=function(that,topItems,i){
     })
   })
 }
+//填充对应搜索周的数据
+var fillInForm=function(that,week,day){
+  var Monitor=that.data.Monitor
+  var searchMonitor={}
+  var Absence=that.data.Absence
+  var searchAbsence=[]
+  var leaveData=that.data.leaveData
+  var searchLeaveData=[]
+  Monitor.forEach((item)=>{
+    if(item.suvWeek==week){
+      searchMonitor=item
+    }
+  })
+  Absence.forEach((item)=>{
+    if(item.sarWeek==week)
+    searchAbsence.push(item)
+  })
+  leaveData.forEach((item)=>{
+    if(item.siWeek==week&&item.oneCozAndSch.schedule.schDay==day){
+      searchLeaveData.push(item)
+    }
+  })
+  that.setData({
+    nowWeek:week,
+    searchMonitor:searchMonitor,
+    searchAbsence:searchAbsence,
+    searchLeaveData:searchLeaveData
+  })
 
+}
 Page({
 
   /**
@@ -161,8 +172,12 @@ Page({
     courseName:"JAVA",
     teacherList:[],
     topItems:[],
-    Monitoring:{},
+    Monitor:[],
+    searchMonitor:{},
     Absence:[],
+    searchAbsence:[],
+    leaveData:[],
+    searchLeaveData:[],
     currentTopItem: "0",
     Height:0,//屏幕高
     Width:0,//屏幕宽
@@ -178,6 +193,9 @@ Page({
     Date:[],
     now:[],
     stopWeek:0,
+    inputVal:"",
+    inputShowed:false,
+    nowWeek:-1,
   },
 
   /**
@@ -206,10 +224,10 @@ Page({
       //topItems.push(common.transchedule(temp.list.schedules[index]))
       topItems.push(a)
     }
-    getMonitoring(that,schedule[0].schedule,schedule[0].schWeek);
-    getAbsence(that, schedule[0].schedule,schedule[0].schWeek);
-    getSign(that,topItems,0)
-    getSuv(that,topItems,0)
+    getMonitor(that,schedule[0].schedule);
+    getAbsence(that, schedule[0].schedule);
+    //getSign(that,topItems,0)
+    //getSuv(that,topItems,0)
     getLeaves(that,topItems)
     var Width = (app.globalData.Width)/(topItems.length)
     that.setData({
@@ -242,31 +260,68 @@ Page({
     switch (dataType) {
       //第一节课
       case 0:
-        getMonitoring(that,topItems[0].schedule);
+        that.setData({
+          searchMonitor:{},
+          searchAbsence:[],
+          searchLeaveData:[],
+          inputVal: "",
+          inputShowed: false,
+          hintColor: "black",
+          nowWeek:-1
+        });
+        getMonitor(that,topItems[0].schedule);
         getAbsence(that, topItems[0].schedule);
-        getSign(that,topItems,0)
-        getSuv(that,topItems,0)
+        
+        //getSign(that,topItems,0)
+        //getSuv(that,topItems,0)
         break;
       //第二节课
       case 1:
-        getMonitoring(that, topItems[1].schedule);
+        that.setData({
+          searchMonitor: {},
+          searchAbsence: [],
+          searchLeaveData: [],
+          inputVal: "",
+          inputShowed: false,
+          hintColor: "black",
+          nowWeek: -1
+        });
+        getMonitor(that, topItems[1].schedule);
         getAbsence(that, topItems[1].schedule);
-        getSign(that, topItems,1)
-        getSuv(that, topItems,1)
+        //getSign(that, topItems,1)
+        //getSuv(that, topItems,1)
         break;
       //第三节课
       case 2:
-        getMonitoring(that, topItems[2].schedule);
+        that.setData({
+          searchMonitor: {},
+          searchAbsence: [],
+          searchLeaveData: [],
+          inputVal: "",
+          inputShowed: false,
+          hintColor: "black",
+          nowWeek: -1
+        });
+        getMonitor(that, topItems[2].schedule);
         getAbsence(that, topItems[2].schedule);
-        getSign(that, topItems,2)
-        getSuv(that, topItems,2)
+        //getSign(that, topItems,2)
+        //getSuv(that, topItems,2)
         break;
       //第四节课
       case 3:
-        getMonitoring(that, topItems[3].schedule);
+        that.setData({
+          searchMonitor: {},
+          searchAbsence: [],
+          searchLeaveData: [],
+          inputVal: "",
+          inputShowed: false,
+          hintColor: "black",
+          nowWeek: -1
+        });
+        getMonitor(that, topItems[3].schedule);
         getAbsence(that, topItems[3].schedule);
-        getSign(that, topItems,3)
-        getSuv(that, topItems,3)
+        //getSign(that, topItems,3)
+        //getSuv(that, topItems,3)
         break;
       default:
         break;
@@ -417,7 +472,7 @@ Page({
       topItems:topItems
     })
     setTimeout(function(){
-      animation.translateY(0).step()
+      animation.translateY(-46).step()
       this.setData({
         animationBottom:animation.export()
       })
@@ -475,7 +530,7 @@ Page({
       animationBottom:animation.export(),
     })
     setTimeout(function(){
-      animation.translateY(0).step()
+      animation.translateY(-46).step()
       this.setData({
         animationBottom:animation.export(),
         topItems:topItems
@@ -704,7 +759,7 @@ Page({
     var now = this.data.now
     var topItems=this.data.topItems
     now = [0, date.getMonth() - 1, date.getDay() - 1, date.getHours(), date.getMinutes(), date.getSeconds()]
-    this.setNewDataWithRes(dataType)
+    //this.setNewDataWithRes(dataType)
 
     
     this.setData({
@@ -712,7 +767,64 @@ Page({
     })
 
   },
+  /**
+   * 搜索框
+   */
+  showInput: function () {
+    this.setData({
+      inputShowed: true,
+      hintColor: "black"
+    });
+  },
+  hideInput: function () {
+    this.setData({
+      inputVal: "",
+      inputShowed: false,
+      hintColor: "black"
+    });
+  },
+  clearInput: function () {
+    this.setData({
+      inputVal: "",
+      hintColor: "black"
+    });
+  },
+  inputTell:function(e){
+    if(parseInt(e.detail.value)>=1&&parseInt(e.detail.value)<=20){
+      this.setData({
+        inputVal:e.detail.value,
+        hintColor:"black"
+      })
+    }else{
+      this.setData({
+        inputVal:"请输入有效值",
+        hintColor:"red"
+      })
+    }
+  },
+  inputTyping: function (e) {
+    var that=this
+    var topItems=that.data.topItems
+    if (parseInt(e.detail.value) >= 1 && parseInt(e.detail.value) <= 20) {
+      wx.setStorageSync('searchWeek', e.detail.value)
 
+      that.setData({
+        inputVal: e.detail.value,
+        hintColor: "black",
+        nowWeek:e.detail.value
+      })
+      var day=topItems[dataType].schDayT
+      fillInForm(that,e.detail.value,day)
+
+    } else {
+      that.setData({
+        inputVal: "请输入有效值",
+        hintColor: "red"
+      })
+    }
+    
+
+  },
   /**
    * 生命周期函数--监听页面隐藏
    */

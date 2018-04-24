@@ -127,7 +127,7 @@ text-align:center;
 .fourCard{
   display: flex;
   flex-direction: column;
-  height:75%;
+  height:70%;
 
 }
 .cardTitle{

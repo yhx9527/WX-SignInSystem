@@ -56,6 +56,7 @@
           <text class="jilu-time"style="flex:1;text-align:right;padding-right:30px;">第{{item.siWeek}}周请假</text>
           <text class="jilu-status"wx:if="{{item.siApprove==0}}">未审核</text>
           <text class="jilu-status"wx:if="{{item.siApprove==1}}">已通过</text>
+          <text class="jilu-status"wx:if="{{item.siApprove==2}}">未通过</text>
       </view>
 
       <view style="height:12rpx;background-color:#eaeaea"></view>

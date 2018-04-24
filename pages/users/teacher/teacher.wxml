@@ -1,5 +1,23 @@
 <view style="height:100%">
 <view class="top-title">{{teacherList.courseName}}</view>
+
+        <view class="weui-search-bar">
+          <view class="weui-search-bar__form">
+              <view class="weui-search-bar__box">
+                <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+                <input type="number" class="weui-search-bar__input" placeholder="请输入周次" value="{{inputVal}}" focus="{{inputShowed}}" bindconfirm="inputTyping"bindinput="inputTell" data-index="{{index}}"style="color: {{hintColor}}"/>
+                <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+                  <icon type="clear" size="14"></icon>
+                </view>
+              </view>
+              <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+                <icon class="weui-icon-search" type="search" size="14"></icon>
+                <view class="weui-search-bar__text">搜索每周情况</view>
+              </label>
+          </view>
+          <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
+        </view>
+
 <view class="top-items">
   <view class="top-item {{currentTopItem==idx ? ('color'+idx) : ''}}" wx:for="{{topItems}}"wx:for-item="item"wx:for-index="idx"data-idx="{{idx}}"catchtap="switchTab">
     <view class="aItem"style="width:{{Width}}px;">
@@ -8,100 +26,96 @@
     </view>
   </view>
 </view>
+
 <swiper class="swiper"current="{{currentTopItem}}"bindchange="bindChange"duration="300"style="background-color:{{background}}">
   <view wx:for="{{topItems}}"wx:for-item="item"wx:for-index="index">
     <swiper-item>
       <view class="secondCard">
-  <view class="secondIcon" catchtap="showBottomModel"data-index="{{index}}">
-    <image wx:if="{{!item.ifSign}}"class="Icon1"src="../../image/TB3.png"></image>
-    <image wx:else class="Icon1"src="../../image/TA3.png"></image>
-    <text class="secondEx">发起签到</text>
-  </view>
-  <view class="secondIcon"catchtap="checkLeave"data-coursename="{{teacherList.courseName}}"data-schday="{{item.schDayT}}">
-    <image wx:if="{{item.signInRes.length==0}}"class="Icon1"src="../../image/TB2.png"></image>
-    <image wx:else class="Icon1"src="../../image/TA2.png"></image>
-    <text class="secondEx">学生请假({{item.signInRes.length}})</text>
-  </view>
-  <view class="secondIcon"catchtap="setMonitor"data-index="{{index}}">
-    <image wx:if="{{!item.ifMonitor}}"class="Icon1"src="../../image/TB1.png"></image>
-    <image wx:else class="Icon1"src="../../image/TA1.png"></image>
-    <text class="secondEx">设置督导</text>
-  </view>
-
-</view>
-  <modal hidden="{{item.ifMonitor1}}"title="{{item.schDay}}进行督导"confirm-text="确认"cancel-text="取消"bindcancel="cancelMonitor"bindconfirm="confirmMonitor"data-index="{{index}}">
-    <input type="number"placeholder="请输入督导周(默认第{{item.schWeek}}周)"bindinput="confirmInput"data-index="{{index}}"></input>
-  </modal>
-<view class="line"style="background-color:{{background}}"></view>
-<view class="thirdCard">
-  <text class="thirdEx">学生名单</text>
-  <view class="aboutImg">
-    <text class="renshu">{{}}人</text>
-    <image class="about"src="../../image/about.png"></image>
-  </view>
-</view>
-<view class="fourCard">
-  <view class="cardTitle"style="background-color:{{background}}">
-    <text class="titleText1">督导队记录(第 {{item.schWeek}} 周)</text>
-    <text class="titleText2">记录人:{{Monitoring.suvRecName}}</text>
-  </view>
-  <view class="cardContent">
-    <text class="thirdEx">上课实到人数</text>
-    <view class="ren">
-      <text class="renshu">{{Monitoring.suvRecNum}}人</text>
-    </view>
-  </view>
-  
-  <view class="cardContent"style="margin-bottom:0;border-bottom:0">
-    <text class="thirdEx">上课请假人数</text>
-    
-    <view class="aboutImg">
-    <text class="renshu">{{}}人</text>
-      <image class="about"src="../../image/about.png"></image>
-    </view>
-  </view>
-  
-  <view class="cardContent"style="margin-bottom:0;border-bottom:0">
-    <text class="thirdEx">上课情况</text>
-    <view class="aboutImg">
-      <image class="about"src="../../image/about.png"catchtap="xiala"animation="{{animation1}}"></image>
-    </view>
-  </view>
-    <view class="cardContentMore"wx:if="{{ifxiala}}">
-      <view class="cardContent1">
-        <text class="thirdEx">睡觉/玩手机..</text>
-        <view class="ren">
-          <text class="renshu">{{Monitoring.suvRecBadNum}}人</text>
+        <view class="secondIcon" catchtap="showBottomModel"data-index="{{index}}">
+          <image wx:if="{{!item.ifSign}}"class="Icon1"src="../../image/TB3.png"></image>
+          <image wx:else class="Icon1"src="../../image/TA3.png"></image>
+          <text class="secondEx">发起签到</text>
+        </view>
+        <view class="secondIcon"catchtap="checkLeave"data-coursename="{{teacherList.courseName}}"data-schday="{{item.schDayT}}">
+          <image wx:if="{{item.signInRes.length==0}}"class="Icon1"src="../../image/TB2.png"></image>
+          <image wx:else class="Icon1"src="../../image/TA2.png"></image>
+          <text class="secondEx">审核请假({{item.signInRes.length}})</text>
+        </view>
+        <view class="secondIcon"catchtap="setMonitor"data-index="{{index}}">
+          <image wx:if="{{!item.ifMonitor}}"class="Icon1"src="../../image/TB1.png"></image>
+          <image wx:else class="Icon1"src="../../image/TA1.png"></image>
+          <text class="secondEx">设置督导</text>
         </view>
       </view>
-      <view class='cardContent1'style="white-space:pre-line;height:auto">备注:{{Monitoring.suvRecInfo}}</view>
-    </view>
-  <view class="cardTitle"style="background-color:{{background}}">
-    <text class="titleText1">签到情况记录</text>
-  </view>
-  <view class="cardContent">
-    <text class="thirdEx">签到记录人数</text>
-    
-    <view class="aboutImg">
-    <text class="renshu">{{}}人</text>
-      <image class="about"src="../../image/about.png"></image>
-    </view>
-  </view>
-  <view class="cardContent"catchtap="absence"data-absence="{{Absence}}"data-coursename="{{teacherList.courseName}}"data-coursetime="{{item.schDay+item.schTime}}">
-    <text class="thirdEx">缺勤学生名单</text>
-    
-    <view class="aboutImg">
-      <image class="about"src="../../image/about.png"></image>
-    </view>
-  </view>
-  <view class='buttonView'>
-    <button type="warn"catchtap="stopClass"data-index="{{index}}">课程停课</button>
-  </view>
-   <modal hidden="{{item.ifStopClass}}"title="{{item.schDay}}进行停课"confirm-text="确认"cancel-text="取消"bindcancel="cancelStop"bindconfirm="confirmStop"data-index="{{index}}">
-    <input type="number"placeholder="请输入停课周(默认第{{item.schWeek}}周)"catchinput="confirmStopInput"data-index="{{index}}"></input>
-  </modal>
-</view>
-
+      <modal hidden="{{item.ifMonitor1}}"title="{{item.schDay}}进行督导"confirm-text="确认"cancel-text="取消"bindcancel="cancelMonitor"bindconfirm="confirmMonitor"data-index="{{index}}">
+        <input type="number"placeholder="请输入督导周(默认第{{item.schWeek}}周)"bindinput="confirmInput"data-index="{{index}}"></input>
+      </modal>
+      <view class="line"style="background-color:{{background}}"></view>
+        <view class="thirdCard">
+          <text class="thirdEx">学生名单</text>
+          <view class="aboutImg">
+            <text class="renshu">{{}}人</text>
+            <image class="about"src="../../image/about.png"></image>
+          </view>
+        </view>
+        <view class="fourCard">
+          <view class="cardTitle"style="background-color:{{background}}">
+            <text class="titleText1">督导队记录(第 {{nowWeek}} 周)</text>
+            <text class="titleText2">记录人:{{searchMonitor.suvRecName}}</text>
+          </view>
+          <view class="cardContent">
+            <text class="thirdEx">上课实到人数</text>
+            <view class="ren">
+            <text class="renshu">{{searchMonitor.suvRecNum}}人</text>
+            </view>
+          </view>
+          <view class="cardContent"style="margin-bottom:0;border-bottom:0">
+            <text class="thirdEx">上课请假人数</text>
+            <view class="aboutImg">
+            <text class="renshu"wx:if="{{searchLeaveData.length>0}}">{{searchLeaveData.length}}人</text>
+            <image class="about"src="../../image/about.png"></image>
+            </view>
+          </view>
+          <view class="cardContent"style="margin-bottom:0;border-bottom:0">
+            <text class="thirdEx">上课情况</text>
+            <view class="aboutImg">
+              <image class="about"src="../../image/about.png"catchtap="xiala"animation="{{animation1}}"></image>
+            </view>
+          </view>
+          <view class="cardContentMore"wx:if="{{ifxiala}}">
+            <view class="cardContent1">
+              <text class="thirdEx">睡觉/玩手机..</text>
+              <view class="ren">
+              <text class="renshu">{{searchMonitor.suvRecBadNum}}人</text>
+              </view>
+            </view>
+            <view class='cardContent1'style="white-space:pre-line;height:auto">备注:{{searchMonitor.suvRecInfo}}</view>
+          </view>
+            <view class="cardTitle"style="background-color:{{background}}">
+              <text class="titleText1">签到情况记录</text>
+            </view>
+          <view class="cardContent">
+            <text class="thirdEx">签到记录人数</text>
+            <view class="aboutImg">
+              <text class="renshu">{{}}人</text>
+              <image class="about"src="../../image/about.png"></image>
+            </view>
+          </view>
+          <view class="cardContent"catchtap="absence"data-absence="{{searchAbsence}}"data-coursename="{{teacherList.courseName}}"data-coursetime="{{item.schDay+item.schTime}}">
+            <text class="thirdEx">缺勤学生名单</text>
+            <view class="aboutImg">
+              <text class="renshu"wx:if="{{searchAbsence.length>0}}">{{searchAbsence.length}}人</text>
+              <image class="about"src="../../image/about.png"></image>
+            </view>
+          </view>
+          <view class='buttonView'>
+            <button type="warn"catchtap="stopClass"data-index="{{index}}">课程停课</button>
+          </view>
+          <modal hidden="{{item.ifStopClass}}"title="{{item.schDay}}进行停课"confirm-text="确认"cancel-text="取消"bindcancel="cancelStop"bindconfirm="confirmStop"data-index="{{index}}">
+            <input type="number"placeholder="请输入停课周(默认第{{item.schWeek}}周)"catchinput="confirmStopInput"data-index="{{index}}"></input>
+          </modal>  
+        </view>
+        
 
 
 
@@ -145,8 +159,6 @@
     </view>
     <button formType='submit'type='primary'style="border-radius: 0px; ">确认</button>
   </form>
-
-
     </swiper-item>
   </view>
 </swiper>
