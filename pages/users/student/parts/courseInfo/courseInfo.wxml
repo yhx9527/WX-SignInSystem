@@ -30,7 +30,7 @@
     <scroll-view style="height:{{signDataList.length*53}}px" scroll-y="true" bindscrolltoupper="upper"catchtouchstart="start"catchtouchmove="move" catchtouchend="end"data-idx="0" >
       <view style="height:12rpx;background-color:#eaeaea"></view>
       
-      <view class="jilu" wx:for="{{signDataList}}"  wx:for-item="item" id="{{item.id}}">
+      <view class="jilu" wx:for="{{signDataList}}"  wx:for-item="item" id="{{item.siId}}">
   
           <image class="jilu-image"src="../../../../image/htSign.png"></image>
           
@@ -53,9 +53,9 @@
       
       <view class="jilu" wx:for="{{leaveDataList}}"  wx:for-item="item">
           <image class="jilu-image"src="../../../../image/htLeave.png"></image>
-          <text class="jilu-time">{{item.time}}</text>
-          <text class="jilu-status">请假</text>
-
+          <text class="jilu-time"style="flex:1;text-align:right;padding-right:30px;">第{{item.siWeek}}周请假</text>
+          <text class="jilu-status"wx:if="{{item.siApprove==0}}">未审核</text>
+          <text class="jilu-status"wx:if="{{item.siApprove==1}}">已通过</text>
       </view>
 
       <view style="height:12rpx;background-color:#eaeaea"></view>
@@ -74,7 +74,7 @@
 
 
           <image class="jilu-image"src="../../../../image/htNo.png"></image>
-          <text class="jilu-time"style="flex:1;text-align:right;padding-right:30px;">{{item}}</text>
+          <text class="jilu-time"style="flex:1;text-align:right;padding-right:30px;">{{item.absWeek}}</text>
           <text class="jilu-status"style="flex:0;">缺勤</text>
 
      

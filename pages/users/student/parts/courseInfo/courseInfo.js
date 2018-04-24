@@ -30,7 +30,74 @@ function updateRefreshIcon() {
     })
   }, 1000);
 }  
+var getSignAndLeave=function(that,ArraySchedule){
+  var sign=[]
+  var leave=[]
+  var index=0
+  for(index in ArraySchedule){
+    var url = "https://www.xsix103.cn/SignInSystem/Student/fOneCozSignIn.do"
+    var params = ArraySchedule[index].schedule
+    var method = "POST"
+    var header = app.globalData.header
+    network.request(url, params, method, header).then((data)=>{
+      data.forEach((item)=>{
+        if(item.siLeave==false){
+          sign.push(item)
+        }else if(item.siLeave==true){
+          leave.push(item)
+        }
+      })
+    })
+  
+  }
+    setTimeout(function(){
+      console.log("签到" + JSON.stringify(sign.sort(util.compare("siId"))))
+      console.log("请假" + JSON.stringify(leave.sort(util.compare("siId"))))
+      var signDataList = sign.sort(util.compare("siId"))
+      var leaveDataList = leave.sort(util.compare("siId"))
+      signDataList.forEach((item)=>{
+        var time = util.formatArrayTime(item.siTime)
+        item.time=time
+      })
+      that.setData({
+        signDataList:signDataList,
+        leaveDataList:leaveDataList
+      })
+    },1000)
+    
+    
 
+  
+  /*that.setData({
+    signDataList: sign.sort(util.compare("siId")),
+    leaveDataList: leave.sort(util.compare("siId"))
+  })*/
+}
+var getAbs=function(that,ArraySchedule){
+  var Abs=[]
+  var noDataList=[]
+  for(var index in ArraySchedule){
+    var url = "https://www.xsix103.cn/SignInSystem/Student/fOneCozAbsent.do"
+    var params = ArraySchedule[index].schedule
+    var method = "POST"
+    var header = app.globalData.header
+    network.request(url, params, method, header).then((data)=>{
+      Abs=Abs.concat(data)
+    })
+  }
+  setTimeout(function(){
+    console.log("ABS"+Abs)
+    Abs.forEach((item,index,Abs)=>{
+      if(item==-1){
+        noDataList.push({ "id": parseInt(index) % 19,"absWeek":"第" + (parseInt(index)%19 + 1) + "周"})
+      }
+    })
+    //console.log("缺勤" + JSON.stringify(noDataList.sort(util.compare("id"))))
+    that.setData({
+      noDataList: noDataList.sort(util.compare("id"))
+    })
+  },1000)
+}
 
 Page({
 
@@ -58,7 +125,11 @@ Page({
   onLoad: function (options) {
     console.log(options.jsonStr)
     let item1=JSON.parse(options.jsonStr);
-    var url = "https://www.xsix103.cn/SignInSystem/Student/fOneCozSignIn.do"
+    this.setData({
+      courseItem:item1
+    })
+    this.setNewDataWithRes(dataType)
+    /*var url = "https://www.xsix103.cn/SignInSystem/Student/fOneCozSignIn.do"
     var params = item1.schedule
     var method = "POST"
     var header = app.globalData.header
@@ -77,7 +148,7 @@ Page({
   that.setData({
     courseItem: item1,
     swiperHeight: app.globalData.Height,
-  })
+  })*/
 },
   test:function(){
     console.log(courseItem)
@@ -91,24 +162,7 @@ Page({
     this.setNewDataWithRes(dataType);
     
   },
-  /*
-  //刷新数据
-  refreshNewData: function () {
-    //加载提示框
-    //util.showLoading();
-    var that = this;
-    var parameters = 'a=list&c=data&type=' + types[dataType];
-    console.log("parameters = " + parameters);
-    util.request(parameters, function (res) {
-      page = 1;
-      that.setNewDataWithRes(res, that);
-      setTimeout(function () {
-        util.hideToast();
-        wx.stopPullDownRefresh();
-      }, 1000);
-    });
-  },
-  */
+  
 
 
   /**
@@ -117,13 +171,13 @@ Page({
   onReady: function () {
     
     var that = this;
-    wx.getSystemInfo({
+    /*wx.getSystemInfo({
       success: function (res) {
         that.setData({
           swiperHeight: (res.windowHeight - 37)
         });
       }
-    })
+    })*/
     
   },
 
@@ -152,12 +206,13 @@ Page({
     var that=this
     var courseItem=that.data.courseItem
     //console.log("aaaa"+JSON.stringify(courseItem))
-    var schedule = {}
-    schedule = courseItem.schedule;
+    var ArraySchedule =courseItem.schedule
+    console.log("ArraySchedule"+JSON.stringify(ArraySchedule)) 
+    if(ArraySchedule.length>0){
     switch (types[dataType]) {
       //历史签到
       case DATATYPE.SIGNDATATYPE:
-        var url = "https://www.xsix103.cn/SignInSystem/Student/fOneCozSignIn.do"
+        /*var url = "https://www.xsix103.cn/SignInSystem/Student/fOneCozSignIn.do"
         var params=schedule
         var method="POST"
         var header=app.globalData.header
@@ -172,15 +227,16 @@ Page({
           that.setData({
             signDataList: signDataList
           });
-        })
+        })*/
+        getSignAndLeave(that,ArraySchedule)
         break;
       //历史请假
       case DATATYPE.LEAVEDATATYPE:
-        console.log("请假")
+        console.log("历史请假")
         break;
       //历史缺勤
       case DATATYPE.NODATATYPE:
-        var url = "https://www.xsix103.cn/SignInSystem/Student/fOneCozAbsent.do"
+        /*var url = "https://www.xsix103.cn/SignInSystem/Student/fOneCozAbsent.do"
         var params=schedule
         var method="POST"
         var header = app.globalData.header
@@ -195,11 +251,13 @@ Page({
           that.setData({
             noDataList: noDataList
           });
-        }) 
+        })*/
+        getAbs(that,ArraySchedule); 
         break;
       default:
         break;
     }
+  }
   },
   upper:function(e){
     
@@ -257,7 +315,7 @@ Page({
    //滑动菜单
    bindChange: function (e) {
      console.log("目前" + e.detail.current)
-     this.setNewDataWithRes(e.detail.current);
+     //this.setNewDataWithRes(e.detail.current);
      this.setData({
        currentTopItem: e.detail.current
      })

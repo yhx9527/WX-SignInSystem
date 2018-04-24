@@ -14,7 +14,7 @@ Page({
     tempFilePaths:[],
     height:0,
     width:0,
-    schWeek:-1,
+    nowWeek:-1,
     Weeks:[]
   },
 
@@ -33,6 +33,7 @@ Page({
       courseItem: item1,
       height:app.globalData.Height,
       width:app.globalData.Width,
+      nowWeek:item1.schedule.schWeek,
       dates: dates[0],
       Weeks:Weeks
     });
@@ -40,7 +41,7 @@ Page({
   //更改请假周
   bindWeekChange:function(e){
     this.setData({
-      schWeek:parseInt(e.detail.value)+1
+      nowWeek:parseInt(e.detail.value)+1
     })
   },
   //表单提交
@@ -50,8 +51,9 @@ Page({
     var schedule=that.data.courseItem.schedule
     console.log("请假schdule" + schedule)
     if(schedule!=undefined){
-    schedule.schWeek=e.detail.value.schWeek+1
-    if (e.detail.value.schWeek!=-1){
+      console.log("请假周" + (e.detail.value.nowWeek + 1))
+    schedule.schWeek=e.detail.value.nowWeek+1
+    if (e.detail.value.nowWeek!=-1){
     if (that.data.tempFilePaths.length!=0){
       /*
       console.log("临时  " + that.data.tempFilePaths[0])
@@ -106,13 +108,15 @@ Page({
               delta: 1
             })
           }, 2000)
-        } else if (res.data == "false" && res.statusCode == 200){
+        } 
+        /*else if (res.data == "false" && res.statusCode == 200){
           wx.showToast({
             title: '已提交请假条',
             icon: "none",
             duration: 2000
           })
-        }else{
+        }*/
+        else{
           wx.showToast({
             title: '提交失败',
             icon: "none",

@@ -175,13 +175,32 @@ function isEmptyObject(e){
   return !1;
   return !0
 }
+//对象数组根据属性的排序函数
+function compare(prop){
+  return function (obj1, obj2) {
+    var val1 = obj1[prop];
+    var val2 = obj2[prop];
+    if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
+      val1 = Number(val1);
+      val2 = Number(val2);
+    }
+    if (val1 < val2) {
+      return 1;
+    } else if (val1 > val2) {
+      return -1;
+    } else {
+      return 0;
+    }
+  } 
+}
 module.exports = {
   formatTime: formatTime,
   formatNumber:formatNumber,
   transchedules:transchedules,
   transchedule:transchedule,
   formatArrayTime: formatArrayTime,
-  transchedule1: transchedule1
+  transchedule1: transchedule1,
+  compare:compare
 }
 
 

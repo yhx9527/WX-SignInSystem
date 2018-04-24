@@ -116,16 +116,16 @@ var getSigning=function(that){
     var signingCard = {};
 
     var final = transchedule(data.schedule)
-
-
+    
     signingCard = { "loc":99, "courseName": data.course.cozName, "courseTeacher": data.course.teacher.userName, "courseTime": final.schDay , "coursePlace": final.location.locName, "locLat": final.location.locLat, "locLon": final.location.locLon, "right": 0, "startRight": 0,"schWeek": data.schedule.schWeek,"schedule":final.schedule, "isTouchMove": false }
-
-
-
+    var nowWeek=data.schedule.schWeek
+    if(nowWeek!=undefined){
+      wx.setStorageSync('nowWeek', nowWeek)
+    }
     that.setData({
       signingCard: signingCard
     })
-    wx.setStorageSync('SigningCourse', data)
+    //wx.setStorageSync('SigningCourse', data)
     wx.setStorageSync('SigningCard', signingCard)
   })
 }
@@ -795,10 +795,12 @@ Page({
 
   //请假
   leave:function(e){
-    
+    var nowWeek=wx.getStorageSync('nowWeek')
     var ArraySchedule=e.currentTarget.dataset.schedule
     if(ArraySchedule.length==1){
-      let str = JSON.stringify({"coursename":e.currentTarget.dataset.coursename,"schedule":ArraySchedule[0].schedule});
+      var schedule = ArraySchedule[0].schedule
+      schedule.schWeek=nowWeek
+      let str = JSON.stringify({"coursename":e.currentTarget.dataset.coursename,"schedule":schedule});
       wx.navigateTo({
         url: './parts/leave/leave?jsonStr=' + str
       })
@@ -810,7 +812,9 @@ Page({
       wx.showActionSheet({
         itemList: itemList,
         success:function(res1){
-          let str = JSON.stringify({ "coursename": e.currentTarget.dataset.coursename, "schedule": ArraySchedule[res1.tapIndex].schedule });
+          var schedule1 = ArraySchedule[res1.tapIndex].schedule
+          schedule1.schWeek=nowWeek
+          let str = JSON.stringify({ "coursename": e.currentTarget.dataset.coursename, "schedule": schedule1 });
           wx.navigateTo({
             url: './parts/leave/leave?jsonStr=' + str
           })
@@ -821,6 +825,7 @@ Page({
   },
   //签到地图
   SignMap:function(e){
+    var nowWeek=wx.getStorageSync('nowWeek')
     var arraySchedule=JSON.parse(JSON.stringify(e.currentTarget.dataset.schedule))
     var that = this
     var locationInfo={}
@@ -838,6 +843,7 @@ Page({
           var schedule = arraySchedule[0].schedule
           schedule.location.locLat = locationInfo.latitude
           schedule.location.locLon = locationInfo.longitude
+          schedule.schWeek=nowWeek
           SignIn(that, schedule, e.currentTarget.dataset)
           /*} else {
             var currentStatu = e.currentTarget.dataset.statu
@@ -858,6 +864,7 @@ Page({
               var schedule = arraySchedule[res1.tapIndex].schedule
               schedule.location.locLat = locationInfo.latitude
               schedule.location.locLon = locationInfo.longitude
+              schedule.schWeek=nowWeek
               SignIn(that, schedule, e.currentTarget.dataset)
             }
           })
@@ -1035,6 +1042,8 @@ Page({
 
   courseInfo:function(e){
     //先将对象转换为json字符串然后到下个页面将json字符串，再转化为对象
+    var temp = e.currentTarget.dataset
+    
     let str=JSON.stringify(e.currentTarget.dataset);
     wx.navigateTo({
       url: './parts/courseInfo/courseInfo?jsonStr='+str
