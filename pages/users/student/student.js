@@ -68,6 +68,9 @@ var getCards=function(that){
     wx.setStorageSync('Course', data)
     wx.setStorageSync('Cards', cards)
   })
+    .catch((data) => {
+      console.log("获取全部课程时出错" + data)
+    })
 }
 //正在签到课程处理
 var transchedule = function (schedule) {
@@ -128,6 +131,9 @@ var getSigning=function(that){
     //wx.setStorageSync('SigningCourse', data)
     wx.setStorageSync('SigningCard', signingCard)
   })
+  .catch((data)=>{
+    console.log("获取正在签到时出错"+data)
+  })
 }
 //获取老师课表
 var getTchList=function(that){
@@ -154,6 +160,9 @@ var getTchList=function(that){
     })
     wx.setStorageSync('teacher',data )
   })
+    .catch((data) => {
+      console.log("获取老师时出错" + data)
+    })
 }
 //课程块滑动渲染函数
 var slideOne=function(self,cards,index){

@@ -5,7 +5,7 @@
           <view class="weui-search-bar__form">
               <view class="weui-search-bar__box">
                 <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-                <input type="number" class="weui-search-bar__input" placeholder="请输入周次" value="{{inputVal}}" focus="{{inputShowed}}" bindconfirm="inputTyping"bindinput="inputTell" data-index="{{index}}"style="color: {{hintColor}}"/>
+                <input type="number" class="weui-search-bar__input" placeholder="请输入周次" value="{{inputVal}}" focus="{{inputShowed}}" bindconfirm="inputTyping" data-index="{{index}}"style="color: {{hintColor}}"/>
                 <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
                   <icon type="clear" size="14"></icon>
                 </view>
@@ -36,7 +36,7 @@
           <image wx:else class="Icon1"src="../../image/TA3.png"></image>
           <text class="secondEx">发起签到</text>
         </view>
-        <view class="secondIcon"catchtap="checkLeave"data-coursename="{{teacherList.courseName}}"data-schday="{{item.schDayT}}">
+        <view class="secondIcon"catchtap="checkLeave"data-coursename="{{teacherList.courseName}}"data-schday="{{item.schDayT}}"data-leaves="{{item.signInRes}}">
           <image wx:if="{{item.signInRes.length==0}}"class="Icon1"src="../../image/TB2.png"></image>
           <image wx:else class="Icon1"src="../../image/TA2.png"></image>
           <text class="secondEx">审核请假({{item.signInRes.length}})</text>
@@ -47,9 +47,9 @@
           <text class="secondEx">设置督导</text>
         </view>
       </view>
-      <modal hidden="{{item.ifMonitor1}}"title="{{item.schDay}}进行督导"confirm-text="确认"cancel-text="取消"bindcancel="cancelMonitor"bindconfirm="confirmMonitor"data-index="{{index}}">
-        <input type="number"placeholder="请输入督导周(默认第{{item.schWeek}}周)"bindinput="confirmInput"data-index="{{index}}"></input>
-      </modal>
+      <!--modal hidden="{{item.ifMonitor1}}"title="{{item.schDay}}进行督导"confirm-text="确认"cancel-text="取消"bindcancel="cancelMonitor"bindconfirm="confirmMonitor"data-index="{{index}}">
+        <input type="number"placeholder="请输入督导周(默认第{{inputVal}}周)"bindinput="confirmInput"data-index="{{index}}"></input>
+      </modal-->
       <view class="line"style="background-color:{{background}}"></view>
         <view class="thirdCard">
           <text class="thirdEx">学生名单</text>
@@ -69,7 +69,7 @@
             <text class="renshu">{{searchMonitor.suvRecNum}}人</text>
             </view>
           </view>
-          <view class="cardContent"style="margin-bottom:0;border-bottom:0">
+          <view class="cardContent"style="margin-bottom:0;border-bottom:0"catchtap="checkLeave"data-coursename="{{teacherList.courseName}}"data-schday="{{item.schDayT}}"data-leaves="{{searchLeaveData}}">
             <text class="thirdEx">上课请假人数</text>
             <view class="aboutImg">
             <text class="renshu"wx:if="{{searchLeaveData.length>0}}">{{searchLeaveData.length}}人</text>
@@ -109,11 +109,11 @@
             </view>
           </view>
           <view class='buttonView'>
-            <button type="warn"catchtap="stopClass"data-index="{{index}}">课程停课</button>
+            <button type="warn"catchtap="confirmStop"data-index="{{index}}">课程停课</button>
           </view>
-          <modal hidden="{{item.ifStopClass}}"title="{{item.schDay}}进行停课"confirm-text="确认"cancel-text="取消"bindcancel="cancelStop"bindconfirm="confirmStop"data-index="{{index}}">
+          <!--modal hidden="{{item.ifStopClass}}"title="{{item.schDay}}进行停课"confirm-text="确认"cancel-text="取消"bindcancel="cancelStop"bindconfirm="confirmStop"data-index="{{index}}">
             <input type="number"placeholder="请输入停课周(默认第{{item.schWeek}}周)"catchinput="confirmStopInput"data-index="{{index}}"></input>
-          </modal>  
+          </modal-->  
         </view>
         
 

@@ -21,7 +21,7 @@ function request(url,params={},method = "POST", header = {}) {
         icon: "loading",
         duration: 2000
       })
-      reject();
+      reject(res);
     },
     complete: function () {
       // complete

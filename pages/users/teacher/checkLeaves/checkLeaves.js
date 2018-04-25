@@ -2,7 +2,7 @@ const app=getApp()
 const network = require("../../../utils/network.js")
 const util=require("../../../utils/util.js")
 
-var getLeaves = function (that,schday) {
+/*var getLeaves = function (that,schday) {
   var url = "https://www.xsix103.cn/SignInSystem/Teacher/getLeaves.do"
   var params = {}
   var header =  app.globalData.header
@@ -29,7 +29,7 @@ var getLeaves = function (that,schday) {
       leaves: leaves
     })
   })
-}
+}*/
 Page({
 
   /**
@@ -46,8 +46,11 @@ Page({
   onLoad: function (options) {
     var that=this;
     let temp=JSON.parse(options.jsonString)
-    getLeaves(that,temp.schday)
+    temp.leaves.forEach((item)=>{
+      item.siTime1=util.formatArrayTime(item.siTime)
+    })
     that.setData({
+      leaves:temp.leaves,
       coursename:temp.coursename,
     })
 
@@ -59,6 +62,7 @@ Page({
       url: '../TcheckLeave/TcheckLeave?jsonString='+str,
     })
   },
+  /*
   //通过请假
   yesLeave: function (e) {
     wx.showModal({
@@ -127,7 +131,7 @@ Page({
       }
     })
   },
-
+*/
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
