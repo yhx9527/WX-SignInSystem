@@ -1,13 +1,15 @@
 <!--课程信息卡片-->
 <view class="item-view">
-  <view class="itemSon">                        
-            <image class="img" src="../../../image/first.jpg" mode='scaleToFill'></image>
-            <view class="course-wrapper">
-            <text class="courseName">{{course.coursename}}</text>
-            <text class="courseTeacher">老师：{{course.courseteacher}}</text>
-            <text class="courseTime">时间：{{course.coursetime}}</text>
-            <text class="coursePlace">地点：{{course.courseplace}}</text>
-            </view>
+  <view class="weui-media-box weui-media-box_appmsg"style='padding:6px;'>
+    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+      <view class="fa fa-rocket fa-2x"style='vertical-align:middle'></view>
+    </view>
+    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+      <view class="weui-media-box__title">{{course.coursename}}</view>
+      <view class="weui-media-box__desc">老师：{{course.courseteacher}}</view>
+      <view class="weui-media-box__desc">时间：{{course.coursetime}}</view>
+      <view class="weui-media-box__desc">地点：{{course.courseplace}}</view>
+    </view>
   </view>
 </view>
 <!--督导表单-->

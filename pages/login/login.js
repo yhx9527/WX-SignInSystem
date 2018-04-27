@@ -69,7 +69,7 @@ Page({
                     },
                     header: app.globalData.header,
                     success: function (res) {
-                      if(res.data!=null){
+                      if(res.data.length!=0&&JSON.stringify(res.data)!=="{}"){
                       //var map = config.jsonToMap(JSON.stringify(res.header));
                       //var a = map.get("Set-Cookie")
                       //console.log(a)
@@ -137,6 +137,16 @@ Page({
    */
   onLoad: function (options) {
     var that=this
+    wx.getSystemInfo({
+      success: function (res) {
+        app.globalData.Height = res.windowHeight;
+        app.globalData.Width = res.windowWidth;
+        console.log("屏幕高" + app.globalData.Height)
+        that.setData({
+          Height: res.windowHeight
+        });
+      }
+    });
     that.setData({
       userInfo: app.globalData.userInfo,
     })

@@ -1,11 +1,11 @@
-<view style="height:100%">
+<view style="height:100%;overflow:hidden">
 <view class="top-title">{{teacherList.courseName}}</view>
 
         <view class="weui-search-bar">
           <view class="weui-search-bar__form">
               <view class="weui-search-bar__box">
                 <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-                <input type="number" class="weui-search-bar__input" placeholder="请输入周次" value="{{inputVal}}" focus="{{inputShowed}}" bindconfirm="inputTyping" data-index="{{index}}"style="color: {{hintColor}}"/>
+                <input class="weui-search-bar__input" placeholder="请输入周次" value="{{inputVal}}" focus="{{inputShowed}}" bindconfirm="inputTyping" data-index="{{index}}"style="color: {{hintColor}}"/>
                 <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
                   <icon type="clear" size="14"></icon>
                 </view>
@@ -34,17 +34,25 @@
         <view class="secondIcon" catchtap="showBottomModel"data-index="{{index}}">
           <image wx:if="{{!item.ifSign}}"class="Icon1"src="../../image/TB3.png"></image>
           <image wx:else class="Icon1"src="../../image/TA3.png"></image>
-          <text class="secondEx">发起签到</text>
+          <view class="weui-cell__bd">
+            <view style="display: inline-block; vertical-align: middle">发起签到</view>
+          </view>
         </view>
         <view class="secondIcon"catchtap="checkLeave"data-coursename="{{teacherList.courseName}}"data-schday="{{item.schDayT}}"data-leaves="{{item.signInRes}}">
           <image wx:if="{{item.signInRes.length==0}}"class="Icon1"src="../../image/TB2.png"></image>
           <image wx:else class="Icon1"src="../../image/TA2.png"></image>
-          <text class="secondEx">审核请假({{item.signInRes.length}})</text>
+          <view class="weui-cell__bd">
+            <view style="display: inline-block; vertical-align: middle">审核请假</view>
+            <view wx:if="{{item.signInRes.length>0}}"class="weui-badge" style="margin-left: 5px;">{{item.signInRes.length}}</view>
+          </view>
+          <!--text class="secondEx">审核请假({{item.signInRes.length}})</text-->
         </view>
         <view class="secondIcon"catchtap="setMonitor"data-index="{{index}}">
           <image wx:if="{{!item.ifMonitor}}"class="Icon1"src="../../image/TB1.png"></image>
           <image wx:else class="Icon1"src="../../image/TA1.png"></image>
-          <text class="secondEx">设置督导</text>
+          <view class="weui-cell__bd">
+            <view style="display: inline-block; vertical-align: middle">设置督导</view>
+          </view>
         </view>
       </view>
       <!--modal hidden="{{item.ifMonitor1}}"title="{{item.schDay}}进行督导"confirm-text="确认"cancel-text="取消"bindcancel="cancelMonitor"bindconfirm="confirmMonitor"data-index="{{index}}">
@@ -69,7 +77,7 @@
             <text class="renshu">{{searchMonitor.suvRecNum}}人</text>
             </view>
           </view>
-          <view class="cardContent"style="margin-bottom:0;border-bottom:0"catchtap="checkLeave"data-coursename="{{teacherList.courseName}}"data-schday="{{item.schDayT}}"data-leaves="{{searchLeaveData}}">
+          <view class="cardContent"style="margin-bottom:0;border-bottom:0"hover-class="weui-cell_active"catchtap="checkLeave"data-coursename="{{teacherList.courseName}}"data-schday="{{item.schDayT}}"data-leaves="{{searchLeaveData}}">
             <text class="thirdEx">上课请假人数</text>
             <view class="aboutImg">
             <text class="renshu"wx:if="{{searchLeaveData.length>0}}">{{searchLeaveData.length}}人</text>
@@ -101,7 +109,7 @@
               <image class="about"src="../../image/about.png"></image>
             </view>
           </view>
-          <view class="cardContent"catchtap="absence"data-absence="{{searchAbsence}}"data-coursename="{{teacherList.courseName}}"data-coursetime="{{item.schDay+item.schTime}}">
+          <view class="cardContent"hover-class="weui-cell_active"catchtap="absence"data-absence="{{searchAbsence}}"data-coursename="{{teacherList.courseName}}"data-coursetime="{{item.schDay+item.schTime}}">
             <text class="thirdEx">缺勤学生名单</text>
             <view class="aboutImg">
               <text class="renshu"wx:if="{{searchAbsence.length>0}}">{{searchAbsence.length}}人</text>

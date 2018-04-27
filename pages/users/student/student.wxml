@@ -1,3 +1,4 @@
+
 <!--学生界面-->
 <view wx:if="{{studentPermit==1}}"class="container">
  
@@ -10,43 +11,63 @@
   </view-->
         <view class="hengfu"><text class="hengfuText">正在上课</text></view>
 
-          <view id="{{signingCard.id}}" data-loc="{{signingCard.loc}}"class="item" bind:touchstart="signingStart" bind:touchmove='signingMove'bind:touchend='signingEnd'style='right:{{signingCard.right}}px'>
-            <view class="itemSon">
-            <!--view class="out2-1"-->                        
-              <image class="img" src="../../image/second.jpg" mode='scaleToFill'></image>  
-              <view class="course-wrapper" catchtap='courseInfo'data-courseID="{{signingCard.id}}"data-courseName="{{signingCard.courseName}}"data-courseTeacher="{{signingCard.courseTeacher}}"data-courseTime="{{signingCard.courseTime}}"data-coursePlace="{{signingCard.coursePlace}}"data-schedule="{{signingCard.schedule}}">
+          <view id="{{signingCard.id}}" data-loc="{{signingCard.loc}}"class="item" bind:touchstart="signingStart" bind:touchmove='signingMove'bind:touchend='signingEnd'style='right:{{signingCard.right}}px;border-bottom:0px;'>
+            <!--view class="itemSon"-->
+            <!--view class="out2-1"-->
+              <view class="weui-media-box weui-media-box_appmsg"hover-class="weui-cell_active"style="padding:6px;"catchtap='courseInfo'data-courseID="{{signingCard.id}}"data-courseName="{{signingCard.courseName}}"data-courseTeacher="{{signingCard.courseTeacher}}"data-courseTime="{{signingCard.courseTime}}"data-coursePlace="{{signingCard.coursePlace}}"data-schedule="{{signingCard.schedule}}">
+                <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                    <view class="fa fa-rocket fa-2x"style='vertical-align:middle'></view>
+                </view>
+                <view class="weui-media-box__bd weui-media-box__bd_in-appmsg" >
+                  <view class="weui-media-box__title">{{signingCard.courseName}}</view>
+                  <view class="weui-media-box__desc">老师：{{signingCard.courseTeacher}}</view>
+                  <view class="weui-media-box__desc">时间：{{signingCard.courseTime}}</view>
+                  <view class="weui-media-box__desc">地点：{{signingCard.coursePlace}}</view>
+                </view>
+              </view>                        
+              <!--image class="img" src="../../image/second.jpg" mode='scaleToFill'></image-->  
+              <!--view class="course-wrapper" catchtap='courseInfo'data-courseID="{{signingCard.id}}"data-courseName="{{signingCard.courseName}}"data-courseTeacher="{{signingCard.courseTeacher}}"data-courseTime="{{signingCard.courseTime}}"data-coursePlace="{{signingCard.coursePlace}}"data-schedule="{{signingCard.schedule}}">
                 <text class="courseName">{{signingCard.courseName}}</text>
                 <text class="courseTeacher">老师：{{signingCard.courseTeacher}}</text>
                 <text class="courseTime">时间：{{signingCard.courseTime}}</text>
                 <text class="coursePlace">地点：{{signingCard.coursePlace}}</text>
-              </view>
+              </view-->
             <!--/view-->
             <!--view class="out2-2"-->
-              <view id="{{signingCard.id}}"class="remove1"catchtap="leave"data-courseName="{{signingCard.courseName}}"data-schedule="{{signingCard.schedule}}"data-schweek="{{signingCard.schWeek}}">请假</view>
-              <view id="{{signingCard.id}}"class="remove2"catchtap="SignMap"data-statu="open"data-locLat="{{signingCard.locLat}}"data-locLon="{{signingCard.locLon}}"data-schedule="{{signingCard.schedule}}">签到</view>
+              <view id="{{signingCard.id}}"class="remove1"hover-class="remove1A"catchtap="leave"data-courseName="{{signingCard.courseName}}"data-schedule="{{signingCard.schedule}}"data-schweek="{{signingCard.schWeek}}">请假</view>
+              <view id="{{signingCard.id}}"class="remove2"hover-class="remove2A"catchtap="SignMap"data-statu="open"data-locLat="{{signingCard.locLat}}"data-locLon="{{signingCard.locLon}}"data-schedule="{{signingCard.schedule}}">签到</view>
             <!--/view-->
             </view>
-          </view>
+          <!--/view-->
               
         <view class="hengfu"><text class="hengfuText">我的全部课程</text></view>
         <scroll-view scroll-y="true"enable-back-to-top="true">
-          <view wx:for="{{cards}}"wx:for-item="card"class="item"id="{{card.id}}"data-index="{{card.index}}"bind:touchstart="allStart" bind:touchmove='allMove'bind:touchend='allEnd'style='right:{{card.right}}px'>
-            <view class="itemSon">
+        <view wx:for="{{cards}}"wx:for-item="card"class="item"data-courseid="{{card.id}}"data-index="{{card.index}}"bind:touchstart="allStart" bind:touchmove='allMove'bind:touchend='allEnd'style='right:{{card.right}}px'>
+          <view class="weui-media-box weui-media-box_appmsg"hover-class="weui-cell_active"style="padding:6px;"catchtap='courseInfo'data-courseID="{{card.id}}"data-courseName="{{card.courseName}}"data-courseTeacher="{{card.courseTeacher}}"data-courseTime="{{card.courseTime}}"data-coursePlace="{{card.coursePlace}}"data-schedule="{{card.schedule}}">
+            <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+              <view class="fa fa-rocket fa-2x"style='vertical-align:middle'></view>
+            </view>
+            <view class="weui-media-box__bd weui-media-box__bd_in-appmsg" >
+              <view class="weui-media-box__title">{{card.courseName}}</view>
+              <view class="weui-media-box__desc">老师：{{card.courseTeacher}}</view>
+              <view class="weui-media-box__desc">时间：{{card.courseTime}}</view>
+              <view class="weui-media-box__desc">地点：{{card.coursePlace}}</view>
+            </view>
+          </view>
               <!--view class="out2-1"-->                        
-                <image class="img" src="../../image/first.jpg" mode='scaleToFill'></image>  
+                <!--image class="img" src="../../image/first.jpg" mode='scaleToFill'></image>  
                 <view class="course-wrapper" catchtap='courseInfo'data-courseID="{{card.id}}"data-courseName="{{card.courseName}}"data-courseTeacher="{{card.courseTeacher}}"data-courseTime="{{card.courseTime}}"data-coursePlace="{{card.coursePlace}}"data-schedule="{{card.schedule}}">
                   <text class="courseName">{{card.courseName}}</text>
                   <text class="courseTeacher">老师：{{card.courseTeacher}}</text>
                   <text class="courseTime">时间：{{card.courseTime}}</text>
                   <text class="coursePlace">地点：{{card.coursePlace}}</text>
-                </view>
+                </view-->
               <!--/view-->
               <!--view class="out2-2"-->
-                <view id="{{card.id}}"class="remove1"catchtap="leave"data-courseName="{{card.courseName}}"data-schedule="{{card.schedule}}">请假</view>
-                <view id="{{card.id}}"class="remove2"catchtap="SignMap"data-statu="open"data-courseID="{{card.id}}"data-loclat="{{card.locLat}}"data-loclon="{{card.locLon}}"data-schedule="{{card.schedule}}">签到</view>
+                <view id="{{card.id}}"class="remove1"hover-class="remove1A"style="border-bottom:1px solid lightgray;"catchtap="leave"data-courseName="{{card.courseName}}"data-schedule="{{card.schedule}}">请假</view>
+                <view id="{{card.id}}"class="remove2"hover-class="remove2A"style="border-bottom:1px solid lightgray;"catchtap="SignMap"data-statu="open"data-courseID="{{card.id}}"data-loclat="{{card.locLat}}"data-loclon="{{card.locLon}}"data-schedule="{{card.schedule}}">签到</view>
                 <!--/view-->
-            </view>
-          </view>
+        </view>
           
     </scroll-view>
       <!--mask--> 

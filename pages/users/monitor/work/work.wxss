@@ -1,5 +1,7 @@
 @import "../../student/common/mainTabCell.wxss";
-
+page{
+  background-color: #eaeaea;
+}
 .item-view{
   background-color: white;
   margin: 10rpx 12rpx 10rpx 12rpx;
@@ -105,8 +107,7 @@
 
 }
 .smallTitle{
-  font-weight:lighter;
-  font-size:18px;
+  font-size:16px;
   padding-top:13px;
   margin-left:5px;
   flex:1;

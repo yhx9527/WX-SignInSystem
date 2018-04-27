@@ -54,7 +54,7 @@ var getSignAndLeave=function(that,ArraySchedule){
       console.log("签到" + JSON.stringify(sign.sort(util.compare("siId"))))
       console.log("请假" + JSON.stringify(leave.sort(util.compare("siId"))))
       var signDataList = sign.sort(util.compare("siId"))
-      var leaveDataList = leave.sort(util.compare("siId"))
+      var leaveDataList = leave.sort(util.compare("siWeek"))
       signDataList.forEach((item)=>{
         var time = util.formatArrayTime(item.siTime)
         item.time=time
@@ -126,7 +126,8 @@ Page({
     console.log(options.jsonStr)
     let item1=JSON.parse(options.jsonStr);
     this.setData({
-      courseItem:item1
+      courseItem:item1,
+      scrollHeight:app.globalData.Height
     })
     this.setNewDataWithRes(dataType)
     /*var url = "https://www.xsix103.cn/SignInSystem/Student/fOneCozSignIn.do"

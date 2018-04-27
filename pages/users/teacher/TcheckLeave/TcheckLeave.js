@@ -72,14 +72,13 @@ Page({
       content: '审核通过该请假',
       success: function (res) {
         if (res.confirm) {
-          var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/approveLeave.do'
+          var url = 'https://www.xsix103.cn/SignInSystem/Teacher/approveLeave.do'
           var method = "POST"
           var header = {
             "Access-Token": app.globalData.header['Access-Token'],
-            'content-type': 'application/json;charset=UTF-8'
+            'content-type': 'application/json;charset=utf-8'
           }
-          var params = that.data.signInRes
-
+          var params = JSON.stringify(that.data.signInRes)
           network.request(url, params, method, header).then((data) => {
             if (data==true) {
               wx.showToast({
@@ -89,7 +88,7 @@ Page({
               })
               setTimeout(function () {
                 wx.navigateBack({
-                  delta: 1
+                  delta: 2
                 })
               }, 1500)
             } else {
@@ -115,13 +114,13 @@ Page({
       content: '驳回该请假',
       success: function (res) {
         if (res.confirm) {
-          var url = 'https://www.xsix103.cn/SignInSystem/Supervisor/rejectLeave.do'
+          var url = 'https://www.xsix103.cn/SignInSystem/Teacher/rejectLeave.do'
           var method = "POST"
           var header = {
-            "Access-Token": app.globalData.header['Access-Token'],
-            'content-type': 'application/json;charset=UTF-8'
+            "Access-Token":app.globalData.header['Access-Token'],
+          'content-type': 'application/json;charset=utf-8'
           }
-          var params = that.data.signInRes
+          var params = JSON.stringify(that.data.signInRes)
 
           network.request(url, params, method, header).then((data) => {
             if (data==true) {
@@ -132,7 +131,7 @@ Page({
               })
               setTimeout(function () {
                 wx.navigateBack({
-                  delta: 1
+                  delta: 2
                 })
               }, 1500)
             } else {

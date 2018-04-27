@@ -4,7 +4,7 @@
 
 /*底部工具条*/
 .bottom{
-  height: 85rpx;
+  height: 70rpx;
   border-top: 1rpx solid #f8f7f7;
   overflow: hidden;
 }
@@ -46,5 +46,4 @@
   background-color: #dddcdc;
   float: right;
   margin-top: 5%;
-  margin-right: 3rpx;
 }

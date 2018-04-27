@@ -1,26 +1,18 @@
 <view class="top-title">{{coursename}}</view>
 <view class="top-title">审核请假</view>
-<scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData">
-      <view style="height:12rpx;background-color:#eaeaea"></view>
-
-      <view class="item-view" wx:for="{{leaves}}"  wx:for-item="item"bindtap="checkLeave"data-coursename="{{coursename}}"data-signinres="{{item}}">
-         <view class="itemSon">                        
-            <image class="img" src="../../../image/shenhe.jpg" mode='scaleToFill'></image>
-            <view class="course-wrapper">
-            <text class="courseName">{{item.oneCozAndSch.course.cozName}}</text>
-            <text class="courseTeacher">请假学生姓名：{{item.student.userName}}</text>
-            <text class="coursePlace">请假学生学号：{{item.student.userId}}</text>
-            <text class="courseTime">时间：{{item.siTime1}}</text>
-            
-            </view>
-            <!--view class="remindbtn">
-             <button class="remindTextbtn1"bindtap="noLeave"data-signinres="{{item.signInRes}}"data-index="{{item.index}}"style="background-color:#FF8C00">驳回</button>
-              <button class="remindTextbtn1"bindtap="yesLeave"data-signinres="{{item.signInRes}}"data-index="{{item.index}}">通过</button>
-            </view-->
-            <view class="shuzhe"wx:if="{{item.siApprove==0}}">未审核</view>
-            <view class="shuzhe"wx:if="{{item.siApprove==1}}">已通过</view>
-            <view class="shuzhe"wx:if="{{item.siApprove==2}}">已驳回</view>
-        </view>
+  <view class="item-view" wx:for="{{leaves}}"  wx:for-item="item"bindtap="checkLeave"data-coursename="{{coursename}}"data-signinres="{{item}}"style="border:1rpx solid #cccccc;margin-top:10rpx;">
+    <view class="weui-media-box weui-media-box_appmsg"style='padding:6px;'hover-class="weui-cell_active">
+      <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+        <view class="fa fa-rocket fa-2x"style='vertical-align:middle'></view>
       </view>
-      <view style="height:12rpx;background-color:#eaeaea"></view>
-      </scroll-view>
+      <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+        <view class="weui-media-box__title">{{item.oneCozAndSch.course.cozName}}</view>
+        <view class="weui-media-box__desc">请假学生姓名：{{item.student.userName}}</view>
+        <view class="weui-media-box__desc">请假学生学号：{{item.student.userId}}</view>
+        <view class="weui-media-box__desc">时间：{{item.siTime1}}</view>    
+      </view>
+      <view class="shuzhe"wx:if="{{item.siApprove==0}}">未审核</view>
+      <view class="shuzhe"wx:if="{{item.siApprove==1}}">已通过</view>
+      <view class="shuzhe"wx:if="{{item.siApprove==2}}">已驳回</view>
+    </view>
+  </view>

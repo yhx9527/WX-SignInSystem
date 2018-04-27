@@ -1,2 +1,5 @@
 @import "../absence/absence.wxss";
 @import "../../student/studentMtor/monitor.wxss";
+page{
+  background-color: #eaeaea;
+}

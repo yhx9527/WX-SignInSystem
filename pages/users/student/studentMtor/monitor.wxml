@@ -53,25 +53,22 @@
       <view style="height:12rpx;background-color:#eaeaea"></view>
       
       <view class="item-view" wx:for="{{historyDataList}}"  wx:for-item="item"bindtap="historyCourse"data-courseID="{{item.id}}"data-courseName="{{item.courseName}}"data-courseTeacher="{{item.courseTeacher}}"data-courseTime="{{item.courseTime}}"data-coursePlace="{{item.coursePlace}}"data-suvRecord="{{item.suvRecord}}">
-        
-          <view class="itemSon">                        
-            <image class="img" src="../../../image/first.jpg" mode='scaleToFill'></image>
-            <view class="course-wrapper">
-            <text class="courseName">{{item.courseName}}</text>
-            <text class="courseTeacher">老师：{{item.courseTeacher}}</text>
-            <text class="courseTime">时间：{{item.courseTime}}</text>
-            <text class="coursePlace">地点：{{item.coursePlace}}</text>
+        <view class="weui-media-box weui-media-box_appmsg"style='padding:6px;'hover-class="weui-cell_active">                        
+            <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+              <view class="fa fa-rocket fa-2x"style='vertical-align:middle'></view>
+            </view>
+            <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+            <view class="weui-media-box__title">{{item.courseName}}</view>
+            <view class="weui-media-box__desc">老师：{{item.courseTeacher}}</view>
+            <view class="weui-media-box__desc">时间：{{item.courseTime}}</view>
+            <view class="weui-media-box__desc">地点：{{item.coursePlace}}</view>
             </view>
             <view class="remind">
-             
-                <text class="remindText">完成</text>
-                <text class="remindText">督导</text>
-            
+              <text class="remindText"style="margin-bottom:5px;">完成</text>
+              <text class="remindText"style="margin-top:5px;">督导</text>
             </view>
-          </view>
-        
+        </view>        
       </view>
-
       <view style="height:12rpx;background-color:#eaeaea"></view>
     </scroll-view>
   </swiper-item>
@@ -82,15 +79,16 @@
       <view style="height:12rpx;background-color:#eaeaea"></view>
 
       <view class="item-view" wx:for="{{leaveDataList}}"  wx:for-item="item"bindtap="McheckLeave"data-coursename="{{item.courseName}}"data-signinres="{{item.signInRes}}">
-         <view class="itemSon">                        
-            <image class="img" src="../../../image/shenhe.jpg" mode='scaleToFill'></image>
-            <view class="course-wrapper">
-            <text class="courseName">{{item.courseName}}</text>
-            <text class="courseTeacher">请假学生姓名：{{item.courseStudent}}</text>
-            <text class="coursePlace">请假学生学号：{{item.courseXuehao}}</text>
-            <text class="courseTime">时间：{{item.courseTime}}</text>
-            
-            </view>
+        <view class="weui-media-box weui-media-box_appmsg"style='padding:6px;'>                        
+          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+            <view class="fa fa-rocket fa-2x"style='vertical-align:middle'></view>
+          </view>
+          <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+            <view class="weui-media-box__title">{{item.courseName}}</view>
+            <view class="weui-media-box__desc">请假学生姓名：{{item.courseStudent}}</view>
+            <view class="weui-media-box__desc">请假学生学号：{{item.courseXuehao}}</view>
+            <view class="weui-media-box__desc">时间：{{item.courseTime}}</view>
+          </view>
             <!--
             <view class="remindbtn">
              <button class="remindTextbtn1"bindtap="noLeave"data-signinres="{{item.signInRes}}"data-index="{{item.index}}"style="background-color:#FF8C00">驳回</button>
@@ -99,8 +97,8 @@
             
             </view>
             -->
-            <view class="shuzhe">{{item.leaveStatu}}</view>
-          </view>
+          <view class="shuzhe">{{item.leaveStatu}}</view>
+        </view>
       </view>
       <view style="height:12rpx;background-color:#eaeaea"></view>
     </scroll-view>
@@ -112,21 +110,20 @@
       <view style="height:12rpx;background-color:#eaeaea"></view>
       
       <view class="item-view" wx:for="{{giveDataList}}"  wx:for-item="item">
-        <view class="itemSon">                        
-            <image class="img" src="../../../image/first.jpg" mode='scaleToFill'></image>
-            <view class="course-wrapper">
-            <text class="courseName">{{item.courseName}}</text>
-            <text class="courseTeacher">老师：{{item.courseTeacher}}</text>
-            <text class="courseTime">时间：{{item.courseTime}}</text>
-            <text class="coursePlace">地点：{{item.coursePlace}}</text>
-            </view>
-            <view class="remindbtn">
-             
-              <button class="remindTextbtn"bindtap="receive"data-suvSch="{{item.suvSch}}"data-index="{{item.index}}">领取</button>
-                
-            
-            </view>
+        <view class="weui-media-box weui-media-box_appmsg"style='padding:6px;'>                        
+          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+            <view class="fa fa-rocket fa-2x"style='vertical-align:middle'></view>
           </view>
+          <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+            <view class="weui-media-box__title">{{item.courseName}}</view>
+            <view class="weui-media-box__desc">老师：{{item.courseTeacher}}</view>
+            <view class="weui-media-box__desc">时间：{{item.courseTime}}</view>
+            <view class="weui-media-box__desc">地点：{{item.coursePlace}}</view>
+          </view>
+          <view class="remindbtn">   
+            <button class="remindTextbtn"hover-class="remindTextbtnA"bindtap="receive"data-suvSch="{{item.suvSch}}"data-index="{{item.index}}">领取</button>
+          </view>
+        </view>
       </view>
       <view style="height:12rpx;background-color:#eaeaea"></view>
     </scroll-view>
@@ -137,23 +134,23 @@
       <view style="height:12rpx;background-color:#eaeaea"></view>
       
       <view class="item-view" wx:for="{{transDataList}}"  wx:for-item="item">
-        <view class="itemSon">                        
-            <image class="img" src="../../../image/first.jpg" mode='scaleToFill'></image>
-            <view class="course-wrapper">
-            <text class="courseName">课程名:{{item.courseName}}</text>
-            <text class="courseTime">时间：{{item.courseTime}}</text>
-            <text class="coursePlace">地点：{{item.coursePlace}}</text>
-            <text class="courseTeacher"style="white-space:nowrap">发起人：{{item.faqiren}}</text>
-            </view>
-            <view wx:if="{{!item.ifyes&&!item.ifno}}"class="remindbtn"style="margin-right:0;">
-              <button class="remindTextbtn1"bindtap="rejectTrans"data-suvtrans="{{item.suvTrans}}"data-index="{{item.index}}"style="background-color:#FF8C00;">拒绝</button>
-          
-              <button class="remindTextbtn1"bindtap="receiveTrans"data-suvtrans="{{item.suvTrans}}"data-index="{{item.index}}">接受</button>
-            
-            </view>
-            <view wx:if="{{!item.ifyes&&item.ifno}}"class="shuzhe">已拒绝</view>
-            <view wx:if="{{item.ifyes&&!item.ifno}}"class="shuzhe">已接受</view>
+        <view class="weui-media-box weui-media-box_appmsg"style='padding:6px;'>                        
+          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+            <view class="fa fa-rocket fa-2x"style='vertical-align:middle'></view>
           </view>
+          <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+            <view class="weui-media-box__title">课程名:{{item.courseName}}</view>
+            <view class="weui-media-box__desc">时间：{{item.courseTime}}</view>
+            <view class="weui-media-box__desc">地点：{{item.coursePlace}}</view>
+            <view class="weui-media-box__desc"style="white-space:nowrap">发起人：{{item.faqiren}}</view>
+          </view>
+          <view wx:if="{{!item.ifyes&&!item.ifno}}"class="remindbtn"style="margin-right:0;">
+            <button class="remindTextbtn2"hover-class="remindTextbtn1A"bindtap="rejectTrans"data-suvtrans="{{item.suvTrans}}"data-index="{{item.index}}">拒绝</button>
+            <button class="remindTextbtn1"hover-class="approve"bindtap="receiveTrans"data-suvtrans="{{item.suvTrans}}"data-index="{{item.index}}">接受</button>  
+          </view>
+          <view wx:if="{{!item.ifyes&&item.ifno}}"class="shuzhe">已拒绝</view>
+          <view wx:if="{{item.ifyes&&!item.ifno}}"class="shuzhe">已接受</view>
+        </view>
       </view>
       <view style="height:12rpx;background-color:#eaeaea"></view>
     </scroll-view>

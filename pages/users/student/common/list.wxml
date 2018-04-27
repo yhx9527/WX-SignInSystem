@@ -10,16 +10,25 @@
 </dl>-->
 <view class="hengfu"><text class="hengfuText">我的全部授课</text></view>
 <scroll-view scroll-top="{{scrollTop}}" scroll-y="true" style="height:{{teacherLists.length*90}}px;"class="teacherList"wx:if="{{!ifshade}}">
-  <view wx:for="{{teacherLists}}" wx:for-item="teacherList" id="{{teacherList.cozId}}">
-    <view class="firstCard"bindtap='singleTlist'data-list="{{teacherList}}"style="border:1px solid #dddcdc;background-color:white">
-      <image class="Icon"src="../../image/teacher.jpg"></image>
+  <view wx:for="{{teacherLists}}" wx:for-item="teacherList" id="{{teacherList.cozId}}"bindtap='singleTlist'data-list="{{teacherList}}"style="border-bottom:1px solid lightgrey">
+      <view class="weui-media-box weui-media-box_appmsg"hover-class="weui-cell_active"style='padding:6px;'>                        
+        <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+          <view class="fa fa-rocket fa-2x"style='vertical-align:middle'></view>
+        </view>
+        <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+          <view class="weui-media-box__title">{{teacherList.courseName}}</view>
+          <view class="weui-media-box__desc">课程人数:{{teacherList.courseNum}}</view>
+          <view class="weui-media-box__desc">时间:{{teacherList.courseTime}}</view>
+          <view class="weui-media-box__desc">地点:{{teacherList.coursePlace}}</view>
+        </view>
+      </view>
+      <!--image class="Icon"src="../../image/teacher.jpg"></image>
       <view class="firstCourse">
         <text class="courseName">{{teacherList.courseName}}</text>
         <text class="courseOther">课程人数:{{teacherList.courseNum}}</text>
         <text class="courseOther">时间:{{teacherList.courseTime}}</text>
         <text class="courseOther">地点:{{teacherList.coursePlace}}</text>
-      </view>
-    </view>
+      </view-->
   </view>
 </scroll-view>
 <view class="drawer_screen1"wx:if="{{ifshade}}"></view>

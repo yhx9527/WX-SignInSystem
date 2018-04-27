@@ -29,28 +29,30 @@
   margin-right:50px;
 }
 .yuanLeft{
-  border-top:1rpx solid #dddcdc;
-  border-bottom: 1rpx solid #dddcdc;
-  border-left: 1rpx solid #dddcdc;
-  border-top-left-radius: 50%;
-  border-bottom-left-radius: 50%;
-  height:52px;
-  width: 52px;
+ border-top:1px solid #dddcdc;
+border-bottom:1px solid #dddcdc;
+border-left:1px solid #dddcdc;
+border-top-left-radius:50%;
+border-bottom-left-radius:50%;
+height:52px;
+width:92px;
 }
 .yuanRight{
-  border-top:1rpx solid #dddcdc;
-  border-bottom: 1rpx solid #dddcdc;
-  border-right: 1rpx solid #dddcdc;
-  border-top-right-radius: 50%;
-  border-bottom-right-radius: 50%;
-  height:52px;
-  width: 52px;
+  border-top:1px solid #dddcdc;
+border-bottom:1px solid #dddcdc;
+border-right:1px solid #dddcdc;
+border-top-right-radius:50%;
+border-bottom-right-radius:50%;
+height:52px;
+width:92px;
+
 }
 .inputView{ 
-  border-top: 1rpx solid #dddcdc; 
-  border-bottom: 1rpx solid #dddcdc;
-  width: 350px;
-  height:52px; 
+border-top:1px solid #dddcdc;
+border-bottom:1px solid #dddcdc;
+width:400px;
+height:52px;
+
 }
 
 .loginLab{
@@ -82,30 +84,39 @@
 
 
 .loginBtn{
-  width: 350px;
-  height:52px; 
-  background-color: #12b7f4;
-  border-radius:0;
-  color:white;
-  font-size:20px;
+  width:400px;
+height:52px;
+background-color:#12b7f4;
+border-radius:0;
+color:white;
+font-size:20px;
+opacity:0.8;
 
+
+}
+.loginBtnA{
+  color: #CCFFFF
 }
 .loginBtn::after{
   border:none;
 }
 .buttonLeft{
   height:52px;
-  width: 52px;
+  width: 92px;
   background-color: #12b7f4;
   border-top-left-radius: 50%;
   border-bottom-left-radius: 50%;
+  opacity:0.8;
+
 }
 .buttonRight{
   height:52px;
-  width: 52px;
+  width: 93px;
   background-color: #12b7f4;
   border-top-right-radius: 50%;
   border-bottom-right-radius: 50%;
+  opacity:0.8;
+
 }
 .backImg{
   width: 100%;
@@ -124,7 +135,7 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
-  margin-top:34px;
+  margin-top:24px;
 }
 page{
   overflow: hidden;

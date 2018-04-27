@@ -2,21 +2,23 @@
 <template name="mainTabCell">
     <!--顶部-->
             <!--内容-->
-            <view class="itemSon">                        
-            <image class="img" src="../../../image/first.jpg" mode='scaleToFill'></image>
-            <view class="course-wrapper">
-            <text class="courseName">{{item.courseName}}</text>
-            <text class="courseTeacher">老师：{{item.courseTeacher}}</text>
-            <text class="courseTime">时间：{{item.courseTime}}</text>
-            <text class="coursePlace">地点：{{item.coursePlace}}</text>
-            </view>
+            <view class="weui-media-box weui-media-box_appmsg"style='padding:6px;'hover-class="weui-cell_active">
+              <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                <view class="fa fa-rocket fa-2x"style='vertical-align:middle'></view>
+              </view>
+              <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                <view class="weui-media-box__title">{{item.courseName}}</view>
+                <view class="weui-media-box__desc">老师：{{item.courseTeacher}}</view>
+                <view class="weui-media-box__desc">时间：{{item.courseTime}}</view>
+                <view class="weui-media-box__desc">地点：{{item.coursePlace}}</view>
+              </view>
             </view>
   
             <!--底部-->
-            <view class="bottom">
+            <view class="bottom"style="padding-bottom:0px;height:88rpx;">
 
             <!--发起自动签到-->
-            <view class="bottom-item" catchtap="workSign"data-schId="{{item.schedule.schId}}"data-suvWeek="{{item.suvWeek}}"data-suvMan="{{item.suvMan}}"data-ArrayFlag="{{item.ArrayFlag}}"data-ifinsert="{{item.ifInsert}}">
+            <view class="bottom-item"hover-class="weui-cell_active" catchtap="workSign"data-schId="{{item.schedule.schId}}"data-suvWeek="{{item.suvWeek}}"data-suvMan="{{item.suvMan}}"data-ArrayFlag="{{item.ArrayFlag}}"data-ifinsert="{{item.ifInsert}}">
                 <view class="bottom-item-content">
                 <image wx:if="{{!item.suvMan.suvManAutoOpen}}"src="../../../image/MB1.png" mode="center"class="bottom-item-content-image"></image>
                 <image wx:else src="../../../image/MA1.png" mode="center"class="bottom-item-content-image"></image>
@@ -27,7 +29,7 @@
             </view>
 
             <!--工作请假-->
-            <view class="bottom-item"catchtap="workLeave"data-suvId="{{item.suvId}}"data-student="{{item.student}}"data-schedule="{{item.schedule}}"data-course="{{item.course}}"data-suvWeek="{{item.suvWeek}}"data-suvLeave="{{item.suvLeave}}"data-suvMan="{{item.suvMan}}"data-ArrayFlag="{{item.ArrayFlag}}"data-ifinsert="{{item.ifInsert}}">
+            <view class="bottom-item"hover-class="weui-cell_active"catchtap="workLeave"data-suvId="{{item.suvId}}"data-student="{{item.student}}"data-schedule="{{item.schedule}}"data-course="{{item.course}}"data-suvWeek="{{item.suvWeek}}"data-suvLeave="{{item.suvLeave}}"data-suvMan="{{item.suvMan}}"data-ArrayFlag="{{item.ArrayFlag}}"data-ifinsert="{{item.ifInsert}}">
                 <view class="bottom-item-content">
                 <image wx:if="{{!item.suvLeave}}"src="../../../image/MB2.png" mode="center"class="bottom-item-content-image"></image>
                 <image wx:else src="../../../image/MA2.png" mode="center"class="bottom-item-content-image"></image>
@@ -38,7 +40,7 @@
             </view>
 
             <!--督导转接-->
-            <view class="bottom-item"catchtap="transWork"data-suvsch="{{item.suvSch}}"data-ifinsert="{{item.ifInsert}}"data-index="{{item.ArrayFlag}}">
+            <view class="bottom-item"hover-class="weui-cell_active"catchtap="transWork"data-suvsch="{{item.suvSch}}"data-ifinsert="{{item.ifInsert}}"data-index="{{item.ArrayFlag}}">
                 <view class="bottom-item-content">
                 <image wx:if="{{!item.transwork}}"src="../../../image/MB3.png" mode="center"class="bottom-item-content-image"></image>
                 <image wx:else src="../../../image/MA3.png" mode="center"class="bottom-item-content-image"></image>
@@ -48,7 +50,7 @@
                 <view class="cut-line"></view>
             </view>
             <!--放弃督导-->
-            <view class="bottom-item"catchtap="workGive"data-suvsch="{{item.suvSch}}"data-index="{{item.ArrayFlag}}"data-ifinsert="{{item.ifInsert}}">
+            <view class="bottom-item"hover-class="weui-cell_active"catchtap="workGive"data-suvsch="{{item.suvSch}}"data-index="{{item.ArrayFlag}}"data-ifinsert="{{item.ifInsert}}">
                 <view class="bottom-item-content">
                 <image wx:if="{{!item.workgive}}"src="../../../image/MB4.png" mode="center"class="bottom-item-content-image"></image>
                 <image wx:else src="../../../image/MA4.png" mode="center"class="bottom-item-content-image"></image>

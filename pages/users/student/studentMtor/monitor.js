@@ -222,7 +222,7 @@ var transPermit=function(person){
     person.memberInfo="老师"
   }else if(person.userPermit[0]==1&&person.userPermit[1]==1){
     person.memberInfo="督导队员，学生"
-  } else if (person.userPermit[0] == 1 && person.userPermit[1] == 1){
+  } else if (person.userPermit[0] == 1 && person.userPermit[1] == 0){
     person.memberInfo = "学生"
   }
 }
@@ -260,8 +260,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
-    
+    var person = wx.getStorageSync('person')
+    if (person.userPermit[1] == 1) {
+      this.setNewDataWithRes(dataType);
+    }
   },
 
   /**
@@ -319,10 +321,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    var person = wx.getStorageSync('person')
-    if (person.userPermit[1] == 1) {
-      this.setNewDataWithRes(dataType);
-    }
+
     
 
   },
@@ -796,11 +795,13 @@ Page({
    * 关于督导转接
    */
   transWork:function(e){
+    if (JSON.stringify(e.currentTarget.dataset) !== "{}") {
    var aboutSuvTrans={'suvTrans':{"suvSch":e.currentTarget.dataset.suvsch,"userId":""},'ifInsert':e.currentTarget.dataset.ifinsert,"index":e.currentTarget.dataset.index}
    wx.setStorageSync('aboutSuvTrans',aboutSuvTrans )
    this.setData({
      ifTransWork:false
    })
+    }
   },
   cancelTrans:function(e){  
     this.setData({

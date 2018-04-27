@@ -6,6 +6,7 @@ var startY;
 var endX;
 var endY;
 var maxRight=160;
+var key=false;
 /*
 var ReportDataSync = [
   {
@@ -56,8 +57,16 @@ var getCards=function(that){
         
       }
       //for (var i in final) {
-
-        cards.push({ "index":index,"id": data.courses[index].cozId, "courseName": data.courses[index].cozName, "courseTeacher": data.courses[index].teacher.userName, "courseTime": final[0].schDay, "coursePlace": final[0].location.locName, "locLat": final[0].location.locLat, "locLon": final[0].location.locLon, "right": 0, "startRight": 0 ,"isTouchMove":false,"schWeek":final[0].schWeek,"schedule":final[0].schedule})
+      try{
+        cards.push({ "index": index, "id": data.courses[index].cozId, "courseName": data.courses[index].cozName, "courseTeacher": data.courses[index].teacher.userName, "courseTime": final[0].schDay, "coursePlace": final[0].location.locName, "locLat": final[0].location.locLat, "locLon": final[0].location.locLon, "right": 0, "startRight": 0, "isTouchMove": false, "schWeek": final[0].schWeek, "schedule": final[0].schedule })
+      }
+      catch(err){
+        if(final[0].location==null){
+          cards.push({ "index": index, "id": data.courses[index].cozId, "courseName": data.courses[index].cozName, "courseTeacher": data.courses[index].teacher.userName, "courseTime": final[0].schDay, "coursePlace": "暂未录入", "locLat": 0, "locLon": 0, "right": 0, "startRight": 0, "isTouchMove": false, "schWeek": final[0].schWeek, "schedule": final[0].schedule })
+        }
+        console.log("全部课程处信息处理有异常"+err.message)
+      }
+       
       //}
 
     }
@@ -119,8 +128,16 @@ var getSigning=function(that){
     var signingCard = {};
 
     var final = transchedule(data.schedule)
+    try{
+      signingCard = { "loc": 99, "courseName": data.course.cozName, "courseTeacher": data.course.teacher.userName, "courseTime": final.schDay, "coursePlace": final.location.locName, "locLat": final.location.locLat, "locLon": final.location.locLon, "right": 0, "startRight": 0, "schWeek": data.schedule.schWeek, "schedule": final.schedule, "isTouchMove": false }
+    }
+    catch(err){
+      if(final.location==null){
+        signingCard = { "loc": 99, "courseName": data.course.cozName, "courseTeacher": data.course.teacher.userName, "courseTime": final.schDay, "coursePlace": "暂未录入", "locLat": 0, "locLon": 0, "right": 0, "startRight": 0, "schWeek": data.schedule.schWeek, "schedule": final.schedule, "isTouchMove": false }
+      }
+      console.log("正在上课课程处信息处理有异常" + err.message)
+    }
     
-    signingCard = { "loc":99, "courseName": data.course.cozName, "courseTeacher": data.course.teacher.userName, "courseTime": final.schDay , "coursePlace": final.location.locName, "locLat": final.location.locLat, "locLon": final.location.locLon, "right": 0, "startRight": 0,"schWeek": data.schedule.schWeek,"schedule":final.schedule, "isTouchMove": false }
     var nowWeek=data.schedule.schWeek
     if(nowWeek!=undefined){
       wx.setStorageSync('nowWeek', nowWeek)
@@ -151,7 +168,15 @@ var getTchList=function(that){
         console.log("yjkd" + JSON.stringify(final))
       }
       var a=data.courses[index]
-        teacherLists.push({ "cozId":a.cozId , "courseName": a.cozName, "courseNum": 100, "courseTime": final[0].schDay, "coursePlace": final[0].location.locName,"teacher":data.teacher,"schedules":a.schedules })
+      try{
+        teacherLists.push({ "cozId": a.cozId, "courseName": a.cozName, "courseNum": 100, "courseTime": final[0].schDay, "coursePlace": final[0].location.locName, "teacher": data.teacher, "schedules": a.schedules })
+      }catch(err){
+        if(final[0].location==null){
+          teacherLists.push({ "cozId": a.cozId, "courseName": a.cozName, "courseNum": 100, "courseTime": final[0].schDay, "coursePlace": "暂未录入", "teacher": data.teacher, "schedules": a.schedules })
+        }
+        console.log("获取老师课程信息处理有异常" + err.message)
+      }
+        
       
     }
 
@@ -431,36 +456,18 @@ Page({
     cards: [],
     signingCard: {}, //正在签到
     scrollHeight: 0,
-    //text:"签到仅限课前十分钟和上课十分钟之内有效！！！",
-    //marqueePace: 0.5,//滚动速度
-    //marqueeDistance: 0,//初始滚动距离
-    //orientation: 'left',//滚动方向
-    //marqueeDistance2: 0,
-    //marquee2copy_status:false,
-    //marquee2_margin: 60,
-    //size:14,
-    //interval: 30 ,// 时间间隔
     hidden:true,
     showModalStatus:false,
     locationInfo:null,
     //自己位置
     longitude:null,
     latitude:null,
-    /*
-    markers:[],
-    circles:[],
-    polyline:[],
-    controls:[],
-    */
     SignText:"",//签到失败提示
     //地图缩放比例
     scale:18,
     schedule: {},//发送给后台的单个签到
     studentPermit: null,
     teacherPermit: null,
-    //reportData: [],
-    //subMenuDisplay: [],
-   // subMenuHighLight: [],
     animationData: {},
     animationData1: {},
     teacherLists: [],
@@ -479,9 +486,12 @@ Page({
     }
   },
   allMove:function(e){
+    
     var self = this;
     var index = e.currentTarget.dataset.index;
+    var id=e.currentTarget.dataset.courseid;
     var cards = this.data.cards;
+
       var touch = e.touches[0];
       endX = touch.clientX;
       endY = touch.clientY;
@@ -490,37 +500,51 @@ Page({
       if (Math.abs(angle) > 30) return;
       //right to left
       if ((endX - startX) < 0) {
-        var startRight = cards[index].startRight;
+        for(var yhx in cards){
+          if(cards[yhx].id===id){
+            var startRight = cards[yhx].startRight;
             var change = startX - endX;
             startRight += change;
             if (startRight > maxRight)
               startRight = maxRight;
-            cards[index].right = startRight;
-          
-        
+            cards[yhx].right = startRight;
+            break;
+          }
+        }
+        slideOne(self, cards, yhx)
       } else {
-        var startRight = cards[index].startRight;
+        for (var yhx1 in cards) {
+          if (cards[yhx1].id === id) {
+        var startRight = cards[yhx1].startRight;
             var change = endX - startX;
             startRight -= change;
             if (startRight < 0)
               startRight = 0;
-            cards[index].right = startRight;
-          
-        
+            cards[yhx1].right = startRight;
+            break;
       }
-      slideOne(self,cards,index)
+  } 
+        slideOne(self, cards, yhx1)
+      }
       
+ 
   },
   allEnd:function(e){
     var cards = this.data.cards;
+    var id=e.currentTarget.dataset.courseid
     var index = e.currentTarget.dataset.index;
-
-      if (cards[index].right <= 100 / 2) {
-        cards[index].right = 0;
-      } else {
-        cards[index].right = maxRight;
+    for(var yhx in cards){
+      if(cards[yhx].id===id){
+        if (cards[yhx].right <= 100 / 2) {
+          cards[yhx].right = 0;
+        } else {
+          cards[yhx].right = maxRight;
+        }
+        break;
       }
-    slideOne(this,cards,index)
+    }
+    slideOne(this, cards, yhx)
+      
   },
   //计算滑动角度
   angle: function (start, end) {
@@ -618,24 +642,14 @@ Page({
   onLoad: function (options) {
     
     var that = this;
-    
-    wx.getSystemInfo({
-      success: function (res) {
-        
-        app.globalData.Height=res.windowHeight;
-        app.globalData.Width=res.windowWidth;
-        console.log("屏幕高"+app.globalData.Height)
-        that.setData({
-          scrollHeight: res.windowHeight
-        });
-      }
-    }); 
+  
     
 
     //var length = that.data.text.length * that.data.size;//文字长度
     //var windowWidth = wx.getSystemInfoSync().windowWidth;// 屏幕宽度
     var person=wx.getStorageSync('person')
     that.setData({
+      scrollHeight:app.globalData.Height,
       //length: length,
       //windowWidth: windowWidth,
       //marquee2_margin: length < windowWidth ? windowWidth - length : that.data.marquee2_margin,//当文字长度小于屏幕长度时，需要增加补白
@@ -848,12 +862,20 @@ Page({
           latitude: locationInfo.latitude
         })
         if (arraySchedule.length == 1) {
-
           var schedule = arraySchedule[0].schedule
+          if(schedule.location!=null){
           schedule.location.locLat = locationInfo.latitude
           schedule.location.locLon = locationInfo.longitude
           schedule.schWeek=nowWeek
           SignIn(that, schedule, e.currentTarget.dataset)
+          }else{
+            wx.showToast({
+              title: '未知地点',
+              icon:'none',
+              duration:1500
+
+            })
+          }
           /*} else {
             var currentStatu = e.currentTarget.dataset.statu
             this.util(currentStatu)
@@ -865,6 +887,7 @@ Page({
           // })
         } else if (arraySchedule.length > 1) {
           var itemList = []
+          if(arraySchedule[0].schedule.location!=null){
           for (var index in arraySchedule)
             itemList.push(arraySchedule[index].scheduleTime + "签到")
           wx.showActionSheet({
@@ -877,6 +900,14 @@ Page({
               SignIn(that, schedule, e.currentTarget.dataset)
             }
           })
+        }else{
+            wx.showToast({
+              title: '未知地点',
+              icon: 'none',
+              duration: 1500
+
+            })
+        }
         }
       },
       fail:function(res){
@@ -897,101 +928,6 @@ Page({
     })
   
   },
-  /*
-  //还未签到的地图
-  signMap: function (e) {
-    var that = this;
-    var currentStatu = e.currentTarget.dataset.statu;
-    this.util(currentStatu)
-
-    app.getLocationInfo(function (locationInfo) {
-
-      console.log('map', locationInfo);
-      that.setData({
-        longitude: locationInfo.longitude
-        , latitude: locationInfo.latitude
-        ,ifSign:"签到时间未到"
-        , markers: [
-          {
-            id: 0
-            , iconPath: "../../image/ic_position.png"
-            , longitude: locationInfo.longitude
-            , latitude: locationInfo.latitude
-            , width: 30
-            , height: 30
-            , callout:
-            {
-              content: "我的位置",
-              display: 'ALWAYS'
-            }
-
-          },
-          {
-            id: 1,
-            iconPath: '../../image/ic_location.png',
-
-            longitude: e.currentTarget.dataset.loclon,
-            latitude: e.currentTarget.dataset.loclat,
-            width: 30,
-            height: 30
-          }
-        ]
-        , circles: [{
-          longitude: e.currentTarget.dataset.loclon,
-          latitude: e.currentTarget.dataset.loclat,
-          color: '#FF0000DD',
-          fillColor: '#7cb5ec88',
-          radius: 40,
-          strokeWidth: 0.1
-        }],
-        polyline: [{
-          points: [{
-            longitude: e.currentTarget.dataset.loclon,
-            latitude: e.currentTarget.dataset.loclat,
-          },
-          {
-            longitude: locationInfo.longitude,
-            latitude: locationInfo.latitude
-          }],
-          color: "#FF0000DD",
-          width: 2,
-
-        }],
-        controls: [{
-          id: 1,
-          iconPath: '../../image/jian.png',
-          position: {
-            left: 245,
-            top: 0,
-            width: 30,
-            height: 30
-          },
-          clickable: true
-        },
-        {
-          id: 2,
-          iconPath: '../../image/jia.png',
-          position: {
-            left: 280,
-            top: 0,
-            width: 30,
-            height: 30
-          },
-          clickable: true
-        }]
-
-      })
-      wx.removeStorageSync('schedule')
-     
-      
-    })
-    
-
-    //}
-    // })
-
-  },
-  */
   
   //点击缩放按钮动态请求数据
   controlclick(e) {

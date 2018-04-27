@@ -1,6 +1,5 @@
 @import "./common/list.wxss";
 page{
-  background-color: #eaeaea;
   height: auto;
   overflow: scroll;
   overflow-x: hidden;
@@ -104,24 +103,36 @@ flex-direction:row;
 .remove2{
     width: 80px;
     height: 100%;
-    background-color:greenyellow;
+    background-color:#32CD32;
     position: absolute;
     top: 0;
     right: -160px;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 18px;
+    color:#FFFFFF;
+}
+.remove2A{
+  color:#32CD32;
+  background-color:#1AAD19;
 }
 .remove1{
     width: 80px;
     height: 100%;
-    background-color: yellow;
+    background-color: #FF8C00;
     position: absolute;
     top: 0;
     right: -80px;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 18px;
+    color:#FFFFFF;
+}
+.remove1A{
+  color:#FF8C00;
+  background-color: #FF6600;
 }
 .touch-move-active .out2-1,
 .touch-move-active .out2-2 {

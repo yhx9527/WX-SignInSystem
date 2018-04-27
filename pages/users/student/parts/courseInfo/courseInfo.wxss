@@ -1,6 +1,12 @@
 /* pages/users/student/pages/parts/courseInfo/courseInfo.wxss */
 @import "../../studentMtor/monitor.wxss";
 @import "../../common/mainTabCell.wxss";
+page{
+  background-color: #eaeaea;
+  height: auto;
+  overflow: scroll;
+  overflow-x: hidden;
+}
 .item-view{
   background-color: white;
   margin: 10rpx 12rpx 10rpx 12rpx;

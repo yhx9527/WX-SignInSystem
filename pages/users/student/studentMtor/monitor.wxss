@@ -99,19 +99,16 @@ userinfo-work{
   display: flex;
   height: 100%;
   flex-direction: column;
-  
-  background-color: white;
   margin-right:10px
 }
 
 .remindText{
   color:  #12b7f4;
   font-weight: bold;
-  margin-top: 10px;
 }
 .remindbtn{
 display:flex;
-height:100%;
+height:75px;
 flex-direction:column-reverse;
 background-color:white;
 margin-right:10px;
@@ -128,15 +125,38 @@ display:flex;
 align-items:center;
 height:35px;
 white-space: nowrap;
-
+}
+.remindTextbtnA{
+  background-color:#1AAD19;
+  color:#32CD32;
+}
+.remindTextbtnA{
+  background-color:#1AAD19;
+  color:#32CD32;
 }
 .remindTextbtn1{
   color:white;
   margin-bottom: 4px;
-  margin-top: 4px;
 background-color:#32CD32;
 display:flex;
 align-items:center;
+font-size: 17px;
+}
+.remindTextbtn2{
+  color:white;
+  margin-top: 4px;
+background-color:#FF8C00;
+display:flex;
+align-items:center;
+font-size: 17px;
+}
+.approve{
+  background-color:#1AAD19;
+  color:#32CD32;
+}
+.remindTextbtn1A{
+  background-color:#FF6600;
+  color:#FF8C00;
 }
 .shuzhe{
   width: 20px;

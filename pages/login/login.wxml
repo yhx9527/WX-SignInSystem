@@ -1,5 +1,6 @@
+
 <view class="container">
-<image class="backImg"src="../image/loginBack.jpg"mode="widthFix"></image>
+<image class="backImg"src="../image/loginBack.jpg"style="height:{{Height}}px"mode="scaleToFill"></image>
 <view class="loginInfo">
   <!--微信头像和昵称-->
   <view class="userinfo">
@@ -35,7 +36,7 @@
   <!--按钮-->
   <view class="kuang">
     <view class="buttonLeft"></view>
-    <button class="loginBtn"formType="submit">立即登录</button>
+    <button class="loginBtn"hover-class="loginBtnA"formType="submit">立即登录</button>
     <view class="buttonRight"></view>
   </view>
   </form>

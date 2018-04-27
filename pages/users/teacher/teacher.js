@@ -22,11 +22,11 @@ var setDate=function(that,Date,now){
     months.push(i)
   }
   Date[1]=months
-  now.push(date.getMonth()-1)
+  now.push(date.getMonth())
   for(let i=1;i<=31;i++){
     days.push(i)
   }
-  now.push(date.getDay()-1)
+  now.push(date.getDate()-1)
   Date[2]=days
   for(let i=0;i<24;i++){
     hours.push(i)
@@ -51,31 +51,47 @@ that.setData({
 }
 
 
-var getMonitor=function(schedule,sumMonitor){
+var getMonitor=function(that,schedule,sumMonitor){
   var url ="https://www.xsix103.cn/SignInSystem/Teacher/fSuvRecByCoz.do"
   var header =app.globalData.header
   var method = "POST"
-  schedule.forEach((item,index,schedule)=>{
-    var params = item.schedule
-    network.request(url, params, method, header).then((data) => {
-      sumMonitor[index]=data
+
+    schedule.forEach((item, i, schedule) => {
+      var params = item.schedule
+      sumMonitor[i]=new Array()
+      network.request(url, params, method, header).then((data) => {
+        for (var y in data) {
+          sumMonitor[i].push(data[y])
+          console.log("sumMonitor"+sumMonitor[i])
+        }
+        that.setData({
+          sumMonitor: sumMonitor
+        })
+      })
     })
-  })
-  return sumMonitor
+
   
+ 
 }
-var getAbsence = function (schedule,sumAbsence) {
+var getAbsence = function (that,schedule,sumAbsence) {
   var url = "https://www.xsix103.cn/SignInSystem/Teacher/fSchAbsRecByCoz.do"
   var header = app.globalData.header
   var method = "POST"
-  schedule.forEach((item,index,schedule)=>{
-    var params = item.schedule
-    network.request(url, params, method, header).then((data) => {
-      sumAbsence[index]=data
-    })
-  })
-  return sumAbsence
-  
+    schedule.forEach((item, j, schedule) => {
+      var params = item.schedule
+      sumAbsence[j]=new Array()
+      network.request(url, params, method, header).then((data) => {
+        for (var y in data) {
+          sumAbsence[j].push(data[y])
+          console.log("sumAbsence"+sumAbsence[j])
+        }
+        that.setData({
+          sumAbsence: sumAbsence
+        })
+      })
+   
+      })
+
 }
 var getLeaves = function (that,topItems) {
   var url = "https://www.xsix103.cn/SignInSystem/Teacher/getLeaves.do"
@@ -216,8 +232,6 @@ Page({
     var schedule=util.transchedule(temp.list.schedules)
     console.log("老师的"+JSON.stringify(schedule,undefined,'\t'))
     for(var index in schedule){
-      sumMonitor[index]=new Array()
-      sumAbsence[index]=new Array()
       var a = schedule[index]
       a.ifSign=false
       a.ifMonitor=false
@@ -227,8 +241,11 @@ Page({
       //topItems.push(common.transchedule(temp.list.schedules[index]))
       topItems.push(a)
     }
-    sumMonitor=getMonitor(schedule,sumMonitor);
-    sumAbsence=getAbsence(schedule,sumAbsence);
+      setTimeout(function(){
+        getMonitor(that, schedule, sumMonitor);
+        getAbsence(that, schedule, sumAbsence);
+      },2000)
+      
     //getSign(that,topItems,0)
     //getSuv(that,topItems,0)
     getLeaves(that,topItems)
@@ -239,8 +256,6 @@ Page({
       Height:app.globalData.Height,
       Width:Width,
       background:"#C7F3FF",
-      sumMonitor:sumMonitor,
-      sumAbsence:sumAbsence
     })
     
     
@@ -272,6 +287,12 @@ Page({
         fillInForm(that, inputVal, topItems[dataType].schDayT)
         getSign(that, topItems, dataType, inputVal)
         getSuv(that, topItems, dataType, inputVal)
+      }else if(inputVal.length==0){
+        topItems[dataType].ifSign=false
+        topItems[dataType].ifMonitor=false
+        that.setData({
+          topItems:topItems
+        })
       }
       /*
     switch (dataType) {
@@ -442,7 +463,7 @@ Page({
         if(yes.confirm){
           var params = topItems[index].schId + "&" + inputVal;
           console.log(params);
-          var url = "https://www.xsix103.cn/SignInSystem/Teacher/fSchAbsRecByCoz.do"
+          var url = "https://www.xsix103.cn/SignInSystem/Teacher/suspendClass.do"
           var header = app.globalData.header
           var method = "POST"
           network.request(url, params, method, header).then((data) => {
@@ -503,7 +524,8 @@ Page({
     var inputVal=that.data.inputVal
     if(parseInt(inputVal)>=1&&parseInt(inputVal)<=20){
     if(!topItems[index].ifSign){
-    
+      var date1 = new Date()
+      var now = [0, date1.getMonth(), date1.getDate() - 1, date1.getHours(), date1.getMinutes(), date1.getSeconds()]
     console.log("手动"+index)
     topItems[index].ifshowModel=true
     var animation=wx.createAnimation({
@@ -515,7 +537,8 @@ Page({
     animation.translateY(300).step()
     this.setData({
       animationBottom:animation.export(),
-      topItems:topItems
+      topItems:topItems,
+      now:now
     })
     setTimeout(function(){
       animation.translateY(-46).step()
@@ -851,16 +874,18 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    var now = this.data.now
+    /*var now = this.data.now
     var topItems=this.data.topItems
-    now = [0, date.getMonth() - 1, date.getDay() - 1, date.getHours(), date.getMinutes(), date.getSeconds()]
+    var date1=new Date()
+    now = [0, date.getMonth() , date.getDate() - 1, date.getHours(), date.getMinutes(), date.getSeconds()]
     //this.setNewDataWithRes(dataType)
 
     
     this.setData({
       now: now
-    })
-
+    })*/
+    //var topItems=this.data.topItems
+    //getLeaves(this, topItems)
   },
   /**
    * 搜索框
@@ -872,16 +897,26 @@ Page({
     });
   },
   hideInput: function () {
+    var topItems=this.data.topItems
+    topItems[dataType].ifMonitor = false
+    topItems[dataType].ifSign = false
     this.setData({
       inputVal: "",
       inputShowed: false,
-      hintColor: "black"
+      hintColor: "black",
+      topItems: topItems,
+      nowWeek:-1
     });
   },
   clearInput: function () {
+    var topItems = this.data.topItems
+    topItems[dataType].ifMonitor = false
+    topItems[dataType].ifSign = false
     this.setData({
       inputVal: "",
-      hintColor: "black"
+      hintColor: "black",
+      topItems: topItems,
+      nowWeek:-1
     });
   },
   /*inputTell:function(e){

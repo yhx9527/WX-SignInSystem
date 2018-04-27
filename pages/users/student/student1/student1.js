@@ -154,14 +154,19 @@ Page({
     var person=wx.getStorageSync('person')
     if (person.userPermit[1]==1){
       var memberInfo="督导员"
+      that.setData({
+        memberInfo:memberInfo
+      })
     } else if (person.userPermit[2]==1){
       var memberInfo=person.userName+"老师"
+      that.setData({
+        memberInfo:memberInfo
+      })
     }
     that.setData({
       monitorPermit:person.userPermit[1],
       teacherPermit:person.userPermit[2],
       person:person,
-      memberInfo:memberInfo
     })
   },
 

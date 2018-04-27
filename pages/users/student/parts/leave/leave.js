@@ -29,11 +29,20 @@ Page({
     var that = this;
     var temp = util.formatTime(new Date());
     var dates = temp.split(' ')
+    var nowWeek=wx.getStorageSync('nowWeek')
+    if(nowWeek!=undefined){
+      that.setData({
+        nowWeek:nowWeek
+      })
+    }else{
+      that.setData({
+        nowWeek:-1
+      })
+    }
     that.setData({
       courseItem: item1,
       height:app.globalData.Height,
       width:app.globalData.Width,
-      nowWeek:item1.schedule.schWeek,
       dates: dates[0],
       Weeks:Weeks
     });

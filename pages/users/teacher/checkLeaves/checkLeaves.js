@@ -45,14 +45,26 @@ Page({
    */
   onLoad: function (options) {
     var that=this;
-    let temp=JSON.parse(options.jsonString)
-    temp.leaves.forEach((item)=>{
-      item.siTime1=util.formatArrayTime(item.siTime)
-    })
-    that.setData({
-      leaves:temp.leaves,
-      coursename:temp.coursename,
-    })
+    let temp = {}
+    try {
+      //console.log("传递过来的"+options.jsonString)
+      temp = JSON.parse(options.jsonString)
+    }
+    catch (err) {
+      temp = JSON.parse(options.jsonString + '"' + "}" + "]"+"}")
+    }
+    finally{
+      //console.log("教师审核请假"+JSON.stringify(temp.leaves,undefined,'\t'))
+      var xx=temp.leaves
+      xx.forEach((item) => {
+        item.siTime1 = util.formatArrayTime(item.siTime)
+      })
+      that.setData({
+        leaves: xx,
+        coursename: temp.coursename,
+      })
+    }
+    
 
   },
   //查看详情

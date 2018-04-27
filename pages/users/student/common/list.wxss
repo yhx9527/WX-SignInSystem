@@ -103,8 +103,8 @@
 
 }
 .Icon1{
-  height:100rpx;
-  width:100rpx;
+  height:65px;
+  width:48px;
   margin-top:10px;
 
 }
