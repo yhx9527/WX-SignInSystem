@@ -255,7 +255,7 @@ Page({
   //预览图片
   previewImage:function(e){
     var that=this;
-    console.log(that.data.tempFilePaths)
+    //console.log(that.data.tempFilePaths)
     wx.previewImage({
       current:e.currentTarget.dataset.path,
       urls: that.data.tempFilePaths,

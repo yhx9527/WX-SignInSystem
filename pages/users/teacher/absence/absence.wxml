@@ -1,4 +1,5 @@
-<view class="top-title">{{absence.coursename+absence.coursetime}}</view>
+<view class="top-title">{{absence.coursename}}</view>
+<view class="top-title">{{absence.coursetime}}</view>
 <view class="top-title">缺勤名单</view>
 <view wx:for="{{absence.absence}}"wx:for-item="item">
   <view class="head">第{{item.sarWeek}}周</view>

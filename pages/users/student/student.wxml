@@ -16,7 +16,7 @@
             <!--view class="out2-1"-->
               <view class="weui-media-box weui-media-box_appmsg"hover-class="weui-cell_active"style="padding:6px;"catchtap='courseInfo'data-courseID="{{signingCard.id}}"data-courseName="{{signingCard.courseName}}"data-courseTeacher="{{signingCard.courseTeacher}}"data-courseTime="{{signingCard.courseTime}}"data-coursePlace="{{signingCard.coursePlace}}"data-schedule="{{signingCard.schedule}}">
                 <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                    <view class="fa fa-rocket fa-2x"style='vertical-align:middle'></view>
+                    <view class="fa fa-fighter-jet fa-2x"style='vertical-align:middle'></view>
                 </view>
                 <view class="weui-media-box__bd weui-media-box__bd_in-appmsg" >
                   <view class="weui-media-box__title">{{signingCard.courseName}}</view>
@@ -93,7 +93,7 @@
       </map>
     </view>
     <view class="btn">
-      <view class="btn_ok"bindtap="cancel"data-statu="cancel">取消</view>
+      <view class="btn_ok"bindtap="cancel"data-statu="cancel"style="color:#999999">取消</view>
       <view class="cut-line2"></view>
       <view class="btn_ok" bindtap="confirm"data-statu="failclose" >签到</view>
     </view> 

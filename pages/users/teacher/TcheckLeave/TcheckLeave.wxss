@@ -5,6 +5,11 @@
   text-align: center;
   color:white;
   padding-bottom:3px;
+  width:auto;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+word-wrap:normal;
 }
 page{
   height: 100%;

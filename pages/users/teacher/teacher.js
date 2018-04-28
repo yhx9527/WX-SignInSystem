@@ -905,7 +905,10 @@ Page({
       inputShowed: false,
       hintColor: "black",
       topItems: topItems,
-      nowWeek:-1
+      nowWeek:-1,
+      searchMonitor: {},
+      searchAbsence: [],
+      searchLeaveData: [],
     });
   },
   clearInput: function () {
@@ -916,7 +919,10 @@ Page({
       inputVal: "",
       hintColor: "black",
       topItems: topItems,
-      nowWeek:-1
+      nowWeek:-1,
+      searchMonitor: {},
+      searchAbsence: [],
+      searchLeaveData: [],
     });
   },
   /*inputTell:function(e){
@@ -976,6 +982,7 @@ Page({
    */
   onUnload: function () {
     wx.removeStorageSync('searchWeek')
+    dataType=0
   },
 
   /**

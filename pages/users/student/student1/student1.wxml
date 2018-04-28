@@ -1,7 +1,8 @@
 <view >
   <view wx:if="{{!hasMessage}}"class="tab-content1" >
-  <image class="tab-image" src="../../../image/hasMessage.png"mode="aspectFit"></image>
-  <text style='font-weight:lighter'>暂时没有通知</text>
+  <view class="fa fa-commenting fa-5x"style='color:#999999'></view>
+  <!--image class="tab-image" src="../../../image/hasMessage.png"mode="aspectFit"></image-->
+  <text style='color:#999;margin-top:10px;font-size:18px;'>暂时没有通知</text>
   </view>
 <!--通知消息界面-->
     <scroll-view scroll-y="true" scroll-top="{{scrollTop}}"class="history" >

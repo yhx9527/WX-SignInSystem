@@ -64,6 +64,15 @@ Page({
     
 
   },
+  //预览图片
+  previewImage: function (e) {
+    var that = this;
+    //console.log(that.data.tempFilePaths)
+    wx.previewImage({
+      urls: [that.data.tempFilePaths],
+
+    })
+  },
   //通过请假
   yesLeave: function () {
     var that=this

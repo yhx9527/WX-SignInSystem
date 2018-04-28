@@ -26,11 +26,23 @@
 
   <!--历史签到-->
   <swiper-item>
-    <view class="refresh-block" style="height: {{refreshHeight}}px;" wx:if="{{refreshing}}">  
-    <image animation="{{refreshAnimation}}" src="../../../../image/refesh.png"></image>  
-  </view>
+    <!--view class="refresh-block" style="height: {{refreshHeight}}px;" wx:if="{{refreshing}}">  
+    <image animation="{{refreshAnimation}}" src="../../../../image/refesh.png"></image>
+    <view classs="fa fa-spinner fa-spin"></view>  
+    </view-->
     <scroll-view style="height:{{signDataList.length*53}}px" scroll-y="true" bindscrolltoupper="upper"catchtouchstart="start"catchtouchmove="move" catchtouchend="end"data-idx="0" >
-      <view style="height:12rpx;background-color:#eaeaea"></view>
+      <view class="weui-form-preview" wx:for="{{signDataList}}"  wx:for-item="item"id="{{item.siId}}">
+        <view class="weui-form-preview__hd"style="padding:0px;">
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">
+              <view class="fa fa-smile-o fa-2x"style='vertical-align:middle;padding-left:5px;'></view>
+            </view>
+            <view class="weui-form-preview__label"style="">{{item.time}}</view>
+            <view class="weui-form-preview__value_in-hd"wx:if="{{item.siApprove==0}}">已到</view>
+          </view>
+        </view>
+      </view>
+      <!--view style="height:12rpx;background-color:#eaeaea"></view>
       
       <view class="jilu" wx:for="{{signDataList}}"  wx:for-item="item" id="{{item.siId}}">
   
@@ -41,34 +53,30 @@
           <text class="jilu-status">已到</text>
        
           </view> 
-      <view style="height:12rpx;background-color:#eaeaea"></view>
+      <view style="height:12rpx;background-color:#eaeaea"></view-->
     </scroll-view>
   </swiper-item>
 
   <!--历史请假-->
   <swiper-item>
-  <view class="refresh-block" style="height: {{refreshHeight}}px;" wx:if="{{refreshing}}"style="height:{{refreshHeight}}px">  
-    <image animation="{{refreshAnimation}}" src="../../../../image/refesh.png"></image>  
-  </view>
+  <!--view class="refresh-block" style="height: {{refreshHeight}}px;" wx:if="{{refreshing}}"style="height:{{refreshHeight}}px">  
+    <!--image animation="{{refreshAnimation}}" src="../../../../image/refesh.png"></image-->
+    
+  <!--/view-->
     <scroll-view style="height:{{scrollHeight}}px" scroll-y="true"bindscrolltoupper="upper"catchtouchstart="start"catchtouchmove="move" catchtouchend="end"data-idx="1" >
     <view class="weui-form-preview" wx:for="{{leaveDataList}}"  wx:for-item="item">
     <view class="weui-form-preview__hd"style="padding:0px;">
       <view class="weui-form-preview__item">
-        <view class="weui-form-preview__label">第{{item.siWeek}}周请假</view>
-        <view class="weui-form-preview__value_in-hd"wx:if="{{item.siApprove==0}}"style="font-size:22px;">未审核</view>
-        <view class="weui-form-preview__value_in-hd"wx:if="{{item.siApprove==1}}"style="font-size:22px;">已通过</view>
-        <view class="weui-form-preview__value_in-hd"wx:if="{{item.siApprove==2}}"style="font-size:22px;">未通过</view>
+        <view class="weui-form-preview__label">
+          <view class="fa fa-meh-o fa-2x"style='vertical-align:middle;padding-left:5px;'></view>
+        </view>
+        <view class="weui-form-preview__label"style="">第{{item.siWeek}}周请假</view>
+        <view class="weui-form-preview__value_in-hd"wx:if="{{item.siApprove==0}}">未审核</view>
+        <view class="weui-form-preview__value_in-hd"wx:if="{{item.siApprove==1}}">已通过</view>
+        <view class="weui-form-preview__value_in-hd"wx:if="{{item.siApprove==2}}">未通过</view>
       </view>
     </view>
-      <!--view style="height:12rpx;background-color:#eaeaea"></view-->
-      
-     
-          <!--image class="jilu-image"src="../../../../image/htLeave.png"></image>
-          <text class="jilu-time"style="flex:1;text-align:right;padding-right:30px;">第{{item.siWeek}}周请假</text>
-          <text class="jilu-status"wx:if="{{item.siApprove==0}}">未审核</text>
-          <text class="jilu-status"wx:if="{{item.siApprove==1}}">已通过</text>
-          <text class="jilu-status"wx:if="{{item.siApprove==2}}">未通过</text-->
-      </view>
+    </view>
 
       <!--view style="height:12rpx;background-color:#eaeaea"></view-->
     </scroll-view>
@@ -80,7 +88,18 @@
     <image animation="{{refreshAnimation}}" src="../../../../image/refesh.png"></image>  
   </view>
     <scroll-view style="height:{{noDataList.length*53}}px" scroll-y="true"bindscrolltoupper="upper"catchtouchstart="start"catchtouchmove="move" catchtouchend="end"data-idx="2">
-      <view style="height:12rpx;background-color:#eaeaea"></view>
+    <view class="weui-form-preview" wx:for="{{noDataList}}"  wx:for-item="item">
+        <view class="weui-form-preview__hd"style="padding:0px;">
+          <view class="weui-form-preview__item">
+            <view class="weui-form-preview__label">
+              <view class="fa fa-frown-o fa-2x"style='vertical-align:middle;padding-left:5px;'></view>
+            </view>
+            <view class="weui-form-preview__label"style="">{{item.absWeek}}</view>
+            <view class="weui-form-preview__value_in-hd"wx:if="{{item.siApprove==0}}">缺勤</view>
+          </view>
+        </view>
+      </view>
+      <!--view style="height:12rpx;background-color:#eaeaea"></view>
       
       <view class="jilu" wx:for="{{noDataList}}"  wx:for-item="item">
 
@@ -91,7 +110,7 @@
 
      
       </view>
-      <view style="height:12rpx;background-color:#eaeaea"></view>
+      <view style="height:12rpx;background-color:#eaeaea"></view-->
     </scroll-view>
   </swiper-item>
   
