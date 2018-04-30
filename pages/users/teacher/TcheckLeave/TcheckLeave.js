@@ -74,8 +74,9 @@ Page({
     })
   },
   //通过请假
-  yesLeave: function () {
+  yesLeave: function (e) {
     var that = this
+    var siId=e.currentTarget.dataset.siid
     wx.showModal({
       title: '提示',
       content: '审核通过该请假',
@@ -87,7 +88,8 @@ Page({
             "Access-Token": app.globalData.header['Access-Token'],
             'content-type': 'application/json;charset=utf-8'
           }
-          var params = JSON.stringify(that.data.signInRes)
+          var y = that.data.signInRes
+          var params = { "siId": y.siId, "student": y.student, "oneCozAndSch": y.oneCozAndSch, "siTime": y.siTime, "siWeek": y.siWeek, "siLeave": y.siLeave, "siApprove": y.siApprove } 
           network.request(url, params, method, header).then((data) => {
             if (data==true) {
               wx.showToast({
@@ -95,11 +97,19 @@ Page({
                 icon: "success",
                 duration: 1500
               })
+              var pages=getCurrentPages();
+              var prePage=pages[pages.length-2];
+
+              var i=util.getIndex(prePage.data.leaves,'siId',siId)
+              prePage.data.leaves[i].siApprove=1
+              prePage.setData({
+                leaves:prePage.data.leaves
+              })
               setTimeout(function () {
                 wx.navigateBack({
-                  delta: 2
+                  delta: 1
                 })
-              }, 1500)
+              }, 1500) 
             } else {
               wx.showToast({
                 title: '通过失败',
@@ -116,8 +126,9 @@ Page({
 
   },
   //驳回请假
-  noLeave: function () {
+  noLeave: function (e) {
     var that = this
+    var siId=e.currentTarget.dataset.siid
     wx.showModal({
       title: '提示',
       content: '驳回该请假',
@@ -129,7 +140,9 @@ Page({
             "Access-Token":app.globalData.header['Access-Token'],
           'content-type': 'application/json;charset=utf-8'
           }
-          var params = JSON.stringify(that.data.signInRes)
+          var y=that.data.signInRes
+          var params ={"siId":y.siId,"student":y.student,"oneCozAndSch":y.oneCozAndSch,"siTime":y.siTime,"siWeek":y.siWeek,"siLeave":y.siLeave,"siApprove":y.siApprove} 
+          //JSON.stringify(that.data.signInRes)
 
           network.request(url, params, method, header).then((data) => {
             if (data==true) {
@@ -138,9 +151,16 @@ Page({
                 icon: "success",
                 duration: 1500
               })
+              var pages = getCurrentPages();
+              var prePage = pages[pages.length - 2];
+              var i = util.getIndex(prePage.data.leaves, 'siId', siId)
+              prePage.data.leaves[i].siApprove = 2
+              prePage.setData({
+                leaves: prePage.data.leaves
+              })
               setTimeout(function () {
                 wx.navigateBack({
-                  delta: 2
+                  delta: 1
                 })
               }, 1500)
             } else {

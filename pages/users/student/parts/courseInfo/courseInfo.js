@@ -105,6 +105,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    iconColor:'',
     signDataList: [],
     leaveDataList: [],
     noDataList: [],
@@ -126,6 +127,7 @@ Page({
     console.log(options.jsonStr)
     let item1=JSON.parse(options.jsonStr);
     this.setData({
+      iconColor:item1.iconcolor,
       courseItem:item1,
       scrollHeight:app.globalData.Height
     })
@@ -209,7 +211,7 @@ Page({
     //console.log("aaaa"+JSON.stringify(courseItem))
     var ArraySchedule =courseItem.schedule
     console.log("ArraySchedule"+JSON.stringify(ArraySchedule)) 
-    if(ArraySchedule.length>0){
+    if(ArraySchedule!=undefined&&ArraySchedule.length>0){
     switch (types[dataType]) {
       //历史签到
       case DATATYPE.SIGNDATATYPE:

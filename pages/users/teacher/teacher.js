@@ -99,9 +99,10 @@ var getLeaves = function (that,topItems) {
   var header = app.globalData.header
   var method = "POST"
   network.request(url, params, method, header).then((data) => {
+    var urgencyLeaveData=[]
     for(var i in topItems){
-    topItems[i].signInRes=[]
-    var a=topItems[i].signInRes
+    urgencyLeaveData[i]=new Array()
+    var a=urgencyLeaveData[i]
     for(var j in data){
       if(topItems[i].schDayT==data[j].oneCozAndSch.schedule.schDay&&data[j].siApprove==0){
         a.push(data[j])
@@ -109,7 +110,7 @@ var getLeaves = function (that,topItems) {
     }
     }
     that.setData({
-      topItems:topItems,
+      urgencyLeaveData:urgencyLeaveData,
       leaveData:data
     })
   })
@@ -193,6 +194,7 @@ Page({
     searchAbsence:[],
     leaveData:[],
     searchLeaveData:[],
+    urgencyLeaveData:[],
     currentTopItem: "0",
     Height:0,//屏幕高
     Width:0,//屏幕宽
@@ -244,15 +246,16 @@ Page({
       setTimeout(function(){
         getMonitor(that, schedule, sumMonitor);
         getAbsence(that, schedule, sumAbsence);
+        
       },2000)
-      
+      getLeaves(that, topItems);
     //getSign(that,topItems,0)
     //getSuv(that,topItems,0)
-    getLeaves(that,topItems)
+    
     var Width = (app.globalData.Width)/(topItems.length)
     that.setData({
       teacherList:temp.list,
-      topItems:that.data.topItems,
+      topItems:topItems,
       Height:app.globalData.Height,
       Width:Width,
       background:"#C7F3FF",

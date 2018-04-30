@@ -7,8 +7,8 @@
 <!--课程信息卡片-->
   <view style="background-color:#eaeaea;padding-top:5px;padding-bottom:5px;padding-left:10px;">
     <view class="weui-media-box weui-media-box_appmsg"style='padding:6px;'>                        
-      <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-        <view class="fa fa-paw fa-2x"style='vertical-align:middle'></view>
+      <view class="weui-media-box__hd weui-media-box__hd_in-appmsg"style='background-color:{{iconBackColor[index%10]}}'>
+        <view class="fa fa-paw fa-2x"style='vertical-align:middle;color:#FFFFFF'></view>
       </view>
       <view class="weui-media-box__bd weui-media-box__bd_in-appmsg"style="background-color:#eaeaea">
         <view class="weui-media-box__title">{{course.courseName}}</view>

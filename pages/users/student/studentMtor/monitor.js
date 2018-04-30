@@ -46,7 +46,7 @@ var getAll=function(that){
     var allDataList = []
     for (var index in data) {
       var temp = process(data[index].schedule)
-      allDataList.push({ "ArrayFlag": index, "id": data[index].suvId, "courseName": data[index].course.cozName, "courseTeacher": data[index].course.teacher.userName, "courseTime": "第" + data[index].suvWeek + "周" + temp.schDay + temp.schTime, "coursePlace": data[index].schedule.location.locName, "suvLeave": data[index].suvLeave, "suvId": data[index].suvId, "student": data[index].student, "schedule": data[index].schedule, "course": data[index].course, "suvWeek": data[index].suvWeek, "suvMan": data[index].suvMan, "workgive": false, "suvSch": data[index], "ifInsert": false,"transwork":false},)
+      allDataList.push({ "ArrayFlag": index, "id": data[index].suvId, "courseName": data[index].course.cozName, "courseTeacher": data[index].course.teacher.userName, "courseTime": "第" + data[index].suvWeek + "周" + temp.schDay + temp.schTime, "coursePlace": data[index].schedule.location.locName, "suvLeave": data[index].suvLeave, "suvId": data[index].suvId, "student": data[index].student, "schedule": data[index].schedule, "course": data[index].course, "suvWeek": data[index].suvWeek, "suvMan": data[index].suvMan, "workgive": false, "suvSch": data[index], "ifInsert": false, "transwork": false, "iconColor": app.globalData.iconBackColor[index]},)
     }
     that.setData({
       allDataList: allDataList
@@ -68,10 +68,12 @@ var Monitoring=function(that){
       var header = app.globalData.header
       var params = {}
       network.request(url, params, method, header).then((data)=>{
-        var item = {}
+        var item = {"iconColor":"#FFCC99"}
+        
+        if(data!=""){
         var temp = process(data.schedule)
-        item = { "id": data.suvId, "courseName": data.course.cozName, "courseTeacher": data.course.teacher.userName, "courseTime": "第" + data.suvWeek + "周" + temp.schDay + temp.schTime, "coursePlace": data.schedule.location.locName, "suvLeave": data.suvLeave, "suvId": data.suvId, "student": data.student, "schedule": data.schedule, "course": data.course, "suvWeek": data.suvWeek, "suvMan": data.suvMan, "isAutoSign": false, "workgive": false, "suvSch": data, "ifInsert": true,"transwork":false }
-
+        item = { "id": data.suvId, "courseName": data.course.cozName, "courseTeacher": data.course.teacher.userName, "courseTime": "第" + data.suvWeek + "周" + temp.schDay + temp.schTime, "coursePlace": data.schedule.location.locName, "suvLeave": data.suvLeave, "suvId": data.suvId, "student": data.student, "schedule": data.schedule, "course": data.course, "suvWeek": data.suvWeek, "suvMan": data.suvMan, "isAutoSign": false, "workgive": false, "suvSch": data, "ifInsert": true, "transwork": false, "iconColor":"#FFCC99" }
+        }
         that.setData({
           item: item
         })
@@ -145,18 +147,10 @@ var checkLeaves = function (that) {
   network.request(url, params, method, header).then((data) => {
     var leaveDataList = new Array();
     for (var index in data) {
-      var leaveStatu
-      if(data[index].siApprove==0){
-        leaveStatu="待审核"
-      } else if (data[index].siApprove == 1){
-        leaveStatu="已通过"
-      } else if (data[index].siApprove == 2){
-        leaveStatu="已驳回"
-      }
       var temp = process(data[index].oneCozAndSch.schedule)
       var siTime = formatTime(data[index].siTime)
       var a = data[index]
-      leaveDataList.push({ "index":index,"id": a.siId, "courseName": a.oneCozAndSch.course.cozName, "courseStudent": a.student.userName, "courseXuehao": a.student.userId, "courseTime": "第"+a.siWeek+"周"+temp.schDay + temp.schTime, "siTime": siTime, "siLeave": a.siLeave,"signInRes":data[index],"leaveStatu":leaveStatu })
+      leaveDataList.push({ "index":index,"id": a.siId, "courseName": a.oneCozAndSch.course.cozName, "courseStudent": a.student.userName, "courseXuehao": a.student.userId, "courseTime": "第"+a.siWeek+"周"+temp.schDay + temp.schTime, "siTime": siTime, "siLeave": a.siLeave,"signInRes":data[index]})
     }
     that.setData({
       leaveDataList: leaveDataList,
@@ -232,6 +226,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    iconBackColor: app.globalData.iconBackColor,
     allDataList: [],
     historyDataList: [],
     leaveDataList: [],
@@ -260,10 +255,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var person = wx.getStorageSync('person')
-    if (person.userPermit[1] == 1) {
-      this.setNewDataWithRes(dataType);
-    }
+    
   },
 
   /**
@@ -321,7 +313,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    var person = wx.getStorageSync('person')
+    if (person.userPermit[1] == 1) {
+      this.setNewDataWithRes(dataType);
+    }
     
 
   },

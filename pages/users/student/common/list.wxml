@@ -8,12 +8,15 @@
    </dd> 
   </block> 
 </dl>-->
-<view class="hengfu"><text class="hengfuText">我的全部授课</text></view>
+<view class="hengfu">
+  <text class="fa fa-sitemap fa-lg"style='margin-left:5px;color:##333333'></text>
+  <text class="hengfuText">我的全部授课</text>
+</view>
 <scroll-view scroll-top="{{scrollTop}}" scroll-y="true" style="height:{{teacherLists.length*90}}px;"class="teacherList"wx:if="{{!ifshade}}">
-  <view wx:for="{{teacherLists}}" wx:for-item="teacherList" id="{{teacherList.cozId}}"bindtap='singleTlist'data-list="{{teacherList}}"style="border-bottom:1px solid lightgrey">
+  <view wx:for="{{teacherLists}}" wx:for-item="teacherList"wx:for-index="idx" id="{{teacherList.cozId}}"bindtap='singleTlist'data-list="{{teacherList}}"style="border-bottom:1px solid lightgrey">
       <view class="weui-media-box weui-media-box_appmsg"hover-class="weui-cell_active"style='padding:6px;'>                        
-        <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-          <view class="fa fa-university fa-2x"style='vertical-align:middle'></view>
+        <view class="weui-media-box__hd weui-media-box__hd_in-appmsg"style='background-color:{{iconBackColor[idx%10]}}'>
+          <view class="fa fa-university fa-2x"style='vertical-align:middle;color:#FFFFFF'></view>
         </view>
         <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
           <view class="weui-media-box__title">{{teacherList.courseName}}</view>

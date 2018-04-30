@@ -1,5 +1,6 @@
 page{
-  background-color: #eaeaea
+  background-color: #eaeaea;
+  overflow-x: hidden;
 }
 .img-plus-style {  
   height: 150rpx;  

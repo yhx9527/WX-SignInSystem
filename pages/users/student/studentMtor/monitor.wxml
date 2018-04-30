@@ -27,17 +27,23 @@
   <!--督导课堂-->
   <swiper-item>
     <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" >
-      <view class="hengfu"><text class="hengfuText">正在督导</text></view>
+      <view class="hengfu">
+        <text class="fa fa-pencil-square-o fa-lg"style='color:#333333;margin-left:5px;'></text>
+        <text class="hengfuText">正在督导</text>
+      </view>
         <view style="height:12rpx;background-color:#eaeaea"></view>
-          <view class="item-view "bindtap="monitorCourse" data-courseID="{{item.id}}"data-courseName="{{item.courseName}}"data-courseTeacher="{{item.courseTeacher}}"data-courseTime="{{item.courseTime}}"data-coursePlace="{{item.coursePlace}}"data-suvId="{{item.suvId}}"data-schId="{{item.schedule.schId}}"data-suvWeek="{{item.suvWeek}}"data-suvMan="{{item.suvMan}}"data-ifinsert="{{item.ifInsert}}"data-xingming="{{item.student.userName}}">
+          <view class="item-view "bindtap="monitorCourse" data-courseID="{{item.id}}"data-courseName="{{item.courseName}}"data-courseTeacher="{{item.courseTeacher}}"data-courseTime="{{item.courseTime}}"data-coursePlace="{{item.coursePlace}}"data-suvId="{{item.suvId}}"data-schId="{{item.schedule.schId}}"data-suvWeek="{{item.suvWeek}}"data-suvMan="{{item.suvMan}}"data-ifinsert="{{item.ifInsert}}"data-xingming="{{item.student.userName}}"data-iconcolor="#FFCC99">
                <template is="mainTabCell" data="{{item}}" />
               
           </view>
         
-      <view class="hengfu"><text class="hengfuText">全部督导</text></view>
+      <view class="hengfu">
+        <text class="fa fa-eye fa-lg"style='color:#333333;margin-left:5px;'></text>
+        <text class="hengfuText">全部督导</text>
+      </view>
       <view style="height:12rpx;background-color:#eaeaea"></view>
       
-      <view class="item-view " wx:for="{{allDataList}}"  wx:for-item="item"bindtap="monitorCourse" data-ArrayFlag="{{item.ArrayFlag}}"data-courseID="{{item.id}}"data-courseName="{{item.courseName}}"data-courseTeacher="{{item.courseTeacher}}"data-courseTime="{{item.courseTime}}"data-coursePlace="{{item.coursePlace}}"data-suvId="{{item.suvId}}"data-schId="{{item.schedule.schId}}"data-suvWeek="{{item.suvWeek}}"data-suvMan="{{item.suvMan}}"data-xingming="{{item.student.userName}}"data-ifinsert="{{item.ifInsert}}">
+      <view class="item-view " wx:for="{{allDataList}}"  wx:for-item="item"bindtap="monitorCourse" data-ArrayFlag="{{item.ArrayFlag}}"data-courseID="{{item.id}}"data-courseName="{{item.courseName}}"data-courseTeacher="{{item.courseTeacher}}"data-courseTime="{{item.courseTime}}"data-coursePlace="{{item.coursePlace}}"data-suvId="{{item.suvId}}"data-schId="{{item.schedule.schId}}"data-suvWeek="{{item.suvWeek}}"data-suvMan="{{item.suvMan}}"data-xingming="{{item.student.userName}}"data-ifinsert="{{item.ifInsert}}"data-iconcolor="{{item.iconColor}}">
         
           <template is="mainTabCell" data="{{item}}" />
           
@@ -52,10 +58,10 @@
     <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData" >
       <view style="height:12rpx;background-color:#eaeaea"></view>
       
-      <view class="item-view" wx:for="{{historyDataList}}"  wx:for-item="item"bindtap="historyCourse"data-courseID="{{item.id}}"data-courseName="{{item.courseName}}"data-courseTeacher="{{item.courseTeacher}}"data-courseTime="{{item.courseTime}}"data-coursePlace="{{item.coursePlace}}"data-suvRecord="{{item.suvRecord}}">
+      <view class="item-view" wx:for="{{historyDataList}}"  wx:for-item="item"wx:for-index="yhxIdx"bindtap="historyCourse"data-courseID="{{item.id}}"data-courseName="{{item.courseName}}"data-courseTeacher="{{item.courseTeacher}}"data-courseTime="{{item.courseTime}}"data-coursePlace="{{item.coursePlace}}"data-suvRecord="{{item.suvRecord}}"data-iconcolor="{{iconBackColor[yhxIdx%10]}}">
         <view class="weui-media-box weui-media-box_appmsg"style='padding:6px;'hover-class="weui-cell_active">                        
-            <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-              <view class="fa fa-star fa-2x"style='vertical-align:middle'></view>
+            <view class="weui-media-box__hd weui-media-box__hd_in-appmsg;"style='background-color:{{iconBackColor[yhxIdx%10]}}'>
+              <view class="fa fa-star fa-2x"style='vertical-align:middle;color:#FFFFFF'></view>
             </view>
             <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
             <view class="weui-media-box__title">{{item.courseName}}</view>
@@ -78,10 +84,10 @@
     <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData">
       <view style="height:12rpx;background-color:#eaeaea"></view>
 
-      <view class="item-view" wx:for="{{leaveDataList}}"  wx:for-item="item"bindtap="McheckLeave"data-coursename="{{item.courseName}}"data-signinres="{{item.signInRes}}">
+      <view class="item-view" wx:for="{{leaveDataList}}"  wx:for-item="item"wx:for-index="yhxIdx"bindtap="McheckLeave"data-coursename="{{item.courseName}}"data-signinres="{{item.signInRes}}"data-siid="{{item.id}}">
         <view class="weui-media-box weui-media-box_appmsg"style='padding:6px;'>                        
-          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-            <view class="fa fa-file fa-2x"style='vertical-align:middle'></view>
+          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg"style='background-color:{{iconBackColor[yhxIdx%10]}}'>
+            <view class="fa fa-file fa-2x"style='vertical-align:middle;color:#FFFFFF'></view>
           </view>
           <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
             <view class="weui-media-box__title">{{item.courseName}}</view>
@@ -97,7 +103,9 @@
             
             </view>
             -->
-          <view class="shuzhe">{{item.leaveStatu}}</view>
+          <view class="shuzhe"wx:if="{{item.signInRes.siApprove==0}}">未审核</view>
+          <view class="shuzhe"wx:if="{{item.signInRes.siApprove==1}}">已通过</view>
+          <view class="shuzhe"wx:if="{{item.signInRes.siApprove==2}}">已驳回</view>
         </view>
       </view>
       <view style="height:12rpx;background-color:#eaeaea"></view>
@@ -109,10 +117,10 @@
     <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData">
       <view style="height:12rpx;background-color:#eaeaea"></view>
       
-      <view class="item-view" wx:for="{{giveDataList}}"  wx:for-item="item">
+      <view class="item-view" wx:for="{{giveDataList}}"  wx:for-item="item"wx:for-index="yhxIdx">
         <view class="weui-media-box weui-media-box_appmsg"style='padding:6px;'>                        
-          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-            <view class="fa fa-tag fa-2x"style='vertical-align:middle'></view>
+          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg"style='background-color:{{iconBackColor[yhxIdx%10]}}'>
+            <view class="fa fa-tag fa-2x"style='vertical-align:middle;color:#FFFFFF'></view>
           </view>
           <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
             <view class="weui-media-box__title">{{item.courseName}}</view>
@@ -133,10 +141,10 @@
     <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData">
       <view style="height:12rpx;background-color:#eaeaea"></view>
       
-      <view class="item-view" wx:for="{{transDataList}}"  wx:for-item="item">
+      <view class="item-view" wx:for="{{transDataList}}"  wx:for-item="item"wx:for-index="yhxIdx">
         <view class="weui-media-box weui-media-box_appmsg"style='padding:6px;'>                        
-          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-            <view class="fa fa-asl-interpreting fa-2x"style='vertical-align:middle'></view>
+          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg"style='background-color:{{iconBackColor[yhxIdx%10]}}'>
+            <view class="fa fa-handshake-o fa-2x"style='vertical-align:middle;color:#FFFFFF'></view>
           </view>
           <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
             <view class="weui-media-box__title">课程名:{{item.courseName}}</view>

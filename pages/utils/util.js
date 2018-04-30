@@ -193,6 +193,15 @@ function compare(prop){
     }
   } 
 }
+//返回数组下标
+function getIndex(list,prop,testProp){
+  for(var index in list){
+    var a=list[index]
+    if(a[prop]==testProp){
+      return index
+    }
+  }
+}
 module.exports = {
   formatTime: formatTime,
   formatNumber:formatNumber,
@@ -200,7 +209,8 @@ module.exports = {
   transchedule:transchedule,
   formatArrayTime: formatArrayTime,
   transchedule1: transchedule1,
-  compare:compare
+  compare:compare,
+  getIndex:getIndex
 }
 
 

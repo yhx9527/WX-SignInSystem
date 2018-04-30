@@ -37,7 +37,8 @@ Page({
    */
   data: {
     leaves:[],
-    coursename:""
+    coursename:"",
+    currentItem:0,
   },
 
   /**
@@ -62,6 +63,7 @@ Page({
       that.setData({
         leaves: xx,
         coursename: temp.coursename,
+        currentItem:temp.currentitem
       })
     }
     
@@ -74,76 +76,6 @@ Page({
       url: '../TcheckLeave/TcheckLeave?jsonString='+str,
     })
   },
-  /*
-  //通过请假
-  yesLeave: function (e) {
-    wx.showModal({
-      title: '提示',
-      content: '审核通过该请假',
-      success: function (res) {
-        if (res.confirm) {
-          var url = 'https://www.xsix103.cn/SignInSystem/Teacher/approveLeave.do'
-          var method = "POST"
-          var header = app.globalData.header
-          console.log(e.currentTarget)
-          var params = e.currentTarget.dataset.signinres
-
-          network.request(url, params, method, header).then((data) => {
-            if (data) {
-              wx.showToast({
-                title: '通过',
-                icon: "success",
-                duration: 1500
-              })
-            } else {
-              wx.showToast({
-                title: '通过失败',
-                icon: "none",
-                duration: 1500
-              })
-            }
-          })
-        } else if (res.cancel) {
-          console.log("用户点击取消")
-        }
-      }
-    })
-  },
-  //驳回请假
-  noLeave: function (e) {
-    wx.showModal({
-      title: '提示',
-      content: '驳回该请假',
-      success: function (res) {
-        if (res.confirm) {
-          var url = 'https://www.xsix103.cn/SignInSystem/Teacher/rejectLeave.do'
-          var method = "POST"
-          var header =  app.globalData.header
-          console.log(e.currentTarget)
-          var params = e.currentTarget.dataset.signinres
-
-          network.request(url, params, method, header).then((data) => {
-            if (data) {
-              wx.showToast({
-                title: '驳回',
-                icon: "success",
-                duration: 1500
-              })
-            } else {
-              wx.showToast({
-                title: '驳回失败',
-                icon: "none",
-                duration: 1500
-              })
-            }
-          })
-        } else if (res.cancel) {
-          console.log("用户点击取消")
-        }
-      }
-    })
-  },
-*/
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -169,7 +101,20 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    
+    var pages=getCurrentPages();
+    var prevPage=pages[pages.length-2]
+    var leaves=this.data.leaves
+    leaves.forEach((item,idx,leaves)=>{
+      if(item.Approve!=0){
+        leaves.splice(idx,1)
+      }
+    })
+    var urgencyLeaveData=prevPage.data.urgencyLeaveData
+    var currentItem=this.data.currentItem
+    urgencyLeaveData[currentItem]=leaves
+    prevPage.setData({
+      urgencyLeaveData:urgencyLeaveData
+    })
   },
 
   /**

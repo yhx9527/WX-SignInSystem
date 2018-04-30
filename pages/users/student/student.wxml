@@ -9,14 +9,17 @@
       <text wx:if="{{marquee2copy_status}}" style="margin-left:{{marquee2_margin}}px;">{{text}}</text>  
     </view>
   </view-->
-        <view class="hengfu"><text class="hengfuText">正在上课</text></view>
+        <view class="hengfu">
+          <text class="fa fa-pencil fa-lg"style='margin-left:5px;color:#333333;'></text>
+          <text class="hengfuText">正在上课</text>
+        </view>
 
           <view id="{{signingCard.id}}" data-loc="{{signingCard.loc}}"class="item" bind:touchstart="signingStart" bind:touchmove='signingMove'bind:touchend='signingEnd'style='right:{{signingCard.right}}px;border-bottom:0px;'>
             <!--view class="itemSon"-->
             <!--view class="out2-1"-->
-              <view class="weui-media-box weui-media-box_appmsg"hover-class="weui-cell_active"style="padding:6px;"catchtap='courseInfo'data-courseID="{{signingCard.id}}"data-courseName="{{signingCard.courseName}}"data-courseTeacher="{{signingCard.courseTeacher}}"data-courseTime="{{signingCard.courseTime}}"data-coursePlace="{{signingCard.coursePlace}}"data-schedule="{{signingCard.schedule}}">
-                <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                    <view class="fa fa-fighter-jet fa-2x"style='vertical-align:middle'></view>
+              <view class="weui-media-box weui-media-box_appmsg"hover-class="weui-cell_active"style="padding:6px;"catchtap='courseInfo'data-courseID="{{signingCard.id}}"data-courseName="{{signingCard.courseName}}"data-courseTeacher="{{signingCard.courseTeacher}}"data-courseTime="{{signingCard.courseTime}}"data-coursePlace="{{signingCard.coursePlace}}"data-schedule="{{signingCard.schedule}}"data-iconcolor="#FFCC99">
+                <view class="weui-media-box__hd weui-media-box__hd_in-appmsg"style='background-color:#FFCC99;'>
+                    <view class="fa fa-space-shuttle fa-2x"style='vertical-align:middle;color:#FFFFFF;'></view>
                 </view>
                 <view class="weui-media-box__bd weui-media-box__bd_in-appmsg" >
                   <view class="weui-media-box__title">{{signingCard.courseName}}</view>
@@ -40,12 +43,15 @@
             </view>
           <!--/view-->
               
-        <view class="hengfu"><text class="hengfuText">我的全部课程</text></view>
+        <view class="hengfu">
+          <text class="fa fa-list-ul fa-lg"style='margin-left:5px;color:#333333;'></text>
+          <text class="hengfuText">我的全部课程</text>
+        </view>
         <scroll-view scroll-y="true"enable-back-to-top="true">
-        <view wx:for="{{cards}}"wx:for-item="card"class="item"data-courseid="{{card.id}}"data-index="{{card.index}}"bind:touchstart="allStart" bind:touchmove='allMove'bind:touchend='allEnd'style='right:{{card.right}}px'>
-          <view class="weui-media-box weui-media-box_appmsg"hover-class="weui-cell_active"style="padding:6px;"catchtap='courseInfo'data-courseID="{{card.id}}"data-courseName="{{card.courseName}}"data-courseTeacher="{{card.courseTeacher}}"data-courseTime="{{card.courseTime}}"data-coursePlace="{{card.coursePlace}}"data-schedule="{{card.schedule}}">
-            <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-              <view class="fa fa-rocket fa-2x"style='vertical-align:middle'></view>
+        <view wx:for="{{cards}}"wx:for-item="card"wx:for-index="yhxIdx"class="item"data-courseid="{{card.id}}"data-index="{{card.index}}"bind:touchstart="allStart" bind:touchmove='allMove'bind:touchend='allEnd'style='right:{{card.right}}px'>
+          <view class="weui-media-box weui-media-box_appmsg"hover-class="weui-cell_active"style="padding:6px;"catchtap='courseInfo'data-courseID="{{card.id}}"data-courseName="{{card.courseName}}"data-courseTeacher="{{card.courseTeacher}}"data-courseTime="{{card.courseTime}}"data-coursePlace="{{card.coursePlace}}"data-schedule="{{card.schedule}}"data-iconcolor="{{iconBackColor[yhxIdx%10]}}">
+            <view class="weui-media-box__hd weui-media-box__hd_in-appmsg"style='background-color:{{iconBackColor[yhxIdx%10]}}'>
+              <view class="fa fa-rocket fa-2x"style='vertical-align:middle;color:#FFFFFF'></view>
             </view>
             <view class="weui-media-box__bd weui-media-box__bd_in-appmsg" >
               <view class="weui-media-box__title">{{card.courseName}}</view>

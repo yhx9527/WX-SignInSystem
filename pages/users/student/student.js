@@ -453,6 +453,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    iconBackColor:app.globalData.iconBackColor,
     cards: [],
     signingCard: {}, //正在签到
     scrollHeight: 0,
@@ -642,8 +643,6 @@ Page({
   onLoad: function (options) {
     
     var that = this;
-  
-    
 
     //var length = that.data.text.length * that.data.size;//文字长度
     //var windowWidth = wx.getSystemInfoSync().windowWidth;// 屏幕宽度

@@ -4,7 +4,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    course:{}
+    course:{},
+    iconColor:''
   },
 
   /**
@@ -14,6 +15,7 @@ Page({
     let course=JSON.parse(options.jsonStr)
     console.log(course);
     this.setData({
+      iconColor:course.iconcolor,
       course:course
     })
   },

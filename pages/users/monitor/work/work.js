@@ -33,6 +33,7 @@ Page({
     time:"",
     course: {},
     showModalStatus:false,
+    iconColor:''
   },
 
   /**
@@ -41,15 +42,20 @@ Page({
   onLoad: function (options) {
     console.log(options.jsonStr);
     let course=JSON.parse(options.jsonStr)
+    this.setData({
+      iconColor: course.iconcolor,
+    })
     var temp=util.formatTime(new Date)
     var dates=temp.split(" ")
     if(course.suvman != undefined && course.suvman !== null && testMan(course.suvman.siTime)){
       var siTime=course.suvman.siTime
       this.setData({
+        iconColor:course.iconcolor,
         course:course,
         date:siTime[0]+"-"+siTime[1]+"-"+siTime[2],
         time:siTime[3]+":"+siTime[4]+":"+siTime[5],
-        checked:true
+        checked:true,
+
       })
     } 
     else{

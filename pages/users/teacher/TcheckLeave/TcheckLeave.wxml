@@ -24,8 +24,8 @@
       </view>
     </view>
     
-    <button wx:if="{{!ifyes&&!ifno}}"type="primary"bindtap="yesLeave"style="background-color:#32CD32;width:100%;margin-top:20px">通过</button>
+    <button wx:if="{{!ifyes&&!ifno}}"type="primary"bindtap="yesLeave"style="background-color:#32CD32;width:100%;margin-top:20px"data-siid="{{signInRes.siId}}">通过</button>
     <button wx:if="{{ifyes&&!ifno}}"type="primary"disabled="true"style="background-color:#32CD32;width:100%;margin-top:20px">已通过</button>
-    <button wx:if="{{!ifyes&&!ifno}}"type='warn'bindtap="noLeave"style="background-color:#FF8C00;width:100%;margin-top:20px">驳回</button>
+    <button wx:if="{{!ifyes&&!ifno}}"type='warn'bindtap="noLeave"style="background-color:#FF8C00;width:100%;margin-top:20px"data-siid="{{signInRes.siId}}">驳回</button>
     <button wx:if="{{!ifyes&&ifno}}"type='warn'disbled="true"style="background-color:#FF8C00;width:100%;margin-top:20px">已驳回</button>
   </view>

@@ -53,7 +53,7 @@ App({
     userInfo: null,
     header:{'Access-Token':''},
     locationInfo:null,
-    
+    iconBackColor: ['#0099CC','#33CC99','#FF6666','#FF9900','#99CC33','#99CCCC','#FF9966','#FF9999','#CCCCFF','#99CCCC']
   },
 
   
