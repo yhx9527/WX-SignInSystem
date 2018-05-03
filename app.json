@@ -14,7 +14,8 @@
           "absence/absence",
           "checkLeaves/checkLeaves",
           "teacher",
-          "TcheckLeave/TcheckLeave" 
+          "TcheckLeave/TcheckLeave",
+          "stuList/stuList"
       ]
     },
     {

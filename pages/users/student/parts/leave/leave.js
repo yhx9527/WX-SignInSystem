@@ -93,54 +93,63 @@ Page({
         
       })
       */
-    wx.uploadFile({
-      url: 'https://www.xsix103.cn/SignInSystem/Student/leave.do',
-      filePath: that.data.tempFilePaths[0],
-      name: 'voucher',
-      header: {
-        'Access-Token': app.globalData.header['Access-Token'],
-        "content-type": 'multipart/form-data'
-       },
-      formData:{
-        schedule:JSON.stringify(schedule),
-      },
-      success:function(res){
-        console.log(res)
-        if(res.data=="true"&&res.statusCode==200){
-          wx.showToast({
-            title: '提交成功',
-            icon:"success",
-            duration:2000
-          })
-          setTimeout(function () {
-            wx.navigateBack({
-              delta: 1
-            })
-          }, 2000)
-        } 
-        /*else if (res.data == "false" && res.statusCode == 200){
-          wx.showToast({
-            title: '已提交请假条',
-            icon: "none",
-            duration: 2000
-          })
-        }*/
-        else{
-          wx.showToast({
-            title: '提交失败',
-            icon: "none",
-            duration: 2000
+      wx.showLoading({
+        title: '提交中',
+        mask:false,
+        success:function(){
+          wx.uploadFile({
+            url: 'https://www.xsix103.cn/SignInSystem/Student/leave.do',
+            filePath: that.data.tempFilePaths[0],
+            name: 'voucher',
+            header: {
+              'Access-Token': app.globalData.header['Access-Token'],
+              "content-type": 'multipart/form-data'
+            },
+            formData: {
+              schedule: JSON.stringify(schedule),
+            },
+            success: function (res) {
+              console.log(res)
+              wx.hideLoading();
+              if (res.data == "true" && res.statusCode == 200) {
+                wx.showToast({
+                  title: '提交成功',
+                  icon: "success",
+                  duration: 2000
+                })
+                setTimeout(function () {
+                  wx.navigateBack({
+                    delta: 1
+                  })
+                }, 2000)
+              }
+              /*else if (res.data == "false" && res.statusCode == 200){
+                wx.showToast({
+                  title: '已提交请假条',
+                  icon: "none",
+                  duration: 2000
+                })
+              }*/
+              else {
+                wx.showToast({
+                  title: '提交失败',
+                  icon: "none",
+                  duration: 2000
+                })
+              }
+            },
+            fail: function () {
+              wx.hideLoading();
+              wx.showToast({
+                title: '提交失败',
+                icon: "none",
+                duration: 2000
+              })
+            }
           })
         }
-      },
-      fail:function(){
-        wx.showToast({
-          title: '提交失败',
-          icon:"none",
-          duration:2000
-        })
-      }
-    })
+      })
+ 
     
   }else{
     wx.showModal({

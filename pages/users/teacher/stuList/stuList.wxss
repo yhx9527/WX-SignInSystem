@@ -1,0 +1,4 @@
+@import '../teacher.wxss';
+page{
+  overflow-y: scroll
+}

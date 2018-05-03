@@ -36,6 +36,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    iconBackColor: app.globalData.iconBackColor,
     leaves:[],
     coursename:"",
     currentItem:0,
@@ -55,6 +56,7 @@ Page({
       temp = JSON.parse(options.jsonString + '"' + "}" + "]"+"}")
     }
     finally{
+      console.log("上头"+temp.currentitem)
       //console.log("教师审核请假"+JSON.stringify(temp.leaves,undefined,'\t'))
       var xx=temp.leaves
       xx.forEach((item) => {
@@ -104,16 +106,20 @@ Page({
     var pages=getCurrentPages();
     var prevPage=pages[pages.length-2]
     var leaves=this.data.leaves
+    var leaveData=prevPage.data.leaveData
     leaves.forEach((item,idx,leaves)=>{
-      if(item.Approve!=0){
+      if(item.siApprove!=0){
         leaves.splice(idx,1)
+        var index=util.getIndex(leaveData,'siId',item.siId)
+        leaveData[index].siApprove=item.siApprove
       }
     })
     var urgencyLeaveData=prevPage.data.urgencyLeaveData
     var currentItem=this.data.currentItem
     urgencyLeaveData[currentItem]=leaves
     prevPage.setData({
-      urgencyLeaveData:urgencyLeaveData
+      urgencyLeaveData:urgencyLeaveData,
+      leaveData:leaveData
     })
   },
 

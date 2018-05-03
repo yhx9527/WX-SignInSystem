@@ -272,3 +272,6 @@ padding-left:20px;
   height:150px;
   
 }
+.cardClick{
+  background-color: #eaeaea
+}

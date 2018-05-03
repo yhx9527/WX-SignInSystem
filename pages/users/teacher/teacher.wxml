@@ -59,10 +59,10 @@
         <input type="number"placeholder="请输入督导周(默认第{{inputVal}}周)"bindinput="confirmInput"data-index="{{index}}"></input>
       </modal-->
       <view class="line"style="background-color:{{background}}"></view>
-        <view class="thirdCard">
+        <view class="thirdCard"hover-class="cardClick"catchtap="lookStuList"data-cozid="{{teacherList.cozId}}"data-coursename="{{teacherList.courseName}}">
           <text class="thirdEx">学生名单</text>
           <view class="aboutImg">
-            <text class="renshu">{{}}人</text>
+            <!--text class="renshu">{{stuList.length}}人</text-->
             <image class="about"src="../../image/about.png"></image>
           </view>
         </view>
@@ -77,7 +77,7 @@
             <text class="renshu">{{searchMonitor.suvRecNum}}人</text>
             </view>
           </view>
-          <view class="cardContent"style="margin-bottom:0;border-bottom:0"hover-class="weui-cell_active"catchtap="checkLeave"data-coursename="{{teacherList.courseName}}"data-schday="{{item.schDayT}}"data-leaves="{{searchLeaveData}}">
+          <view class="cardContent"style="margin-bottom:0;border-bottom:0"hover-class="cardClick"catchtap="checkLeave"data-coursename="{{teacherList.courseName}}"data-schday="{{item.schDayT}}"data-leaves="{{searchLeaveData}}">
             <text class="thirdEx">上课请假人数</text>
             <view class="aboutImg">
             <text class="renshu"wx:if="{{searchLeaveData.length>0}}">{{searchLeaveData.length}}人</text>
@@ -99,17 +99,17 @@
             </view>
             <view class='cardContent1'style="white-space:pre-line;height:auto">备注:{{searchMonitor.suvRecInfo}}</view>
           </view>
-            <view class="cardTitle"style="background-color:{{background}}">
+            <!--view class="cardTitle"style="background-color:{{background}}">
               <text class="titleText1">签到情况记录</text>
-            </view>
-          <view class="cardContent">
+            </view-->
+          <!--view class="cardContent">
             <text class="thirdEx">签到记录人数</text>
             <view class="aboutImg">
               <text class="renshu">{{}}人</text>
               <image class="about"src="../../image/about.png"></image>
             </view>
-          </view>
-          <view class="cardContent"hover-class="weui-cell_active"catchtap="absence"data-absence="{{searchAbsence}}"data-coursename="{{teacherList.courseName}}"data-coursetime="{{item.schDay+item.schTime}}">
+          </view-->
+          <view class="cardContent"hover-class="cardClick"catchtap="absence"data-absence="{{searchAbsence}}"data-coursename="{{teacherList.courseName}}"data-coursetime="{{item.schDay+item.schTime}}">
             <text class="thirdEx">缺勤学生名单</text>
             <view class="aboutImg">
               <text class="renshu"wx:if="{{searchAbsence.length>0}}">{{searchAbsence.length}}人</text>

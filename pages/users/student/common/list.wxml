@@ -9,7 +9,7 @@
   </block> 
 </dl>-->
 <view class="hengfu">
-  <text class="fa fa-sitemap fa-lg"style='margin-left:5px;color:##333333'></text>
+  <text class="fa fa-sitemap fa-lg"style='margin-left:5px;color:#333333'></text>
   <text class="hengfuText">我的全部授课</text>
 </view>
 <scroll-view scroll-top="{{scrollTop}}" scroll-y="true" style="height:{{teacherLists.length*90}}px;"class="teacherList"wx:if="{{!ifshade}}">

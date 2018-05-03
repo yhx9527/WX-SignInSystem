@@ -1,9 +1,9 @@
 <view class="top-title">{{coursename}}</view>
 <view class="top-title">审核请假</view>
-  <view class="item-view" wx:for="{{leaves}}"  wx:for-item="item"bindtap="checkLeave"data-coursename="{{coursename}}"data-signinres="{{item}}"style="border:1rpx solid #cccccc;margin-top:10rpx;">
+  <view class="item-view" wx:for="{{leaves}}"  wx:for-item="item"wx:for-index="yhxIdx"bindtap="checkLeave"data-coursename="{{coursename}}"data-signinres="{{item}}"style="border:1rpx solid #cccccc;margin-top:10rpx;">
     <view class="weui-media-box weui-media-box_appmsg"style='padding:6px;'hover-class="weui-cell_active">
-      <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-        <view class="fa fa-file fa-2x"style='vertical-align:middle'></view>
+      <view class="weui-media-box__hd weui-media-box__hd_in-appmsg"style='background-color:{{iconBackColor[yhxIdx%10]}}'>
+        <view class="fa fa-file fa-2x"style='vertical-align:middle;color:#FFFFFF'></view>
       </view>
       <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
         <view class="weui-media-box__title">{{item.oneCozAndSch.course.cozName}}</view>

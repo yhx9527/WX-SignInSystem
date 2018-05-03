@@ -179,6 +179,7 @@ var fillInForm=function(that,week,day){
   })
 
 }
+
 Page({
 
   /**
@@ -224,6 +225,7 @@ Page({
     var Date=that.data.Date
     var sumMonitor=[]
     var sumAbsence=[]
+    var cozId=temp.list.cozId
     for(var k=0;k<5;k++){
       Date[k]=new Array()
     }
@@ -232,7 +234,7 @@ Page({
     //console.log("老师单个课程页数据:"+JSON.stringify(temp.list.schedules),undefined,'\t')
     var topItems=[]
     var schedule=util.transchedule(temp.list.schedules)
-    console.log("老师的"+JSON.stringify(schedule,undefined,'\t'))
+    //console.log("老师的"+JSON.stringify(schedule,undefined,'\t'))
     for(var index in schedule){
       var a = schedule[index]
       a.ifSign=false
@@ -972,6 +974,13 @@ Page({
         hintColor: "red"
       })
     }
+  },
+  //查看学生名单
+  lookStuList:function(e){
+    var str=JSON.stringify(e.currentTarget.dataset)
+    wx.navigateTo({
+      url: './stuList/stuList?jsonStr='+str,
+    })
   },
   /**
    * 生命周期函数--监听页面隐藏

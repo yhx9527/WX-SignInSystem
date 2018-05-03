@@ -12,6 +12,7 @@ var DATATYPE = {
 /** 
  * 旋转上拉加载图标 
  */
+/*
 function updateRefreshIcon() {
   var deg = 0;
   var _this = this;
@@ -29,7 +30,7 @@ function updateRefreshIcon() {
       refreshAnimation: animation.export()
     })
   }, 1000);
-}  
+}*/  
 var getSignAndLeave=function(that,ArraySchedule){
   var sign=[]
   var leave=[]
@@ -51,8 +52,8 @@ var getSignAndLeave=function(that,ArraySchedule){
   
   }
     setTimeout(function(){
-      console.log("签到" + JSON.stringify(sign.sort(util.compare("siId"))))
-      console.log("请假" + JSON.stringify(leave.sort(util.compare("siId"))))
+      //console.log("签到" + JSON.stringify(sign.sort(util.compare("siId"))))
+      //console.log("请假" + JSON.stringify(leave.sort(util.compare("siId"))))
       var signDataList = sign.sort(util.compare("siId"))
       var leaveDataList = leave.sort(util.compare("siWeek"))
       signDataList.forEach((item)=>{
@@ -262,6 +263,7 @@ Page({
     }
   }
   },
+  /*
   upper:function(e){
     
     console.log("下拉了....")
@@ -315,6 +317,7 @@ Page({
    DownLoad:function(){
     console.log("上拉了")
    },
+   */
    //滑动菜单
    bindChange: function (e) {
      console.log("目前" + e.detail.current)
