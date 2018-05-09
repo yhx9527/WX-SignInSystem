@@ -24,7 +24,7 @@
   <view class="form-content">
     <view class="content">
       <text class="content-read">应到人数:</text>
-      <text class="content-write">60</text>
+      <text class="content-write"></text>
     </view>
     <view class="content">
       <text class="content-read"> 实到人数:</text>

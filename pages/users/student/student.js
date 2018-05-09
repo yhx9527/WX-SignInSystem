@@ -169,7 +169,7 @@ var getTchList=function(that){
       }
       var a=data.courses[index]
       try{
-        teacherLists.push({ "cozId": a.cozId, "courseName": a.cozName, "courseNum": 100, "courseTime": final[0].schDay, "coursePlace": final[0].location.locName, "teacher": data.teacher, "schedules": a.schedules })
+        teacherLists.push({ "cozId": a.cozId, "courseName": a.cozName, "courseNum": a.cozSize, "courseTime": final[0].schDay, "coursePlace": final[0].location.locName, "teacher": data.teacher, "schedules": a.schedules })
       }catch(err){
         if(final[0].location==null){
           teacherLists.push({ "cozId": a.cozId, "courseName": a.cozName, "courseNum": 100, "courseTime": final[0].schDay, "coursePlace": "暂未录入", "teacher": data.teacher, "schedules": a.schedules })
@@ -302,7 +302,7 @@ var slideOne=function(self,cards,index){
 }
 //签到函数
 var SignIn = function (that, schedule,loc){
-  console.log("loc"+JSON.stringify(loc,undefined,'\t'))
+  console.log("签到schedule"+JSON.stringify(schedule,undefined,'\t'))
   wx.request({
     url: "https://www.xsix103.cn/SignInSystem/Student/checkSignIn.do",
     data: schedule,
@@ -855,6 +855,7 @@ Page({
       type: 'gcj02',
       success: function(res) {
         locationInfo=res
+        console.log('locationInfo'+JSON.stringify(locationInfo))
         //wx.setStorageSync('locationInfo', locationInfo)
         that.setData({
           longitude: locationInfo.longitude,

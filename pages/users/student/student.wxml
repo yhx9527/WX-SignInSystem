@@ -48,6 +48,11 @@
           <text class="hengfuText">我的全部课程</text>
         </view>
         <scroll-view scroll-y="true"enable-back-to-top="true">
+        <view wx:if="{{cards.length==0}}"class="tab-content1" >
+        <view class="fa fa-commenting fa-5x"style='color:#999999'></view>
+        <!--image class="tab-image" src="../../../image/hasMessage.png"mode="aspectFit"></image-->
+        <text style='color:#999;margin-top:10px;font-size:18px;'>暂无信息</text>
+      </view>
         <view wx:for="{{cards}}"wx:for-item="card"wx:for-index="yhxIdx"class="item"data-courseid="{{card.id}}"data-index="{{card.index}}"bind:touchstart="allStart" bind:touchmove='allMove'bind:touchend='allEnd'style='right:{{card.right}}px'>
           <view class="weui-media-box weui-media-box_appmsg"hover-class="weui-cell_active"style="padding:6px;"catchtap='courseInfo'data-courseID="{{card.id}}"data-courseName="{{card.courseName}}"data-courseTeacher="{{card.courseTeacher}}"data-courseTime="{{card.courseTime}}"data-coursePlace="{{card.coursePlace}}"data-schedule="{{card.schedule}}"data-iconcolor="{{iconBackColor[yhxIdx%10]}}">
             <view class="weui-media-box__hd weui-media-box__hd_in-appmsg"style='background-color:{{iconBackColor[yhxIdx%10]}}'>

@@ -130,7 +130,6 @@ var getLeaves=function(that){
     that.setData({
       leaves: leaves,
       leaveNum: leaves.length,
-      points:100-leaves.length
     })
 
   
@@ -339,42 +338,93 @@ Page({
     switch (types[dataType]) {
       //督导课堂
       case DATATYPE.ALLDATATYPE:
-        that.setData({
-          allDataList:[],
-          item:{}
+        wx.showLoading({
+          title: '加载中...',
+          success:function(){
+            that.setData({
+              allDataList: [],
+              item: {}
+            })
+            Monitoring(that);
+            getAll(that);
+            setTimeout(function () { getLeaves(that) }, 1000)
+            setTimeout(function (){
+              wx.hideLoading();
+            },1000);
+          }
+          
         })
-        Monitoring(that);
-        getAll(that);
-        setTimeout(function () { getLeaves(that) }, 1000)
+        
         break;
       //历史记录
       case DATATYPE.HISTORYDATATYPE:
-        that.setData({
-          historyDataList:[]
+        wx.showLoading({
+          title: '加载中...',
+          success: function () {
+            that.setData({
+              historyDataList: []
+            })
+            getHistory(that);
+            setTimeout(function () {
+              wx.hideLoading();
+            }, 1000);
+          }
+
         })
-        getHistory(that);
+        
         break;
       //审核请假
       case DATATYPE.LEAVEDATATYPE:
-        that.setData({
-          leaveDataList: []
+        wx.showLoading({
+          title: '加载中...',
+          success: function () {
+            that.setData({
+              leaveDataList: []
+            })
+            checkLeaves(that);
+            setTimeout(function () {
+              wx.hideLoading();
+            }, 1000);
+          }
+
         })
-        checkLeaves(that);
+        
         break;
       //督导池塘
       case DATATYPE.GIVEDATATYPE:
-        that.setData({
-          giveDataList: []          
+        wx.showLoading({
+          title: '加载中...',
+          success: function () {
+            that.setData({
+              giveDataList: []
+            })
+            getGive(that);
+            setTimeout(function () {
+              wx.hideLoading();
+            }, 1000);
+          }
+
         })
-        getGive(that);
+        
         
         break;
       //督导转接
       case DATATYPE.TRANSDATATYPE:
-        that.setData({
-          transDataList:[]
+        wx.showLoading({
+          title: '加载中...',
+          success: function () {
+            that.setData({
+              transDataList: []
+            })
+            getTrans(that)
+            getHistory(that);
+            setTimeout(function () {
+              wx.hideLoading();
+            }, 1000);
+          }
+
         })
-        getTrans(that)
+        
         break;
       default:
         break;
@@ -533,13 +583,13 @@ Page({
                     })
                     if (e.currentTarget.dataset.ifinsert == false){
                     var allDataList = that.data.allDataList
-                    allDataList[arrayflag].suvMan = { "suvManAutoOpen": false };
+                    allDataList[arrayflag].suvMan.suvManAutoOpen=false;
                     that.setData({
                       allDataList: allDataList
                     })
                     } else if (e.currentTarget.dataset.ifinsert == true){
                       var item = that.data.item
-                     item.suvMan = { "suvManAutoOpen": false };
+                     item.suvMan.suvManAutoOpen=false;
                       that.setData({
                         item: item
                       })

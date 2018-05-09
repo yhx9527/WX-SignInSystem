@@ -164,3 +164,11 @@ font-size: 17px;
   font-weight: bold;
   margin-right: 10px;
 }
+.tab-content1
+{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top:70px;
+
+}  

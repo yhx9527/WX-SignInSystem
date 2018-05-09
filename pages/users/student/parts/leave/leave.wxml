@@ -1,5 +1,5 @@
 
-  <form class="form"bindsubmit='formSubmitLeave'style="height:{{height}}px;width:{{width}}px">
+  <form class="form"bindsubmit='formSubmitLeave'style="height:{{height}}px;width:{{width}}px"catchtap='cancelDel'>
     <view class="head">
       请假条
     </view>
@@ -26,10 +26,17 @@
     <view class="box">
       <view wx:if="{{tempFilePaths!==[]}}"wx:for="{{tempFilePaths}}"wx:for-item="tempFilePath"bindtap="previewImage"data-path="{{tempFilePath}}">
       
-      <image class="image"src="{{tempFilePath}}"mode="aspecFill"/>
+       <image class="image"src="{{tempFilePath}}"mode="aspecFill"catch:longpress='delImage'/>
       </view>
       <image class="image"src="../../../../image/add.png"bindtap="{{tempFilePaths.length<1 ? 'chooseimage' : 'NOTchoose'}}"mode="scaleToFill"></image>
     </view>
     <button type="primary"class="button1"formType="submit">提交</button>
   </form>
+  <view wx:if="{{ifDel}}"class="delImage"style='left:5px;top:200px'>
+    <view class='delKuang'style='display:flex;'catchtap="confirmDelImage">
+      <view class='fa fa-trash-o fa-lg 'style='padding:5px;color:#FFFFFF'></view>
+      <view class='delText'>删除</view>
+    </view>
+    <view class="delAngle"></view>
+  </view>
 

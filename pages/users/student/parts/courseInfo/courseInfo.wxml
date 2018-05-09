@@ -30,7 +30,12 @@
     <image animation="{{refreshAnimation}}" src="../../../../image/refesh.png"></image>
     <view classs="fa fa-spinner fa-spin"></view>  
     </view-->
-    <scroll-view style="height:{{signDataList.length*53}}px" scroll-y="true" bindscrolltoupper="upper"catchtouchstart="start"catchtouchmove="move" catchtouchend="end"data-idx="0" >
+    <scroll-view style="height:100%;"scroll-y="true" data-idx="0" >
+      <view wx:if="{{signDataList.length==0}}"class="tab-content1" >
+        <view class="fa fa-commenting fa-5x"style='color:#999999'></view>
+        <!--image class="tab-image" src="../../../image/hasMessage.png"mode="aspectFit"></image-->
+        <text style='color:#999;margin-top:10px;font-size:18px;'>暂无记录</text>
+      </view>
       <view class="weui-form-preview" wx:for="{{signDataList}}"  wx:for-item="item"id="{{item.siId}}">
         <view class="weui-form-preview__hd"style="padding:0px;">
           <view class="weui-form-preview__item">
@@ -63,7 +68,12 @@
     <!--image animation="{{refreshAnimation}}" src="../../../../image/refesh.png"></image-->
     
   <!--/view-->
-    <scroll-view style="height:{{leaveDataList.length*53}}px" scroll-y="true"bindscrolltoupper="upper"catchtouchstart="start"catchtouchmove="move" catchtouchend="end"data-idx="1" >
+    <scroll-view style="height:100%;" scroll-y="true"data-idx="1" >
+    <view wx:if="{{leaveDataList.length==0}}"class="tab-content1" >
+        <view class="fa fa-commenting fa-5x"style='color:#999999'></view>
+        <!--image class="tab-image" src="../../../image/hasMessage.png"mode="aspectFit"></image-->
+        <text style='color:#999;margin-top:10px;font-size:18px;'>暂无记录</text>
+      </view>
     <view class="weui-form-preview" wx:for="{{leaveDataList}}"  wx:for-item="item">
     <view class="weui-form-preview__hd"style="padding:0px;">
       <view class="weui-form-preview__item">
@@ -87,7 +97,12 @@
   <!--view class="refresh-block" style="height: {{refreshHeight}}px;" wx:if="{{refreshing}}"style="height:{{refreshHeight}}px">  
     <image animation="{{refreshAnimation}}" src="../../../../image/refesh.png"></image>  
   </view-->
-    <scroll-view style="height:{{noDataList.length*53}}px" scroll-y="true"bindscrolltoupper="upper"catchtouchstart="start"catchtouchmove="move" catchtouchend="end"data-idx="2">
+    <scroll-view style="height:100%;" scroll-y="true"data-idx="2">
+    <view wx:if="{{noDataList.length==0}}"class="tab-content1" >
+        <view class="fa fa-commenting fa-5x"style='color:#999999'></view>
+        <!--image class="tab-image" src="../../../image/hasMessage.png"mode="aspectFit"></image-->
+        <text style='color:#999;margin-top:10px;font-size:18px;'>暂无记录</text>
+      </view>
     <view class="weui-form-preview" wx:for="{{noDataList}}"  wx:for-item="item">
         <view class="weui-form-preview__hd"style="padding:0px;">
           <view class="weui-form-preview__item">

@@ -15,7 +15,8 @@ Page({
     height:0,
     width:0,
     nowWeek:-1,
-    Weeks:[]
+    Weeks:[],
+    ifDel:false
   },
 
   /**
@@ -271,4 +272,23 @@ Page({
 
     })
   },
+  delImage: function (e) {
+    console.log('长时间触摸' + JSON.stringify(e, undefined, '\t'))
+    this.setData({
+      ifDel: true,
+      X: e.detail.x,
+      Y: e.detail.y
+    })
+  },
+  confirmDelImage: function (e) {
+    this.setData({
+      ifDel: false,
+      tempFilePaths: []
+    })
+  },
+  cancelDel: function () {
+    this.setData({
+      ifDel: false
+    })
+  }
 })

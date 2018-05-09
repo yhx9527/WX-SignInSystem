@@ -49,12 +49,6 @@
         "selectedIconPath": "pages/image/tab_monitor_selected.png"
       },
       {
-        "pagePath": "pages/users/student/student1/student1",
-        "iconPath": "pages/image/tab_message_normal.png",
-        "text": "消息通知",
-        "selectedIconPath": "pages/image/tab_message_selected.png"
-      },
-      {
         "pagePath": "pages/users/student/studentMtor/monitor",
         "iconPath": "pages/image/tab_myself_normal.png",
         "text": "个人中心",

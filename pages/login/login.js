@@ -69,30 +69,38 @@ Page({
                     },
                     header: app.globalData.header,
                     success: function (res) {
-                      if(res.data.length!=0&&JSON.stringify(res.data)!=="{}"){
-                      //var map = config.jsonToMap(JSON.stringify(res.header));
-                      //var a = map.get("Set-Cookie")
-                      //console.log(a)
-                      //app.globalData.header['Access-Token'] = a.split(";")[0]
-                      //console.log("login:" + app.globalData.header.Cookie)
+                      wx.showLoading({
+                        title: '登录中...',
+                        success:function(){
+                          if (res.data.length != 0 && JSON.stringify(res.data) !== "{}") {
+                            //var map = config.jsonToMap(JSON.stringify(res.header));
+                            //var a = map.get("Set-Cookie")
+                            //console.log(a)
+                            //app.globalData.header['Access-Token'] = a.split(";")[0]
+                            //console.log("login:" + app.globalData.header.Cookie)
 
-                      //app.globalData.header = 'Access-Token' +':'+ res.data.token
-                      app.globalData.header['Access-Token']=res.data.token
-                      console.log("login:" + app.globalData.header['Access-Token'])
-                      var userPermit = processPermit(res.data.user.userPermit);
-                      var person = { "userPermit": userPermit, "userId": res.data.user.userId, "userName": res.data.user.userName }
-                      //个人信息报存本地
-                      wx.setStorageSync('person', person)
-                      //跳转界面
-                      wx.switchTab({
-                        url: '../users/student/student',
+                            //app.globalData.header = 'Access-Token' +':'+ res.data.token
+                            app.globalData.header['Access-Token'] = res.data.token
+                            console.log("login:" + app.globalData.header['Access-Token'])
+                            var userPermit = processPermit(res.data.user.userPermit);
+                            var person = { "userPermit": userPermit, "userId": res.data.user.userId, "userName": res.data.user.userName }
+                            //个人信息报存本地
+                            wx.setStorageSync('person', person)
+                            wx.hideLoading()
+                            //跳转界面
+                            wx.switchTab({
+                              url: '../users/student/student',
+                            })
+                          } else {
+                            wx.hideLoading()
+                            wx.showModal({
+                              title: '提示',
+                              content: '用户名或密码错误',
+                            })
+                          }
+                        }
                       })
-                      }else{
-                        wx.showModal({
-                          title: '提示',
-                          content: '用户名或密码错误',
-                        })
-                      }
+                      
                     },
                     fail: function (res) {
                       console.log("失败原因： " + JSON.stringify(res))
@@ -107,6 +115,14 @@ Page({
                 }else{
                   console.log('登录失败！' + e.errMsg)
                 }
+              },
+              fail:function(e){
+                console.log("wx.login发生错误" + e)
+                wx.showToast({
+                  title: '网络错误',
+                  icon: "loading",
+                  duration: 1500,
+                })
               }
             })
             
@@ -183,66 +199,94 @@ Page({
       success: function(res1){
         console.log("code:" + res1.code)
     if(res1.code){
-      
-    wx.request({
-      url: 'https://www.xsix103.cn/SignInSystem/wxLogin.do',
-      method:"POST",
-      data:{
-        code: res1.code
-      },
-  
-      header:{
-        "content-type": "application/x-www-form-urlencoded",
-      },
-      success:function(res){
-        console.log(res.data)
-  
-        //var map = config.jsonToMap(JSON.stringify(res.header));
-        //var a = map.get("Set-Cookie")
-        //console.log(a)
-        //app.globalData.header.Cookie = a.split(";")[0]
-        //console.log("wxlogin"+app.globalData.header.Cookie)
-        
-          if (res.data.isBind == false) {
-            wx.showModal({
-              title: '提示',
-              content: '你的微信未绑定，请登录绑定',
+    wx.showLoading({
+      title: '登录中...',
+      success:function(){
+        wx.request({
+          url: 'https://www.xsix103.cn/SignInSystem/wxLogin.do',
+          method: "POST",
+          data: {
+            code: res1.code
+          },
 
-            })
-            app.globalData.header['Access-Token'] = res.data.token
-          } else if (res.data.err == "2") {
-            console.log(res.data.errStr)
-            wx.showModal({
-              title: '提示',
-              content: "code失效",
+          header: {
+            "content-type": "application/x-www-form-urlencoded",
+          },
+          success: function (res) {
+            if (res.statusCode == 200) {
+
+
+              console.log(res.data)
+
+              //var map = config.jsonToMap(JSON.stringify(res.header));
+              //var a = map.get("Set-Cookie")
+              //console.log(a)
+              //app.globalData.header.Cookie = a.split(";")[0]
+              //console.log("wxlogin"+app.globalData.header.Cookie)
+
+              if (res.data.isBind == false) {
+                wx.hideLoading();
+                wx.showModal({
+                  title: '提示',
+                  content: '你的微信未绑定，请登录绑定',
+
+                })
+                app.globalData.header['Access-Token'] = res.data.token
+              } else if (res.data.err == "2") {
+                console.log(res.data.errStr)
+                wx.hideLoading();
+                wx.showModal({
+                  title: '提示',
+                  content: "code失效",
+                })
+              }
+              else {
+                app.globalData.header['Access-Token'] = res.data.token
+                console.log("login:" + app.globalData.header['Access-Token'])
+                var userPermit = processPermit(res.data.user.userPermit);
+                var person = { "userPermit": userPermit, "userId": res.data.user.userId, "userName": res.data.user.userName }
+                //个人信息报存本地
+                wx.setStorageSync('person', person)
+                //app.globalData.header.Cookie = 'JSESSIONID=' + data.sessionUser;
+                //跳转界面
+                wx.hideLoading();
+                wx.switchTab({
+                  url: '../users/student/student',
+                })
+              }
+            } else {
+              wx.hideLoading();
+              wx.showToast({
+                title: '服务繁忙',
+                icon: 'none',
+                duration: 2500,
+              })
+            }
+          },
+          fail: function (res) {
+            console.log("失败原因： " + JSON.stringify(res))
+            wx.hideLoading();
+            wx.showToast({
+              title: '连接失败',
+              icon: 'loading',
+              duration: 2000
             })
           }
-        else {
-            app.globalData.header['Access-Token'] = res.data.token
-            console.log("login:" + app.globalData.header['Access-Token'])
-            var userPermit = processPermit(res.data.user.userPermit);
-            var person = { "userPermit": userPermit, "userId": res.data.user.userId, "userName": res.data.user.userName }
-            //个人信息报存本地
-            wx.setStorageSync('person', person)
-          //app.globalData.header.Cookie = 'JSESSIONID=' + data.sessionUser;
-          //跳转界面
-          wx.switchTab({
-            url: '../users/student/student',
-          })
-        }
-      },
-      fail:function(res){
-        console.log("失败原因： "+JSON.stringify(res))
-        wx.showToast({
-          title: '连接失败',
-          icon:'loading',
-          duration:2000
         })
       }
     })
+    
     }else{
       console.log('登录失败！' + e.errMsg)
     }
+      },
+      fail:function(e){
+        console.log("wx.login发生错误"+e)
+        wx.showToast({
+          title: '网络错误',
+          icon:"loading",
+          duration:1500,
+        })
       }
     })
     

@@ -33,3 +33,11 @@
   margin-bottom:4px;
 
 }
+.tab-content1
+{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top:150px;
+
+}  

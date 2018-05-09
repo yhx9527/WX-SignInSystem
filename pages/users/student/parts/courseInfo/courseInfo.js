@@ -232,11 +232,25 @@ Page({
             signDataList: signDataList
           });
         })*/
-        getSignAndLeave(that,ArraySchedule)
+        wx.showLoading({
+          title: '加载中...',
+          success:function(){
+            getSignAndLeave(that, ArraySchedule);
+            setTimeout(function () { wx.hideLoading(); }, 2000)
+          }
+        })
+        
         break;
       //历史请假
       case DATATYPE.LEAVEDATATYPE:
         console.log("历史请假")
+        wx.showLoading({
+          title: '加载中...',
+          success: function () {
+            getSignAndLeave(that, ArraySchedule);
+            setTimeout(function () { wx.hideLoading(); }, 2000)
+          }
+        })
         break;
       //历史缺勤
       case DATATYPE.NODATATYPE:
@@ -256,7 +270,14 @@ Page({
             noDataList: noDataList
           });
         })*/
-        getAbs(that,ArraySchedule); 
+        wx.showLoading({
+          title: '加载中...',
+          success: function () {
+            getAbs(that, ArraySchedule); 
+            setTimeout(function(){wx.hideLoading();},1500)
+          }
+        })
+       
         break;
       default:
         break;

@@ -1,5 +1,11 @@
 <view style="height:16rpx;background-color:#eaeaea"></view>
+<view wx:if="{{leaves.length==0}}"class="tab-content1" >
+        <view class="fa fa-commenting fa-5x"style='color:#999999'></view>
+        <!--image class="tab-image" src="../../../image/hasMessage.png"mode="aspectFit"></image-->
+        <text style='color:#999;margin-top:10px;font-size:18px;'>暂无信息</text>
+      </view>
 <view class="leaveView"wx:for="{{leaves}}"wx:for-item="course"wx:for-index="index">
+  
   <view class="leaveStatu">
   <text class="leaveStatuText">第{{index+1}}次请假</text>
   

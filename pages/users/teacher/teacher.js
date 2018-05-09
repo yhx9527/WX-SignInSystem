@@ -281,101 +281,35 @@ Page({
     var that = this;
     var topItems=that.data.topItems
     var inputVal=that.data.inputVal
-    if(topItems.length!=0){
-      that.setData({
-        searchMonitor: {},
-        searchAbsence: [],
-        searchLeaveData: [],
-        hintColor: "black",
-      });
-      if (parseInt(inputVal) >= 1 && parseInt(inputVal) <= 20) {
-        fillInForm(that, inputVal, topItems[dataType].schDayT)
-        getSign(that, topItems, dataType, inputVal)
-        getSuv(that, topItems, dataType, inputVal)
-      }else if(inputVal.length==0){
-        topItems[dataType].ifSign=false
-        topItems[dataType].ifMonitor=false
-        that.setData({
-          topItems:topItems
-        })
+    wx.showLoading({
+      title: '加载中...',
+      success:function(){
+        if (topItems.length != 0) {
+          that.setData({
+            searchMonitor: {},
+            searchAbsence: [],
+            searchLeaveData: [],
+            hintColor: "black",
+          });
+          if (parseInt(inputVal) >= 1 && parseInt(inputVal) <= 20) {
+            fillInForm(that, inputVal, topItems[dataType].schDayT)
+            getSign(that, topItems, dataType, inputVal)
+            getSuv(that, topItems, dataType, inputVal)
+          } else if (inputVal.length == 0) {
+            topItems[dataType].ifSign = false
+            topItems[dataType].ifMonitor = false
+            that.setData({
+              topItems: topItems
+            })
+          }
+        }
+        setTimeout(function(){
+          wx.hideLoading()
+        },1000)
       }
-      /*
-    switch (dataType) {
-      //第一节课
-      case 0:
-        that.setData({
-          searchMonitor: {},
-          searchAbsence: [],
-          searchLeaveData: [],
-          hintColor: "black",
-        });
-        if (parseInt(inputVal) >= 1 && parseInt(inputVal) <= 20){
-          fillInForm(that,inputVal,topItems[0].schDayT)
-          getSign(that, topItems, 0, inputVal)
-          getSuv(that, topItems, 0, inputVal)
-        }
-        
-        //getMonitor(that,topItems[0].schedule);
-        //getAbsence(that, topItems[0].schedule);
-        
-        //getSign(that,topItems,0)
-        //getSuv(that,topItems,0)
-        break;
-      //第二节课
-      case 1:
-        that.setData({
-          searchMonitor: {},
-          searchAbsence: [],
-          searchLeaveData: [],
-          hintColor: "black",
-        });
-        if (parseInt(inputVal) >= 1 && parseInt(inputVal) <= 20) {
-          fillInForm(that, inputVal, topItems[0].schDayT)
-          getSign(that, topItems, 0, inputVal)
-          getSuv(that, topItems, 0, inputVal)
-        }
-        //getMonitor(that, topItems[1].schedule);
-        //getAbsence(that, topItems[1].schedule);
-        //getSign(that, topItems,1)
-        //getSuv(that, topItems,1)
-        break;
-      //第三节课
-      case 2:
-        that.setData({
-          searchMonitor: {},
-          searchAbsence: [],
-          searchLeaveData: [],
-          inputVal: "",
-          inputShowed: false,
-          hintColor: "black",
-          nowWeek: -1
-        });
-        //getMonitor(that, topItems[2].schedule);
-        //getAbsence(that, topItems[2].schedule);
-        //getSign(that, topItems,2)
-        //getSuv(that, topItems,2)
-        break;
-      //第四节课
-      case 3:
-        that.setData({
-          searchMonitor: {},
-          searchAbsence: [],
-          searchLeaveData: [],
-          inputVal: "",
-          inputShowed: false,
-          hintColor: "black",
-          nowWeek: -1
-        });
-        //getMonitor(that, topItems[3].schedule);
-        //getAbsence(that, topItems[3].schedule);
-        //getSign(that, topItems,3)
-        //getSuv(that, topItems,3)
-        break;
-      default:
-        break;
-    }
-    */
-  }
+
+    })
+    
   },
   bindChange:function(e){
     this.setData({
@@ -946,34 +880,44 @@ Page({
   inputTyping: function (e) {
     var that=this
     var topItems=that.data.topItems
-    if (parseInt(e.detail.value) >= 1 && parseInt(e.detail.value) <= 20) {
-      if(wx.getStorageSync('searchWeek')==undefined){
-        wx.setStorageSync('searchWeek', e.detail.value)
-        var day = topItems[dataType].schDayT
-        fillInForm(that, e.detail.value, day)
-        getSign(that, topItems, dataType, e.detail.value)
-        getSuv(that, topItems, dataType, e.detail.value)
-      }else{
-        var bSearchWeek = wx.getStorageSync('searchWeek')
-        if (parseInt(bSearchWeek) != parseInt(e.detail.value)){
-          var day = topItems[dataType].schDayT
-          fillInForm(that, e.detail.value, day)
-          getSign(that, topItems, dataType, e.detail.value)
-          getSuv(that, topItems, dataType, e.detail.value)
+    wx.showLoading({
+      title: '搜索中',
+      success:function(){
+        if (parseInt(e.detail.value) >= 1 && parseInt(e.detail.value) <= 20) {
+          if (wx.getStorageSync('searchWeek') == undefined) {
+            wx.setStorageSync('searchWeek', e.detail.value)
+            var day = topItems[dataType].schDayT
+            fillInForm(that, e.detail.value, day)
+            getSign(that, topItems, dataType, e.detail.value)
+            getSuv(that, topItems, dataType, e.detail.value)
+          } else {
+            var bSearchWeek = wx.getStorageSync('searchWeek')
+            if (parseInt(bSearchWeek) != parseInt(e.detail.value)) {
+              var day = topItems[dataType].schDayT
+              fillInForm(that, e.detail.value, day)
+              getSign(that, topItems, dataType, e.detail.value)
+              getSuv(that, topItems, dataType, e.detail.value)
+            }
+          }
+          that.setData({
+            inputVal: e.detail.value,
+            hintColor: "black",
+            nowWeek: e.detail.value
+          })
+
+        } else {
+          that.setData({
+            inputVal: "请输入有效值",
+            hintColor: "red"
+          })
         }
+        setTimeout(function(){
+          wx.hideLoading()
+        },500)
       }
-      that.setData({
-        inputVal: e.detail.value,
-        hintColor: "black",
-        nowWeek:e.detail.value
-      })
       
-    } else {
-      that.setData({
-        inputVal: "请输入有效值",
-        hintColor: "red"
-      })
-    }
+    })
+  
   },
   //查看学生名单
   lookStuList:function(e){
