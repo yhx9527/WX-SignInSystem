@@ -5,14 +5,14 @@ var startX;
 var startY;
 var endX;
 var endY;
-var maxRight=160;
+var maxRight=240;
 var key=false;
 /*
 var ReportDataSync = [
   {
     reportType: "按时间排序",
     chilItem: [
-      { ID: 1, Name: "按时间排序",  Type: 1 },
+      { ID: 1, Name: "按时间排序",  Type: 1 }, 
       { ID: 2, Name: "按课程名称排序",  Type: 1 },
       { ID: 3, Name: "按课程人数排序", Type: 1 },
       { ID: 4, Name: "按到勤率排序", Type: 1 }]
@@ -74,8 +74,9 @@ var getCards=function(that){
     that.setData({
       cards: cards
     })
-    wx.setStorageSync('Course', data)
-    wx.setStorageSync('Cards', cards)
+    wx.setStorageSync('Course', data);
+    wx.setStorageSync('Cards', cards);
+    wx.setStorageSync('nowWeek', data.currentWeek);
   })
     .catch((data) => {
       console.log("获取全部课程时出错" + data)
@@ -172,7 +173,7 @@ var getTchList=function(that){
         teacherLists.push({ "cozId": a.cozId, "courseName": a.cozName, "courseNum": a.cozSize, "courseTime": final[0].schDay, "coursePlace": final[0].location.locName, "teacher": data.teacher, "schedules": a.schedules })
       }catch(err){
         if(final[0].location==null){
-          teacherLists.push({ "cozId": a.cozId, "courseName": a.cozName, "courseNum": 100, "courseTime": final[0].schDay, "coursePlace": "暂未录入", "teacher": data.teacher, "schedules": a.schedules })
+          teacherLists.push({ "cozId": a.cozId, "courseName": a.cozName, "courseNum": a.cozSize, "courseTime": final[0].schDay, "coursePlace": "暂未录入", "teacher": data.teacher, "schedules": a.schedules })
         }
         console.log("获取老师课程信息处理有异常" + err.message)
       }
@@ -183,7 +184,8 @@ var getTchList=function(that){
     that.setData({
       teacherLists:teacherLists
     })
-    wx.setStorageSync('teacher',data )
+    wx.setStorageSync('teacher',data );
+    wx.setStorageSync('nowWeek', data.currentWeek);
   })
     .catch((data) => {
       console.log("获取老师时出错" + data)
@@ -355,8 +357,8 @@ var SignIn = function (that, schedule,loc){
                       }
                     ]
                     , circles: [{
-                      longitude: loc.loclon,
-                      latitude: loc.loclat,
+                      longitude: loc.locLon,
+                      latitude: loc.locLat,
                       color: '#FF0000DD',
                       fillColor: '#7cb5ec88',
                       radius: 40,
@@ -364,8 +366,8 @@ var SignIn = function (that, schedule,loc){
                     }],
                     polyline: [{
                       points: [{
-                        longitude: loc.loclon,
-                        latitude: loc.loclat,
+                        longitude: loc.locLon,
+                        latitude: loc.locLat,
                       },
                       {
                         longitude: schedule.location.locLon,
@@ -536,7 +538,7 @@ Page({
     var index = e.currentTarget.dataset.index;
     for(var yhx in cards){
       if(cards[yhx].id===id){
-        if (cards[yhx].right <= 100 / 2) {
+        if (cards[yhx].right <= 200 / 2) {
           cards[yhx].right = 0;
         } else {
           cards[yhx].right = maxRight;
@@ -602,7 +604,7 @@ Page({
   },
   signingEnd:function(e){
     var signingCard = this.data.signingCard;
-    if (signingCard.right <= 100 / 2) {
+    if (signingCard.right <= 200 / 2) {
       signingCard.right = 0;
     } else {
       signingCard.right = maxRight;
@@ -863,11 +865,12 @@ Page({
         })
         if (arraySchedule.length == 1) {
           var schedule = arraySchedule[0].schedule
+          var loc=JSON.parse(JSON.stringify(schedule.location))
           if(schedule.location!=null){
           schedule.location.locLat = locationInfo.latitude
           schedule.location.locLon = locationInfo.longitude
           schedule.schWeek=nowWeek
-          SignIn(that, schedule, e.currentTarget.dataset)
+          SignIn(that, schedule, loc)
           }else{
             wx.showToast({
               title: '未知地点',
@@ -886,18 +889,21 @@ Page({
           //}
           // })
         } else if (arraySchedule.length > 1) {
-          var itemList = []
+          var itemList = [];
+          var currentWeek='第'+wx.getStorageSync('nowWeek')+'周';
           if(arraySchedule[0].schedule.location!=null){
           for (var index in arraySchedule)
-            itemList.push(arraySchedule[index].scheduleTime + "签到")
+            itemList.push(currentWeek+arraySchedule[index].scheduleTime + "签到")
           wx.showActionSheet({
             itemList: itemList,
             success: function (res1) {
-              var schedule = arraySchedule[res1.tapIndex].schedule
-              schedule.location.locLat = locationInfo.latitude
-              schedule.location.locLon = locationInfo.longitude
-              schedule.schWeek=nowWeek
-              SignIn(that, schedule, e.currentTarget.dataset)
+                var schedule1 = arraySchedule[res1.tapIndex].schedule
+                var loc = JSON.parse(JSON.stringify(schedule1.location))
+                schedule1.location.locLat = locationInfo.latitude
+                schedule1.location.locLon = locationInfo.longitude
+                schedule1.schWeek = nowWeek
+                //console.log('点击的课程:'+JSON.stringify(schedule1))
+                SignIn(that, schedule1, loc)   
             }
           })
         }else{
@@ -1137,6 +1143,59 @@ Page({
           showModalStatus: true
         }
       );
+    }
+  },
+  //扫码补签
+  QRsign:function(e){
+    var that=this;
+    var nowWeek = wx.getStorageSync('nowWeek')
+    var ArraySchedule = e.currentTarget.dataset.schedule
+    if (ArraySchedule.length == 1) {
+      var schedule = ArraySchedule[0].schedule
+      schedule.schWeek = nowWeek
+      wx.scanCode({
+        onlyFromCamera:true,
+        success:function(res){
+          console.log("二维码结果" + JSON.stringify(res, undefined, '\t'));
+          if(parseInt(res.result)==schedule.schId){
+            SignIn(that, schedule, schedule.location);
+          }else{
+           
+            wx.showModal({
+              title: '提示',
+              content: '课程不对，签到失败',
+              showCancel:false
+            })
+          }
+        }
+      })
+    } else if (ArraySchedule.length > 1) {
+      var itemList = []
+      for (var index in ArraySchedule) {
+        itemList.push(ArraySchedule[index].scheduleTime + "签到")
+      }
+      wx.showActionSheet({
+        itemList: itemList,
+        success: function (res1) {
+          var schedule1 = ArraySchedule[res1.tapIndex].schedule
+          schedule1.schWeek = nowWeek
+          wx.scanCode({
+            onlyFromCamera: true,
+            success: function (res) {
+              console.log("二维码结果" + JSON.stringify(res, undefined, '\t'));
+              if (parseInt(res.result) == schedule1.schId) {
+                SignIn(that, schedule1, schedule1.location);
+              } else {
+                wx.showModal({
+                  title: '提示',
+                  content: '课程不对，签到失败',
+                  showCancel: false
+                })
+              }
+            }
+          })
+        }
+      })
     }
   } 
 

@@ -1,5 +1,5 @@
 <view class="top-title">{{coursename}}</view>
-<view class="top-title">审核请假</view>
+<view class="top-title">请假名单</view>
 <view wx:if="{{leaves.length==0}}"class="tab-content1" >
         <view class="fa fa-commenting fa-5x"style='color:#999999'></view>
         <!--image class="tab-image" src="../../../image/hasMessage.png"mode="aspectFit"></image-->

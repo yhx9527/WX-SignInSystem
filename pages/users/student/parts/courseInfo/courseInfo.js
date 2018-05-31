@@ -232,6 +232,9 @@ Page({
             signDataList: signDataList
           });
         })*/
+        that.setData({
+          signDataList:[]
+        })
         wx.showLoading({
           title: '加载中...',
           success:function(){
@@ -244,6 +247,9 @@ Page({
       //历史请假
       case DATATYPE.LEAVEDATATYPE:
         console.log("历史请假")
+        that.setData({
+          leaveDataList:[]
+        })
         wx.showLoading({
           title: '加载中...',
           success: function () {
@@ -270,6 +276,9 @@ Page({
             noDataList: noDataList
           });
         })*/
+        that.setData({
+          noDataList:[]
+        })
         wx.showLoading({
           title: '加载中...',
           success: function () {
@@ -346,6 +355,7 @@ Page({
      this.setData({
        currentTopItem: e.detail.current
      })
+     this.setNewDataWithRes(dataType);
    },
 
   /**

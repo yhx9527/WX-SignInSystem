@@ -436,6 +436,7 @@ Page({
     this.setData({
       currentTopItem:e.detail.current
     })
+    this.setNewDataWithRes(e.detail.current);
   },
   /*
   //设置加载更多的数据

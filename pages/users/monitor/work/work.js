@@ -1,5 +1,6 @@
 const app=getApp();
 const network=require("../../../utils/network.js")
+const util=require("../../../utils/util.js")
 var checkForm=function(form){
     if(form.suvRecNum==""||form.suvLeave==""||form.suvRecBadNum1==""||form.suvRecBadNum2==""||form.suvRecInfo==""){
       return false
@@ -22,7 +23,6 @@ var testMan=function(siTime){
   }else
     return true
 }
-var util=require("../../../utils/util.js")
 Page({
 
   /**
@@ -33,7 +33,9 @@ Page({
     time:"",
     course: {},
     showModalStatus:false,
-    iconColor:''
+    iconColor:'',
+    qrcode: '',
+    ifQcode: false,
   },
 
   /**
@@ -298,6 +300,31 @@ Page({
         }
       })
     }
+  },
+  //生成二维码
+  produceQR:function(e){
+    var that = this;
+    wx.showModal({
+      title: '提示',
+      content: '是否生成该课程二维码供未签到学生补签',
+      success:function(res){
+        if(res.confirm){
+         
+          var course = that.data.course;
+          util.QRsign(that, course.schid);
+        }
+       
+      }
+    })
+   
+
+  },
+  cancelQR: function () {
+    var ifQcode = false;
+    this.setData({
+      ifQcode: ifQcode
+    })
+
   },
   
   /**

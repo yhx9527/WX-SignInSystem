@@ -1,10 +1,34 @@
+const app=getApp();
+const network=require("../../../utils/network.js");
+var getAbsence = function (that, schId, week) {
+  var url = "https://www.xsix103.cn/SignInSystem/Teacher/fSchAbsRecByCoz.do"
+  var header = app.globalData.header
+  var method = "GET"
+  var params = {
+      "schId":schId,
+      "week":week
+    }
+    network.request(url, params, method, header).then((data) => {
+      if(data.length>0){
+      that.setData({
+        sumAbsence: data[0].studentList
+      })
+      }
+    })
+
+
+}
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    absence:{}//缺勤名单
+    absence:{},//缺勤名单
+    sumAbsence:[],
+    coursename:"",
+    coursetime:"",
+    week:0,
   },
 
   /**
@@ -13,9 +37,13 @@ Page({
   onLoad: function (options) {
     var that=this
     let temp=JSON.parse(options.jsonStr)
+    getAbsence(that,temp.schid,temp.week);
     console.log("缺勤名单"+options.jsonStr)
     that.setData({
-      absence:temp
+      coursename:temp.coursename,
+      coursetime:temp.coursetime,
+      week:temp.week,
+      iconBackColor: app.globalData.iconBackColor
     })
   },
 

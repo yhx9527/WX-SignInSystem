@@ -61,12 +61,13 @@
 
   <!--历史记录-->
   <swiper-item>
-    <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData" >
-      <view wx:if="{{historyDataList.length==0}}"class="tab-content1" >
+  <view wx:if="{{historyDataList.length==0}}"class="tab-content1" >
         <view class="fa fa-commenting fa-5x"style='color:#999999'></view>
         <!--image class="tab-image" src="../../../image/hasMessage.png"mode="aspectFit"></image-->
         <text style='color:#999;margin-top:10px;font-size:18px;'>暂无信息</text>
       </view>
+    <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData" >
+      
       <view style="height:12rpx;background-color:#eaeaea"></view>
       
       <view class="item-view" wx:for="{{historyDataList}}"  wx:for-item="item"wx:for-index="yhxIdx"bindtap="historyCourse"data-courseID="{{item.id}}"data-courseName="{{item.courseName}}"data-courseTeacher="{{item.courseTeacher}}"data-courseTime="{{item.courseTime}}"data-coursePlace="{{item.coursePlace}}"data-suvRecord="{{item.suvRecord}}"data-iconcolor="{{iconBackColor[yhxIdx%10]}}">
@@ -93,12 +94,13 @@
 
   <!--审核请假-->
   <swiper-item>
-    <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData">
-      <view wx:if="{{leaveDataList.length==0}}"class="tab-content1" >
+  <view wx:if="{{leaveDataList.length==0}}"class="tab-content1" >
         <view class="fa fa-commenting fa-5x"style='color:#999999'></view>
         <!--image class="tab-image" src="../../../image/hasMessage.png"mode="aspectFit"></image-->
         <text style='color:#999;margin-top:10px;font-size:18px;'>暂无信息</text>
       </view>
+    <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData">
+      
       <view style="height:12rpx;background-color:#eaeaea"></view>
 
       <view class="item-view" wx:for="{{leaveDataList}}"  wx:for-item="item"wx:for-index="yhxIdx"bindtap="McheckLeave"data-coursename="{{item.courseName}}"data-signinres="{{item.signInRes}}"data-siid="{{item.id}}">
@@ -132,12 +134,13 @@
 
   <!--督导池-->
   <swiper-item>
-    <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData">
-      <view wx:if="{{giveDataList.length==0}}"class="tab-content1" >
+  <view wx:if="{{giveDataList.length==0}}"class="tab-content1" >
         <view class="fa fa-commenting fa-5x"style='color:#999999'></view>
         <!--image class="tab-image" src="../../../image/hasMessage.png"mode="aspectFit"></image-->
         <text style='color:#999;margin-top:10px;font-size:18px;'>暂无信息</text>
       </view>
+    <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData">
+      
       <view style="height:12rpx;background-color:#eaeaea"></view>
       
       <view class="item-view" wx:for="{{giveDataList}}"  wx:for-item="item"wx:for-index="yhxIdx">
@@ -162,12 +165,13 @@
   </swiper-item>
   <!--督导转接-->
   <swiper-item>
-    <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData">
-      <view wx:if="{{transDataList.length==0}}"class="tab-content1" >
+  <view wx:if="{{transDataList.length==0}}"class="tab-content1" >
         <view class="fa fa-commenting fa-5x"style='color:#999999'></view>
         <!--image class="tab-image" src="../../../image/hasMessage.png"mode="aspectFit"></image-->
         <text style='color:#999;margin-top:10px;font-size:18px;'>暂无信息</text>
       </view>
+    <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="loadMoreData" bindscrolltoupper="refreshData">
+      
       <view style="height:12rpx;background-color:#eaeaea"></view>
       
       <view class="item-view" wx:for="{{transDataList}}"  wx:for-item="item"wx:for-index="yhxIdx">

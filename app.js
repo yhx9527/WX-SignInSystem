@@ -1,5 +1,6 @@
 App({
   onLaunch: function () {
+    this.globalData.sysinfo = wx.getSystemInfoSync();
     // 获取用户信息
     /*
     wx.getSetting({
@@ -23,7 +24,22 @@ App({
     })
     */
   },
-  //定位功能
+  getModel: function () { //获取手机型号
+    return this.globalData.sysinfo["model"]
+  },
+  getVersion: function () { //获取微信版本号
+    return this.globalData.sysinfo["version"]
+  },
+  getSystem: function () { //获取操作系统版本
+    return this.globalData.sysinfo["system"]
+  },
+  getPlatform: function () { //获取客户端平台
+    return this.globalData.sysinfo["platform"]
+  },
+  getSDKVersion: function () { //获取客户端基础库版本
+    return this.globalData.sysinfo["SDKVersion"]
+  },
+
   getLocationInfo: function (cb) {
     var that = this;
     if (this.globalData.locationInfo) {
@@ -53,7 +69,8 @@ App({
     userInfo: null,
     header:{'Access-Token':''},
     locationInfo:null,
-    iconBackColor: ['#0099CC','#33CC99','#FF6666','#FF9900','#99CC33','#99CCCC','#FF9966','#FF9999','#CCCCFF','#99CCCC']
+    iconBackColor: ['#0099CC','#33CC99','#FF6666','#FF9900','#99CC33','#99CCCC','#FF9966','#FF9999','#CCCCFF','#99CCCC'],
+    sysinfo:{}
   },
 
   

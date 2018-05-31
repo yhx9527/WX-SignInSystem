@@ -56,6 +56,8 @@
     <button class="button2"formType="submit">提交</button>
   </view>
 </form>
+<!--生成二维码签到-->
+<button class='button3'catchtap="produceQR">生成二维码供学生补签</button>
 <!--手动签到-->
 <view class="handTitle">
   <text class="bigTitle">发起手动签到</text>
@@ -73,6 +75,9 @@
     <switch bindchange='switchChange'checked="{{checked}}"></switch>
   </view>
 </view>
+
+<view class="qrcode_screen"wx:if="{{ifQcode}}"catchtap="cancelQR"></view> 
+<image src="{{qrcode}}" class="qrcode"wx:if="{{ifQcode}}"></image>
 
 
 

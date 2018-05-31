@@ -3,6 +3,7 @@ const util=require("../../utils/util.js")
 const network = require("../../utils/network.js")
 const app=getApp()
 const date=new Date()
+import QR from "../../utils/wxqrcode.js" //引入二维码生成器插件
 var dataType = 0;
 
 //日期初始化函数
@@ -73,26 +74,7 @@ var getMonitor=function(that,schedule,sumMonitor){
   
  
 }
-var getAbsence = function (that,schedule,sumAbsence) {
-  var url = "https://www.xsix103.cn/SignInSystem/Teacher/fSchAbsRecByCoz.do"
-  var header = app.globalData.header
-  var method = "POST"
-    schedule.forEach((item, j, schedule) => {
-      var params = item.schedule
-      sumAbsence[j]=new Array()
-      network.request(url, params, method, header).then((data) => {
-        for (var y in data) {
-          sumAbsence[j].push(data[y])
-          console.log("sumAbsence"+sumAbsence[j])
-        }
-        that.setData({
-          sumAbsence: sumAbsence
-        })
-      })
-   
-      })
 
-}
 var getLeaves = function (that,topItems) {
   var url = "https://www.xsix103.cn/SignInSystem/Teacher/getLeaves.do"
   var params = {}
@@ -125,6 +107,8 @@ var getSign=function(that,topItems,i,week){
     for(var index in data){
       if(data[index]==parseInt(week)){
         topItems[i].ifSign=true
+      }else{
+        topItems[i].ifSign=false
       }
     }
     that.setData({
@@ -141,7 +125,9 @@ var getSuv=function(that,topItems,i,week){
   network.request(url, params, method, header).then((data) => {
     for (var index in data) {
       if (data[index] == parseInt(week)) {
-        topItems[i].ifMonitor = true
+        topItems[i].ifMonitor = true;
+      }else{
+        topItems[i].ifMonitor=false;
       }
     }
     that.setData({
@@ -153,28 +139,37 @@ var getSuv=function(that,topItems,i,week){
 var fillInForm=function(that,week,day){
   var sumMonitor=that.data.sumMonitor
   var searchMonitor={}
-  var sumAbsence=that.data.sumAbsence
-  var searchAbsence=[]
+  //var sumAbsence=that.data.sumAbsence
+  //var searchAbsence=[]
   var leaveData=that.data.leaveData
   var searchLeaveData=[]
   sumMonitor[dataType].forEach((item)=>{
-    if(item.suvWeek==week){
-      searchMonitor=item
+    if(item.length!=0){
+      if (item.suvWeek == week) {
+        searchMonitor = item
+      }
     }
+   
   })
+  /** 
   sumAbsence[dataType].forEach((item)=>{
-    if(item.sarWeek==week)
-    searchAbsence.push(item)
-  })
-  leaveData.forEach((item)=>{
-    if(item.siWeek==week&&item.oneCozAndSch.schedule.schDay==day){
-      searchLeaveData.push(item)
+    if(item.length!=0){
+      if (item.sarWeek == week)
+        searchAbsence.push(item);
     }
+    
+  })*/
+  leaveData.forEach((item)=>{
+    if(item.length!=0){
+      if (item.siWeek == week && item.oneCozAndSch.schedule.schDay == day) {
+        searchLeaveData.push(item)
+      }
+    }
+    
   })
   that.setData({
     nowWeek:week,
     searchMonitor:searchMonitor,
-    searchAbsence:searchAbsence,
     searchLeaveData:searchLeaveData
   })
 
@@ -191,8 +186,6 @@ Page({
     topItems:[],
     sumMonitor:[],//一个课程的总课程督导记录
     searchMonitor:{},
-    sumAbsence:[],//一个课程的总课程缺勤记录
-    searchAbsence:[],
     leaveData:[],
     searchLeaveData:[],
     urgencyLeaveData:[],
@@ -211,9 +204,12 @@ Page({
     Date:[],
     now:[],
     stopWeek:0,
-    inputVal:"",
+    inputVal: wx.getStorageSync('nowWeek'),
     inputShowed:false,
     nowWeek:-1,
+    text:"",
+    qrcode:'',
+    ifQcode:false,
   },
 
   /**
@@ -247,8 +243,10 @@ Page({
     }
       setTimeout(function(){
         getMonitor(that, schedule, sumMonitor);
-        getAbsence(that, schedule, sumAbsence);
-        
+        //getAbsence(that, schedule, sumAbsence);
+      },1500)
+      setTimeout(function(){
+        that.setNewDataWithRes(0);
       },2000)
       getLeaves(that, topItems);
     //getSign(that,topItems,0)
@@ -287,7 +285,7 @@ Page({
         if (topItems.length != 0) {
           that.setData({
             searchMonitor: {},
-            searchAbsence: [],
+            //searchAbsence: [],
             searchLeaveData: [],
             hintColor: "black",
           });
@@ -316,6 +314,7 @@ Page({
     currentTopItem:e.detail.current,
     background:this.data.colorSet[e.detail.current],
   })
+    this.setNewDataWithRes(dataType);
   },
   xiala:function(){
     var that=this;
@@ -813,12 +812,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    
     /*var now = this.data.now
     var topItems=this.data.topItems
     var date1=new Date()
     now = [0, date.getMonth() , date.getDate() - 1, date.getHours(), date.getMinutes(), date.getSeconds()]
     //this.setNewDataWithRes(dataType)
-
+  
     
     this.setData({
       now: now
@@ -836,31 +836,31 @@ Page({
     });
   },
   hideInput: function () {
-    var topItems=this.data.topItems
-    topItems[dataType].ifMonitor = false
-    topItems[dataType].ifSign = false
+    //var topItems=this.data.topItems
+    //topItems[dataType].ifMonitor = false
+    //topItems[dataType].ifSign = false
     this.setData({
-      inputVal: "",
+      //inputVal: wx.getStorageSync('nowWeek'),
       inputShowed: false,
       hintColor: "black",
-      topItems: topItems,
+      //topItems: topItems,
       nowWeek:-1,
       searchMonitor: {},
-      searchAbsence: [],
+      //searchAbsence: [],
       searchLeaveData: [],
     });
   },
   clearInput: function () {
-    var topItems = this.data.topItems
-    topItems[dataType].ifMonitor = false
-    topItems[dataType].ifSign = false
+    //var topItems = this.data.topItems
+    //topItems[dataType].ifMonitor = false
+    //topItems[dataType].ifSign = false
     this.setData({
-      inputVal: "",
+      //inputVal: wx.getStorageSync('nowWeek'),
       hintColor: "black",
-      topItems: topItems,
+      //topItems: topItems,
       nowWeek:-1,
       searchMonitor: {},
-      searchAbsence: [],
+      //searchAbsence: [],
       searchLeaveData: [],
     });
   },
@@ -880,6 +880,8 @@ Page({
   inputTyping: function (e) {
     var that=this
     var topItems=that.data.topItems
+    topItems[dataType].ifMonitor = false
+    topItems[dataType].ifSign = false
     wx.showLoading({
       title: '搜索中',
       success:function(){
@@ -925,6 +927,71 @@ Page({
     wx.navigateTo({
       url: './stuList/stuList?jsonStr='+str,
     })
+  },
+  //蓝牙签到
+  /** 
+  setBlue:function(){
+    console.log("打开蓝牙");
+    if (app.getPlatform() == 'android' && util.versionCompare('6.5.7', app.getVersion())) {
+      wx.showModal({
+        title: '提示',
+        content: '当前微信版本过低，请更新至最新版本使用',
+        showCancel: false
+      })
+    }
+    else if (app.getPlatform() == 'ios' && util.versionCompare('6.5.6', app.getVersion())) {
+      wx.showModal({
+        title: '提示',
+        content: '当前微信版本过低，请更新至最新版本使用',
+        showCancel: false
+      })
+    }else{
+      wx.openBluetoothAdapter({
+        success: function (res) {
+          console.log("蓝牙" + JSON.stringify(res, undefined, '\t'));
+          wx.getBluetoothDevices({
+            success: function(res) {
+              console.log("蓝牙列表" + JSON.stringify(res, undefined, '\t'));
+            },
+          })
+        },
+        fail: function (res) {
+          wx.showModal({
+            title: '提示',
+            content: '请手动打开蓝牙',
+            showCancel:false
+          })
+          console.log("打开蓝牙失败" + JSON.stringify(res, undefined, '\t'));
+        }
+      })
+    }
+  
+  },
+  */
+  //二维码签到机制
+  QRsign:function(){
+    var that = this;
+    wx.showModal({
+      title: '提示',
+      content: '是否生成该课程二维码供未签到学生补签',
+      success:function(res){
+        if(res.confirm){
+          var topItems = that.data.topItems;
+          var text = topItems[dataType].schId;
+          util.QRsign(that, text);
+        }
+
+      }
+    })
+  
+  },
+  
+  cancelQR:function(){
+    var ifQcode = false;
+    this.setData({
+      ifQcode:ifQcode
+    })
+
   },
   /**
    * 生命周期函数--监听页面隐藏

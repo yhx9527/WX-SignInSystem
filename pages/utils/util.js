@@ -1,4 +1,5 @@
 const config = require("config.js");
+import QR from "../utils/wxqrcode.js"; //引入二维码生成器插件
 function formatTime(date) {
   var year = date.getFullYear()
   var month = date.getMonth() + 1
@@ -202,6 +203,61 @@ function getIndex(list,prop,testProp){
     }
   }
 }
+//比较客户端版本以来使用蓝牙
+function versionCompare(ver1, ver2) { //版本比较
+  var version1pre = parseFloat(ver1)
+  var version2pre = parseFloat(ver2)
+  var version1next = parseInt(ver1.replace(version1pre + ".", ""))
+  var version2next = parseInt(ver2.replace(version2pre + ".", ""))
+  if (version1pre > version2pre)
+    return true
+  else if (version1pre < version2pre)
+    return false
+  else {
+    if (version1next > version2next)
+      return true
+    else
+      return false
+  }
+}
+
+//二维码签到机制
+function QRsign(that,schId) {
+  let qrcodeSize = getQRCodeSize()
+  var text = schId;
+  console.log("生成二维码的schid" + text);
+  createQRCode(that,text.toString(), qrcodeSize);
+}
+//适配不同屏幕大小的canvas
+function getQRCodeSize()  {
+  var size = 0;
+  try {
+    var res = wx.getSystemInfoSync();
+    var scale = 750 / 278; //不同屏幕下QRcode的适配比例；设计稿是750宽
+    var width = res.windowWidth / scale;
+    size = width;
+
+  } catch (e) {
+    // Do something when catch error
+    // console.log("获取设备信息失败"+e);
+  }
+  return size;
+}
+function createQRCode(that,text, size){
+  //调用插件中的draw方法，绘制二维码图片
+
+  var ifQcode = true
+  // console.log('QRcode: ', text, size)
+  let _img = QR.createQrCodeImg(text, {
+    size: parseInt(size)
+  })
+
+  that.setData({
+    'qrcode': _img,
+    ifQcode: ifQcode
+  })
+}
+
 module.exports = {
   formatTime: formatTime,
   formatNumber:formatNumber,
@@ -210,7 +266,9 @@ module.exports = {
   formatArrayTime: formatArrayTime,
   transchedule1: transchedule1,
   compare:compare,
-  getIndex:getIndex
+  getIndex:getIndex,
+  versionCompare: versionCompare,
+  QRsign: QRsign
 }
 
 

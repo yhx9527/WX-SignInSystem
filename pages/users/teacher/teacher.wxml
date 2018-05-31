@@ -5,14 +5,14 @@
           <view class="weui-search-bar__form">
               <view class="weui-search-bar__box">
                 <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-                <input class="weui-search-bar__input" placeholder="请输入周次" value="{{inputVal}}" focus="{{inputShowed}}" bindconfirm="inputTyping" data-index="{{index}}"style="color: {{hintColor}}"/>
+                <input class="weui-search-bar__input" placeholder="请输入周次 " value="{{inputVal}}" focus="{{inputShowed}}" bindconfirm="inputTyping" data-index="{{index}}"style="color: {{hintColor}}"/>
                 <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
                   <icon type="clear" size="14"></icon>
                 </view>
               </view>
               <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
                 <icon class="weui-icon-search" type="search" size="14"></icon>
-                <view class="weui-search-bar__text">搜索每周情况</view>
+                <view class="weui-search-bar__text">搜索每周情况(第{{inputVal}}周)</view>
               </label>
           </view>
           <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
@@ -32,28 +32,40 @@
     <swiper-item>
       <view class="secondCard">
         <view class="secondIcon" catchtap="showBottomModel"data-index="{{index}}">
-          <image wx:if="{{!item.ifSign}}"class="Icon1"src="../../image/TB3.png"></image>
-          <image wx:else class="Icon1"src="../../image/TA3.png"></image>
+          <!--image wx:if="{{!item.ifSign}}"class="Icon1"src="../../image/TB3.png"></image>
+          <image wx:else class="Icon1"src="../../image/TA3.png"></image-->
+          <view wx:if="{{!item.ifSign}}"class="fa fa-bullhorn fa-2x faadd"></view>
+          <view wx:else class="fa fa-bullhorn fa-2x faadd"style='color:#0099CC;'></view>
           <view class="weui-cell__bd">
-            <view style="display: inline-block; vertical-align: middle">发起签到</view>
+            <view class='fafont'>发起签到</view>
           </view>
-        </view>
-        <view class="secondIcon"catchtap="checkLeave"data-coursename="{{teacherList.courseName}}"data-schday="{{item.schDayT}}"data-leaves="{{urgencyLeaveData[currentTopItem]}}"data-currentitem="{{currentTopItem}}">
-          <image wx:if="{{urgencyLeaveData[currentTopItem].length==0}}"class="Icon1"src="../../image/TB2.png"></image>
-          <image wx:else class="Icon1"src="../../image/TA2.png"></image>
-          <view class="weui-cell__bd">
-            <view style="display: inline-block; vertical-align: middle">审核请假</view>
-            <view wx:if="{{urgencyLeaveData[currentTopItem].length>0}}"class="weui-badge" style="margin-left: 5px;">{{urgencyLeaveData[currentTopItem].length}}</view>
-          </view>
-          <!--text class="secondEx">审核请假({{item.signInRes.length}})</text-->
         </view>
         <view class="secondIcon"catchtap="setMonitor"data-index="{{index}}">
-          <image wx:if="{{!item.ifMonitor}}"class="Icon1"src="../../image/TB1.png"></image>
-          <image wx:else class="Icon1"src="../../image/TA1.png"></image>
+          <!--image wx:if="{{!item.ifMonitor}}"class="Icon1"src="../../image/TB1.png"></image>
+          <image wx:else class="Icon1"src="../../image/TA1.png"></image-->
+          <view wx:if="{{!item.ifMonitor}}"class="fa fa-bell fa-2x faadd"></view>
+          <view wx:else class="fa fa-bell fa-2x faadd"style='color:#0099CC;'></view>
           <view class="weui-cell__bd">
-            <view style="display: inline-block; vertical-align: middle">设置督导</view>
+            <view class='fafont'>设置督导</view>
           </view>
         </view>
+        <view class="secondIcon"data-index="{{index}}"catchtap="QRsign">
+          <view class="fa fa-building fa-2x faadd"></view>
+          <!--view wx:else class="fa fa-building fa-2x faadd"style='color:#0099CC;'></view-->
+          <view class="weui-cell__bd">
+            <view class='fafont'>二维码签到</view>
+          </view>
+        </view>
+        <!--view class="secondIcon"catchtap="checkLeave"data-coursename="{{teacherList.courseName}}"data-schday="{{item.schDayT}}"data-leaves="{{urgencyLeaveData[currentTopItem]}}"data-currentitem="{{currentTopItem}}">
+          
+          <view wx:if="{{urgencyLeaveData[currentTopItem].length==0}}"class="fa fa-paint-brush fa-2x faadd"></view>
+          <view wx:else class="fa fa-paint-brush fa-2x faadd"style='color:#0099CC;'></view>
+          <view class="weui-cell__bd">
+            <view class='fafont'>审核请假</view>
+            <view wx:if="{{urgencyLeaveData[currentTopItem].length>0}}"class="weui-badge" style="margin-left: 5px;">{{urgencyLeaveData[currentTopItem].length}}</view>
+          </view>
+        </view-->
+        
       </view>
       <!--modal hidden="{{item.ifMonitor1}}"title="{{item.schDay}}进行督导"confirm-text="确认"cancel-text="取消"bindcancel="cancelMonitor"bindconfirm="confirmMonitor"data-index="{{index}}">
         <input type="number"placeholder="请输入督导周(默认第{{inputVal}}周)"bindinput="confirmInput"data-index="{{index}}"></input>
@@ -66,9 +78,29 @@
             <image class="about"src="../../image/about.png"></image>
           </view>
         </view>
+        <view class="thirdCard"hover-class="cardClick"catchtap="absence"data-coursename="{{teacherList.courseName}}"data-coursetime="{{item.schDay+item.schTime}}"data-week="{{inputVal}}"data-schid="{{item.schId}}">
+          <text class="thirdEx">缺勤学生名单</text>
+          <view class="aboutImg">
+              <!--text class="renshu"wx:if="{{searchAbsence.length>0}}">{{searchAbsence.length}}人</text-->
+            <image class="about"src="../../image/about.png"></image>
+          </view>
+        </view>
+        <view class="thirdCard"hover-class="cardClick"catchtap="checkLeave"data-coursename="{{teacherList.courseName}}"data-schday="{{item.schDayT}}"data-leaves="{{urgencyLeaveData[currentTopItem]}}"data-currentitem="{{currentTopItem}}">
+          <text class="thirdEx">审批请假</text>
+          
+          <view class="aboutImg">
+              <!--text class="renshu"wx:if="{{searchAbsence.length>0}}">{{searchAbsence.length}}人</text-->
+            <view wx:if="{{urgencyLeaveData[currentTopItem].length>0}}">
+              <view style="display: inline-block;vertical-align:middle; font-size: 17px;color:#999;">待审核</view>
+              <view class="weui-badge weui-badge_dot" style="margin-left: 5px;margin-right: 5px;"></view>
+            </view>
+            <image class="about"src="../../image/about.png"></image>
+          </view>
+        </view>
+
         <view class="fourCard">
           <view class="cardTitle"style="background-color:{{background}}">
-            <text class="titleText1">督导队记录(第 {{nowWeek}} 周)</text>
+            <text class="titleText1">督导队记录(第 {{inputVal}} 周)</text>
             <text class="titleText2">记录人:{{searchMonitor.suvRecName}}</text>
           </view>
           <view class="cardContent">
@@ -77,14 +109,14 @@
             <text class="renshu">{{searchMonitor.suvRecNum}}人</text>
             </view>
           </view>
-          <view class="cardContent"style="margin-bottom:0;border-bottom:0"hover-class="cardClick"catchtap="checkLeave"data-coursename="{{teacherList.courseName}}"data-schday="{{item.schDayT}}"data-leaves="{{searchLeaveData}}">
+          <view class="cardContent"style="margin-bottom:0;"hover-class="cardClick"catchtap="checkLeave"data-coursename="{{teacherList.courseName}}"data-schday="{{item.schDayT}}"data-leaves="{{searchLeaveData}}">
             <text class="thirdEx">上课请假人数</text>
             <view class="aboutImg">
             <text class="renshu"wx:if="{{searchLeaveData.length>0}}">{{searchLeaveData.length}}人</text>
             <image class="about"src="../../image/about.png"></image>
             </view>
           </view>
-          <view class="cardContent"style="margin-bottom:0;border-bottom:0">
+          <view class="cardContent"style="margin-bottom:0;">
             <text class="thirdEx">上课情况</text>
             <view class="aboutImg">
               <image class="about"src="../../image/about.png"catchtap="xiala"animation="{{animation1}}"></image>
@@ -109,13 +141,13 @@
               <image class="about"src="../../image/about.png"></image>
             </view>
           </view-->
-          <view class="cardContent"hover-class="cardClick"catchtap="absence"data-absence="{{searchAbsence}}"data-coursename="{{teacherList.courseName}}"data-coursetime="{{item.schDay+item.schTime}}">
+          <!--view class="cardContent"hover-class="cardClick"catchtap="absence"data-coursename="{{teacherList.courseName}}"data-coursetime="{{item.schDay+item.schTime}}"data-week="{{inputVal}}"data-schid="{{item.schId}}">
             <text class="thirdEx">缺勤学生名单</text>
             <view class="aboutImg">
-              <text class="renshu"wx:if="{{searchAbsence.length>0}}">{{searchAbsence.length}}人</text>
+            
               <image class="about"src="../../image/about.png"></image>
             </view>
-          </view>
+          </view-->
           <view class='buttonView'>
             <button type="warn"catchtap="confirmStop"data-index="{{index}}">课程停课</button>
           </view>
@@ -130,6 +162,13 @@
 
 <view class="hideBack"bindtap="hideBottomModel"wx:if="{{item.ifshowModel}}"data-index="{{index}}"></view>
   <form class="bottomWindow"wx:if="{{item.ifshowModel}}"animation="{{animationBottom}}"bindsubmit="formSubmit"data-index="{{index}}">
+    <!--view class="choice">  
+      <view class="choiceText">蓝牙搜索签到</view>
+      <view class="switchView">
+        <switch checked="{{isBule}}"name="blueSign"></switch>
+      </view>
+    </view>
+    <view class="line"style="height:1px;"></view-->
     <view class="choice">  
       <view class="choiceText">自动签到</view>
       <view class="switchView">
@@ -171,5 +210,8 @@
   </view>
 </swiper>
 
+
+<view class="qrcode_screen"wx:if="{{ifQcode}}"catchtap="cancelQR"></view> 
+<image src="{{qrcode}}" class="qrcode"wx:if="{{ifQcode}}"></image>
 </view>
 

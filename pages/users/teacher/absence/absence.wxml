@@ -1,16 +1,27 @@
-<view class="top-title">{{absence.coursename}}</view>
-<view class="top-title">{{absence.coursetime}}</view>
-<view class="top-title">缺勤名单</view>
+<view class="top-title">{{coursename}}</view>
+<view class="top-title">{{coursetime}}</view>
+<view class="top-title">第{{week}}周缺勤名单({{sumAbsence.length}}人)</view>
 <view wx:if="{{absence.absence.length==0}}"class="tab-content1" >
         <view class="fa fa-commenting fa-5x"style='color:#999999'></view>
         <!--image class="tab-image" src="../../../image/hasMessage.png"mode="aspectFit"></image-->
         <text style='color:#999;margin-top:10px;font-size:18px;'>暂无信息</text>
       </view>
-<view wx:for="{{absence.absence}}"wx:for-item="item">
-  <view class="head">第{{item.sarWeek}}周</view>
-  <view wx:for="{{item.studentList}}"wx:for-item="item1">
+<!--view wx:for="{{absence.absence}}"wx:for-item="item"-->
+  <!--view class="head">第{{week}}周</view>
+  <view wx:for="{{sumAbsence}}"wx:for-item="item1">
     <view class="head-text">
       {{item1.userName}}   {{item1.userId}}
     </view>
+  </view-->
+<!--/view-->
+<scroll-view scroll-y="true"enable-back-to-top="true">
+<view class="weui-cells weui-cells_after-title"wx:for="{{sumAbsence}}"wx:for-item='item'wx:for-index='index'>
+  <view class="weui-cell">
+    <view class="weui-cell__hd">
+      <view class="fa fa-user-circle fa-lg"style='color:{{iconBackColor[index%10]}}'></view>
+    </view>
+    <view class="weui-cell__bd"style='margin-left:10px;'>{{item.userId}}</view>
+    <view class="weui-cell__ft">{{item.userName}}</view>
   </view>
 </view>
+</scroll-view>

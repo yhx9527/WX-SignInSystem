@@ -120,7 +120,7 @@ opacity:0.8;
 }
 .backImg{
   width: 100%;
-  z-index: 98;
+  z-index: 1;
   overflow: hidden;
 }
 .loginInfo{
