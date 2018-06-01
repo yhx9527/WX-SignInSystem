@@ -306,12 +306,14 @@ Page({
     var that = this;
     wx.showModal({
       title: '提示',
-      content: '是否生成该课程二维码供未签到学生补签',
+      content: '是否生成该课程二维码供未签到学生补签(十分钟有效)',
       success:function(res){
         if(res.confirm){
-         
           var course = that.data.course;
-          util.QRsign(that, course.schid);
+          var schId=course.schid;
+          var time = new Date().getTime();
+          var text = schId.toString() + "," + time.toString();
+          util.QRsign(that, text);
         }
        
       }

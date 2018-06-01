@@ -190,7 +190,7 @@ Page({
     searchLeaveData:[],
     urgencyLeaveData:[],
     currentTopItem: "0",
-    Height:0,//屏幕高
+    Height:app.globalData.Height,//屏幕高
     Width:0,//屏幕宽
     colorSet:["#C7F3FF", "#FDC7FF", "#FFDCF5", "#F2F4C3"],//背景颜色集合
     background:"",
@@ -479,7 +479,7 @@ Page({
       now:now
     })
     setTimeout(function(){
-      animation.translateY(-46).step()
+      animation.translateY(0).step()
       this.setData({
         animationBottom:animation.export()
       })
@@ -543,7 +543,7 @@ Page({
       animationBottom:animation.export(),
     })
     setTimeout(function(){
-      animation.translateY(-46).step()
+      animation.translateY(0).step()
       this.setData({
         animationBottom:animation.export(),
         topItems:topItems
@@ -973,11 +973,13 @@ Page({
     var that = this;
     wx.showModal({
       title: '提示',
-      content: '是否生成该课程二维码供未签到学生补签',
+      content: '是否生成该课程二维码供未签到学生补签(十分钟有效)',
       success:function(res){
         if(res.confirm){
           var topItems = that.data.topItems;
-          var text = topItems[dataType].schId;
+          var schId = topItems[dataType].schId;
+          var time=new Date().getTime();
+          var text = schId.toString()+","+time.toString();
           util.QRsign(that, text);
         }
 

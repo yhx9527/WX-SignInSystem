@@ -1157,7 +1157,13 @@ Page({
         onlyFromCamera:true,
         success:function(res){
           console.log("二维码结果" + JSON.stringify(res, undefined, '\t'));
-          if(parseInt(res.result)==schedule.schId){
+          var result=res.result.split(',');
+          var resultTime=parseInt(result[1]);
+          var resultSchid=parseInt(result[0]);
+          var time=new Date().getTime();
+          console.log("比较结果" + (time - resultTime) <= 600000);
+          if((time-resultTime)<=600000){
+          if(parseInt(resultSchid)==schedule.schId){
             SignIn(that, schedule, schedule.location);
           }else{
            
@@ -1167,6 +1173,13 @@ Page({
               showCancel:false
             })
           }
+        }else{
+            wx.showModal({
+              title: '提示',
+              content: '二维码已失效',
+              showCancel: false
+            })
+        }
         }
       })
     } else if (ArraySchedule.length > 1) {
@@ -1183,12 +1196,25 @@ Page({
             onlyFromCamera: true,
             success: function (res) {
               console.log("二维码结果" + JSON.stringify(res, undefined, '\t'));
-              if (parseInt(res.result) == schedule1.schId) {
+              var result = res.result.split(',');
+              var resultTime = parseInt(result[1]);
+              var resultSchid = parseInt(result[0]);
+              var time = new Date().getTime();
+              console.log("比较结果" + (time - resultTime) <= 600000);
+              if ((time - resultTime) <= 600000) {
+              if (parseInt(resultSchid) == schedule1.schId) {
                 SignIn(that, schedule1, schedule1.location);
               } else {
                 wx.showModal({
                   title: '提示',
                   content: '课程不对，签到失败',
+                  showCancel: false
+                })
+              }
+              } else {
+                wx.showModal({
+                  title: '提示',
+                  content: '二维码已失效',
                   showCancel: false
                 })
               }

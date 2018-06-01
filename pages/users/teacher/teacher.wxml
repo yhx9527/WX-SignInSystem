@@ -1,4 +1,4 @@
-<view style="height:100%;overflow:hidden">
+<view style="height:100%;overflow:scroll;">
 <view class="top-title">{{teacherList.courseName}}</view>
 
         <view class="weui-search-bar">
@@ -210,7 +210,7 @@
   </view>
 </swiper>
 
-
+<view class="hideBack"bindtap="hideBottomModel"wx:if="{{item.ifshowModel}}"></view>
 <view class="qrcode_screen"wx:if="{{ifQcode}}"catchtap="cancelQR"></view> 
 <image src="{{qrcode}}" class="qrcode"wx:if="{{ifQcode}}"></image>
 </view>
