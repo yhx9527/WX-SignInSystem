@@ -210,6 +210,9 @@ Page({
     text:"",
     qrcode:'',
     ifQcode:false,
+    ifBottom:false,
+    ifQcoding:false,//弹出二维码定义框
+    duration:10,//二维码有效时长为10分钟
   },
 
   /**
@@ -476,7 +479,8 @@ Page({
     this.setData({
       animationBottom:animation.export(),
       topItems:topItems,
-      now:now
+      now:now,
+      ifBottom:true
     })
     setTimeout(function(){
       animation.translateY(0).step()
@@ -504,7 +508,7 @@ Page({
                  })
                  topItems[index].ifSign=false
                  that.setData({
-                   topItems:topItems
+                   topItems:topItems,
                  })
   
                }else{
@@ -527,11 +531,11 @@ Page({
   }
   },
 //隐藏底部弹出框
-  hideBottomModel:function(e){
-    var index = e.currentTarget.dataset.index
-    console.log("手动" + index)
-    var topItems = this.data.topItems
-    topItems[index].ifshowModel = false
+  hideBottomModel:function(){
+    //var index = e.currentTarget.dataset.index
+    //console.log("手动" + index)
+    //var topItems = this.data.topItems
+    //topItems[index].ifshowModel = false
     var animation=wx.createAnimation({
       duration:200,
       timingFunction:"linear",
@@ -546,7 +550,8 @@ Page({
       animation.translateY(0).step()
       this.setData({
         animationBottom:animation.export(),
-        topItems:topItems
+       
+        ifBottom:false
       })
     }.bind(this),200)
   },
@@ -560,13 +565,13 @@ Page({
   formSubmit:function(e){
     console.log("form  "+JSON.stringify(e.detail.value))
     var that=this
-    var index=e.currentTarget.dataset.index
+    //var index=e.currentTarget.dataset.index
     var inputVal=that.data.inputVal
     var temp=e.detail.value
     var topItems=this.data.topItems
     
     if(temp.autoSign&&!temp.manSign){
-      var suvMan={"schId":topItems[index].schId,"siWeek":inputVal,"siTime":[1970,1,1,8,0,1],"suvManAutoOpen":true}
+      var suvMan={"schId":topItems[dataType].schId,"siWeek":inputVal,"siTime":[1970,1,1,8,0,1],"suvManAutoOpen":true}
       var url = 'https://www.xsix103.cn/SignInSystem/Teacher/setCozSignIn.do'
       var method = "POST"
       var header = app.globalData.header
@@ -574,13 +579,13 @@ Page({
       network.request(url, params, method, header).then((data)=>{
         console.log("自动")
         if(data==true){
-          that.hideBottomModel(e)
+          that.hideBottomModel()
           wx.showToast({
             title: '设置成功',
             icon:"success",
             duration:2000
           })
-          topItems[index].ifSign = true
+          topItems[dataType].ifSign = true
           that.setData({
             topItems:topItems
           })
@@ -596,7 +601,7 @@ Page({
       temp.manDt[0] += date.getFullYear()
       temp.manDt[1] += 1
       temp.manDt[2] += 1
-      var suvMan = { "schId": topItems[index].schId, "siWeek":inputVal, "siTime": temp.manDt, "suvManAutoOpen": false }
+      var suvMan = { "schId": topItems[dataType].schId, "siWeek":inputVal, "siTime": temp.manDt, "suvManAutoOpen": false }
       var url = 'https://www.xsix103.cn/SignInSystem/Teacher/setCozSignIn.do'
       var method = "POST"
       var header =app.globalData.header
@@ -604,13 +609,13 @@ Page({
       network.request(url, params, method, header).then((data) => {
         console.log("人工")
         if (data==true) {
-          that.hideBottomModel(e)
+          that.hideBottomModel()
           wx.showToast({
             title: '设置成功',
             icon: "success",
             duration: 2000
           })
-          topItems[index].ifSign = true
+          topItems[dataType].ifSign = true
           that.setData({
             topItems:topItems
           })
@@ -626,7 +631,7 @@ Page({
       temp.manDt[0] += date.getFullYear()
       temp.manDt[1] += 1
       temp.manDt[2] += 1
-      var suvMan = { "schId": topItems[index].schId, "siWeek": inputVal, "siTime": temp.manDt, "suvManAutoOpen": true }
+      var suvMan = { "schId": topItems[dataType].schId, "siWeek": inputVal, "siTime": temp.manDt, "suvManAutoOpen": true }
       var url = 'https://www.xsix103.cn/SignInSystem/Teacher/setCozSignIn.do'
       var method = "POST"
       var header =app.globalData.header
@@ -634,13 +639,13 @@ Page({
       network.request(url, params, method, header).then((data) => {
         console.log("都有")
         if (data==true) {
-          that.hideBottomModel(e)
+          that.hideBottomModel()
           wx.showToast({
             title: '设置成功',
             icon: "success",
             duration: 2000
           })
-          topItems[index].ifSign = true
+          topItems[dataType].ifSign = true
           that.setData({
             topItems:topItems
           })
@@ -845,9 +850,9 @@ Page({
       hintColor: "black",
       //topItems: topItems,
       nowWeek:-1,
-      searchMonitor: {},
+      //searchMonitor: {},
       //searchAbsence: [],
-      searchLeaveData: [],
+      //searchLeaveData: [],
     });
   },
   clearInput: function () {
@@ -859,9 +864,9 @@ Page({
       hintColor: "black",
       //topItems: topItems,
       nowWeek:-1,
-      searchMonitor: {},
+      //searchMonitor: {},
       //searchAbsence: [],
-      searchLeaveData: [],
+      //searchLeaveData: [],
     });
   },
   /*inputTell:function(e){
@@ -970,28 +975,38 @@ Page({
   */
   //二维码签到机制
   QRsign:function(){
+    this.setData({
+      ifQcoding:true
+    })
+  },
+  setTimeQR:function(e){
+    console.log("设置的时长"+e.detail.value);
+    this.setData({
+      duration:e.detail.value
+    })
+  },
+  confirmQR:function(){
     var that = this;
-    wx.showModal({
-      title: '提示',
-      content: '是否生成该课程二维码供未签到学生补签(十分钟有效)',
-      success:function(res){
-        if(res.confirm){
+    
           var topItems = that.data.topItems;
           var schId = topItems[dataType].schId;
           var time=new Date().getTime();
-          var text = schId.toString()+","+time.toString();
+          var duration=that.data.duration;
+          var text = schId.toString()+","+time.toString()+","+duration;
           util.QRsign(that, text);
-        }
+          that.setData({
+            ifQcoding: false
+          })
 
-      }
-    })
+  
   
   },
   
   cancelQR:function(){
     var ifQcode = false;
     this.setData({
-      ifQcode:ifQcode
+      ifQcode:ifQcode,
+      ifQcoding:false
     })
 
   },

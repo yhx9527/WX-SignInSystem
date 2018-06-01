@@ -1,0 +1,62 @@
+.table{
+  width: 13.24%;
+  height:45px;
+  padding: 0;
+}
+.row{
+  width: 100%;
+  border-top:0;
+}
+.section{
+  display: flex;
+  flex-direction: column;
+  border-top:0;
+  border-bottom: 1rpx solid #d9d9d9;
+}
+.head{
+  width: 13.24%;
+  height:35px;
+  padding: 0;
+}
+.column{
+  width: 7%;
+  height: 35px;
+   padding: 0;
+}
+.column1{
+  width: 7%;
+  height: 45px;
+   padding: 0;
+}
+.headtext{
+  overflow:visible;
+bottom:0;
+font-size:13px;
+position:absolute;
+left:50%;
+transform:translateX(-50%);
+margin-top:0;
+
+
+}
+.tabletext{
+  overflow: visible;
+  top:50%;
+left:50%;
+position:absolute;
+transform:translate(-50%,-50%);
+margin-top:0;
+}
+.last12{
+  border-bottom: 0;
+}
+.course{
+  width: 12.6%;
+  font-size:16px;
+  position: absolute;
+  text-align:center;
+border-radius:.3em;
+text-overflow:ellipsis;
+color: #333333;
+text-shadow: 0 1px 1px hsla(0, 0%, 100%, .8);
+}

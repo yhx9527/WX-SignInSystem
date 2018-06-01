@@ -1,0 +1,39 @@
+<view class="page">
+  <view style='display:flex;flex-direction:row;height:45px;'>
+    <view style='margin:auto;padding-left:45px;'>
+      <view style='display:flex;justify-content:center;'>
+        <view style='font-size:17px;'>第{{week}}周</view>
+        <view class="fa fa-caret-down fa-fw"style='align-items:center;display:flex;margin-left:10px;'></view>
+      </view>
+      <view style='display:flex;font-size:13px;'>
+        <view style='margin-right:5px;'>{{year}}-{{year+1}}学年</view>
+        <view wx:if="{{term}}">下学期</view>
+        <view wx:else>上学期</view>
+      </view> 
+    </view>
+    <view class='fa fa-cog fa-lg'style='align-items:center;display:flex;padding-right:5px;'></view>
+  </view>
+  <view class=''>
+  <view class="weui-grids row"style='border-top:1rpx solid #d9d9d9;'>
+    <block wx:for="{{tableHead}}" wx:for-index="index1"wx:for-item="item1">
+      <view class="weui-grid {{index1%8==0 ? 'column' : 'head'}}" hover-class="weui-grid_active">
+        <view class="weui-grid__label headtext">{{item1}}</view>
+      </view>
+    </block>
+  </view>
+  </view>
+  <view class="">
+    <view class="weui-grids section">
+      <block wx:for="{{tableContent}}" wx:for-index="index2"wx:for-item="item2">
+        <view  class="weui-grid column1 {{index2==11 ? 'last12' :''}}" hover-class="weui-grid_active">
+          <view class="weui-grid__label tabletext ">{{index2+1}}</view>
+        </view>
+      </block>
+      <block wx:for="{{tableCourse}}"wx:for-item="course"wx:for-index="idx">
+        <view class="course"style="left:{{course.left+2}}px;top:{{course.top+2}}px;height:{{course.scheduleNum*44}}px;background-color:{{iconBackColor[idx%8]}};">
+        {{course.scheduleName}}
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

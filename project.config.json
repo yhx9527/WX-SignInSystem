@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 14,
 			"list": [
 				{
 					"id": -1,
@@ -114,6 +114,12 @@
 					"id": -1,
 					"name": "TchL",
 					"pathName": "pages/users/teacher/TcheckLeave/TcheckLeave",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "课表",
+					"pathName": "pages/users/student/classTable/classTable",
 					"query": ""
 				}
 			]

@@ -36,6 +36,8 @@ Page({
     iconColor:'',
     qrcode: '',
     ifQcode: false,
+    ifQcoding:false,
+    duration:10,//二维码有效分钟数
   },
 
   /**
@@ -301,30 +303,41 @@ Page({
       })
     }
   },
+
   //生成二维码
-  produceQR:function(e){
+  produceQR:function(){
+    this.setData({
+      ifQcoding:true,
+    })
+  },
+  setTimeQR: function (e) {
+    console.log("设置的时长" + e.detail.value);
+    this.setData({
+      duration: e.detail.value
+    })
+  },
+  confirmQR:function(e){
     var that = this;
-    wx.showModal({
-      title: '提示',
-      content: '是否生成该课程二维码供未签到学生补签(十分钟有效)',
-      success:function(res){
-        if(res.confirm){
+       
           var course = that.data.course;
           var schId=course.schid;
           var time = new Date().getTime();
-          var text = schId.toString() + "," + time.toString();
+          var duration = that.data.duration;
+          var text = schId.toString() + "," + time.toString()+","+duration;
           util.QRsign(that, text);
-        }
+          that.setData({
+            ifQcoding:false,
+          })
        
-      }
-    })
+   
    
 
   },
   cancelQR: function () {
     var ifQcode = false;
     this.setData({
-      ifQcode: ifQcode
+      ifQcode: ifQcode,
+      ifQcoding:false
     })
 
   },

@@ -155,13 +155,12 @@
             <input type="number"placeholder="请输入停课周(默认第{{item.schWeek}}周)"catchinput="confirmStopInput"data-index="{{index}}"></input>
           </modal-->  
         </view>
-        
+    </swiper-item>
+  </view>
+</swiper>
 
-
-
-
-<view class="hideBack"bindtap="hideBottomModel"wx:if="{{item.ifshowModel}}"data-index="{{index}}"></view>
-  <form class="bottomWindow"wx:if="{{item.ifshowModel}}"animation="{{animationBottom}}"bindsubmit="formSubmit"data-index="{{index}}">
+<view class="hideBack"bindtap="hideBottomModel"wx:if="{{ifBottom}}"></view>
+  <form class="bottomWindow"wx:if="{{ifBottom}}"animation="{{animationBottom}}"bindsubmit="formSubmit">
     <!--view class="choice">  
       <view class="choiceText">蓝牙搜索签到</view>
       <view class="switchView">
@@ -206,12 +205,17 @@
     </view>
     <button formType='submit'type='primary'style="border-radius: 0px; ">确认</button>
   </form>
-    </swiper-item>
-  </view>
-</swiper>
 
-<view class="hideBack"bindtap="hideBottomModel"wx:if="{{item.ifshowModel}}"></view>
+<modal hidden="{{!ifQcoding}}"title="生成课程二维码供学生补签"confirm-text="确认"cancel-text="取消"bindcancel="cancelQR"bindconfirm="confirmQR">
+  
+    <text>请设置有效分钟数</text>
+    <slider show-value value="10"min="1"max="60"bindchange="setTimeQR"/>
+ 
+</modal>
+
 <view class="qrcode_screen"wx:if="{{ifQcode}}"catchtap="cancelQR"></view> 
 <image src="{{qrcode}}" class="qrcode"wx:if="{{ifQcode}}"></image>
 </view>
+
+
 

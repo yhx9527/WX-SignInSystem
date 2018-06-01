@@ -104,7 +104,7 @@ flex-direction:row;
     width: 80px;
     height: 100%;
     
-    background-color:#32CD32;
+    background-color:#A8E6CF;
     
     position: absolute;
     top: 0;
@@ -113,16 +113,16 @@ flex-direction:row;
     justify-content: center;
     align-items: center;
     font-size: 18px;
-    color:#FFFFFF;
+    color:#374955;
 }
 .remove3A{
-   color:#32CD32;
-  background-color:#1AAD19;
+   color:#A8E6CF;
+  background-color:#08C299;
 }
 .remove2{
     width: 80px;
     height: 100%;
-    background-color:#FFCCCC;
+    background-color:#FDFFAA;
     position: absolute;
     top: 0;
     right: -160px;
@@ -130,17 +130,17 @@ flex-direction:row;
     justify-content: center;
     align-items: center;
     font-size: 18px;
-    color:#FFFFFF;
+    color:#374955;
 }
 .remove2A{
  
-  color:#FFCCCC;
-  background-color:#CC3399;
+  color:#FDFFAA;
+  background-color:#FCE8AA;
 }
 .remove1{
     width: 80px;
     height: 100%;
-    background-color: #FF8C00;
+    background-color:#FFD3B6 ;
     position: absolute;
     top: 0;
     right: -80px;
@@ -148,11 +148,11 @@ flex-direction:row;
     justify-content: center;
     align-items: center;
     font-size: 18px;
-    color:#FFFFFF;
+    color:#374955;
 }
 .remove1A{
-  color:#FF8C00;
-  background-color: #FF6600;
+  color:#FFD3B6;
+  background-color: #FFAAA5;
 }
 .touch-move-active .out2-1,
 .touch-move-active .out2-2 {

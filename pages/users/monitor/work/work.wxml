@@ -76,6 +76,13 @@
   </view>
 </view>
 
+<modal hidden="{{!ifQcoding}}"title="生成课程二维码供学生补签"confirm-text="确认"cancel-text="取消"bindcancel="cancelQR"bindconfirm="confirmQR">
+  
+    <text>请设置有效分钟数</text>
+    <slider show-value value="10"min="1"max="60"bindchange="setTimeQR"/>
+ 
+</modal>
+
 <view class="qrcode_screen"wx:if="{{ifQcode}}"catchtap="cancelQR"></view> 
 <image src="{{qrcode}}" class="qrcode"wx:if="{{ifQcode}}"></image>
 

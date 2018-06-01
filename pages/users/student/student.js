@@ -821,6 +821,7 @@ Page({
   leave:function(e){
     var nowWeek=wx.getStorageSync('nowWeek')
     var ArraySchedule=e.currentTarget.dataset.schedule
+    if(ArraySchedule!==undefined){
     if(ArraySchedule.length==1){
       var schedule = ArraySchedule[0].schedule
       schedule.schWeek=nowWeek
@@ -845,14 +846,18 @@ Page({
         }
       })
     }
+  }
     
   },
   //签到地图
   SignMap:function(e){
     var nowWeek=wx.getStorageSync('nowWeek')
-    var arraySchedule=JSON.parse(JSON.stringify(e.currentTarget.dataset.schedule))
+    var yhx = e.currentTarget.dataset.schedule;
+    if(yhx!==undefined){
+    var arraySchedule=JSON.parse(JSON.stringify(yhx));
     var that = this
     var locationInfo={}
+
     wx.getLocation({
       type: 'gcj02',
       success: function(res) {
@@ -932,6 +937,7 @@ Page({
         //wx.setStorageSync('locationInfo', -1)
       }
     })
+  }
   
   },
   
@@ -1150,35 +1156,45 @@ Page({
     var that=this;
     var nowWeek = wx.getStorageSync('nowWeek')
     var ArraySchedule = e.currentTarget.dataset.schedule
+    if(ArraySchedule!==undefined){
     if (ArraySchedule.length == 1) {
       var schedule = ArraySchedule[0].schedule
       schedule.schWeek = nowWeek
       wx.scanCode({
         onlyFromCamera:true,
         success:function(res){
+          wx.showLoading({
+            title: '识别中...',
+          })
           console.log("二维码结果" + JSON.stringify(res, undefined, '\t'));
           var result=res.result.split(',');
           var resultTime=parseInt(result[1]);
           var resultSchid=parseInt(result[0]);
+          var duration=parseInt(result[2]);
           var time=new Date().getTime();
-          console.log("比较结果" + (time - resultTime) <= 600000);
-          if((time-resultTime)<=600000){
+          console.log("比较结果" + (time - resultTime) <= 60000*duration);
+          if((time-resultTime)<=60000*duration){
           if(parseInt(resultSchid)==schedule.schId){
+            wx.hideLoading();
             SignIn(that, schedule, schedule.location);
+            
           }else{
-           
+            wx.hideLoading();
             wx.showModal({
               title: '提示',
               content: '课程不对，签到失败',
               showCancel:false
             })
+            
           }
         }else{
+            wx.hideLoading();
             wx.showModal({
               title: '提示',
               content: '二维码已失效',
               showCancel: false
             })
+           
         }
         }
       })
@@ -1195,23 +1211,32 @@ Page({
           wx.scanCode({
             onlyFromCamera: true,
             success: function (res) {
+              wx.showLoading({
+                title: '识别中...',
+              })
               console.log("二维码结果" + JSON.stringify(res, undefined, '\t'));
               var result = res.result.split(',');
               var resultTime = parseInt(result[1]);
               var resultSchid = parseInt(result[0]);
+              var duration = parseInt(result[2]);
               var time = new Date().getTime();
-              console.log("比较结果" + (time - resultTime) <= 600000);
-              if ((time - resultTime) <= 600000) {
+              console.log("比较结果" + (time - resultTime) <= 60000*duration);
+              if ((time - resultTime) <= 60000*duration) {
               if (parseInt(resultSchid) == schedule1.schId) {
+                wx.hideLoading();
                 SignIn(that, schedule1, schedule1.location);
+                
               } else {
+                wx.hideLoading();
                 wx.showModal({
                   title: '提示',
-                  content: '课程不对，签到失败',
+                  content: '课程与二维码不一致，签到失败',
                   showCancel: false
                 })
+                
               }
               } else {
+                wx.hideLoading();
                 wx.showModal({
                   title: '提示',
                   content: '二维码已失效',
@@ -1223,6 +1248,7 @@ Page({
         }
       })
     }
+  }
   } 
 
 

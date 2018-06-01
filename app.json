@@ -5,7 +5,8 @@
     "pages/users/student/student1/student1",
     "pages/users/student/studentMtor/monitor",
     "pages/users/student/parts/leave/leave",
-    "pages/users/student/parts/courseInfo/courseInfo" 
+    "pages/users/student/parts/courseInfo/courseInfo" ,
+    "pages/users/student/classTable/classTable"
   ],
   "subPackages":[
     {
