@@ -21,7 +21,7 @@ function formatArrayTime(Time) {
   return temp
 }
 function transchedules(schedules){
-  var temp = JSON.parse(JSON.stringify(schedules))
+  var temp = JSON.parse(JSON.stringify(schedules));
   var newschedules = new Array();
   var finalschedules = new Array();
 

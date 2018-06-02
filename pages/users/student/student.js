@@ -661,11 +661,23 @@ Page({
       //subMenuHighLight: initSubMenuHighLight, //二级
       person:person 
     });
+    var date = new Date();
+    var month = date.getMonth()+1;
+    var year=date.getFullYear();
+    if(month >= 3 && month <= 8){
+      var term = true;
+      year=year-1;
+    }else{
+      var term = false;
+      year = year;
+    }
+    console.log("目前年学期"+year+term)
     if(that.data.teacherPermit==1){
     //loadDropDownMenu();
     getTchList(that);
     }
     if(that.data.studentPermit==1){
+      
     //that.run1();// 水平一行字滚动完了再按照原来的方向滚动
     //that.run2();// 第一个字消失后立即从右边出现
     getSigning(that);

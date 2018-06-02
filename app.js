@@ -39,6 +39,12 @@ App({
   getSDKVersion: function () { //获取客户端基础库版本
     return this.globalData.sysinfo["SDKVersion"]
   },
+  getWidth:function(){
+    return this.globalData.sysinfo['windowWidth']
+  },
+  getHeight:function(){
+    return this.globalData.sysoinfo['windowHeight']
+  },
 
   getLocationInfo: function (cb) {
     var that = this;
